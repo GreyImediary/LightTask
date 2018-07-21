@@ -1,8 +1,9 @@
-package com.skushnaryov.lighttask.lighttask
+package com.skushnaryov.lighttask.lighttask.activities
 
 import android.os.Bundle
 import com.google.android.material.snackbar.Snackbar
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity
+import com.skushnaryov.lighttask.lighttask.R
 
 import kotlinx.android.synthetic.main.activity_main.*
 
