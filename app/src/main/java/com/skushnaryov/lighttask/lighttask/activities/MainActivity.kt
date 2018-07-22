@@ -15,13 +15,14 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
+        val controller = findNavController(R.id.nav_host_fragment)
+        NavigationUI.setupWithNavController(nav_bottom, controller)
+        NavigationUI.setupActionBarWithNavController(this, controller)
+
         fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
         }
-
-        val controller = findNavController(R.id.nav_host_fragment)
-        NavigationUI.setupWithNavController(nav_bottom, controller)
 
     }
 

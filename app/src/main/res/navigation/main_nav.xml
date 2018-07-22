@@ -8,16 +8,16 @@
     <fragment
         android:id="@+id/tasks_fragment"
         android:name="com.skushnaryov.lighttask.lighttask.fragmnets.TasksFragment"
-        android:label="TasksFragment"
-        tools:layout="@layout/fragment_tasks"></fragment>
+        android:label="Tasks"
+        tools:layout="@layout/fragment_tasks" />
     <fragment
         android:id="@+id/groups_fragment"
         android:name="com.skushnaryov.lighttask.lighttask.fragmnets.GroupsFragment"
-        android:label="GroupsFragment"
+        android:label="Groups"
         tools:layout="@layout/fragment_groups" />
     <fragment
         android:id="@+id/schedules_fragment"
         android:name="com.skushnaryov.lighttask.lighttask.fragmnets.SchedulesFragment"
-        android:label="SchedulesFragment"
+        android:label="Schedules"
         tools:layout="@layout/fragment_schedules" />
 </navigation>
