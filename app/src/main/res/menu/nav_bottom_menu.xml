@@ -5,19 +5,19 @@
     xmlns:app2="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/tasks_action"
+        android:id="@+id/tasks_fragment"
         android:title="@string/tasks"
         android:icon="@drawable/ic_done_black_24dp"
         app:showAsAction="ifRoom"/>
 
     <item
-        android:id="@+id/calendar_action"
+        android:id="@+id/groups_fragment"
         android:title="@string/groups"
         android:icon="@drawable/ic_dashboard_black_24dp"
         app1:showAsAction="ifRoom"/>
 
     <item
-        android:id="@+id/schedule-action"
+        android:id="@+id/schedules_fragment"
         android:title="@string/schedule"
         android:icon="@drawable/ic_schedule_black_24dp"
         app2:showAsAction="ifRoom"/>
