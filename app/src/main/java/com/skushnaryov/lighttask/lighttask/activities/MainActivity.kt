@@ -1,10 +1,11 @@
 package com.skushnaryov.lighttask.lighttask.activities
 
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.findNavController
+import androidx.navigation.ui.NavigationUI
+import com.google.android.material.snackbar.Snackbar
 import com.skushnaryov.lighttask.lighttask.R
-
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -18,6 +19,12 @@ class MainActivity : AppCompatActivity() {
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
         }
+
+        val controller = findNavController(R.id.nav_host_fragment)
+        NavigationUI.setupWithNavController(nav_bottom, controller)
+
     }
 
+    override fun onSupportNavigateUp(): Boolean =
+            findNavController(R.id.nav_host_fragment).navigateUp()
 }

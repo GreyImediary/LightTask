@@ -20,12 +20,16 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <FrameLayout
-        android:id="@+id/container"
+    <fragment
+        android:id="@+id/nav_host_fragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        app:navGraph="@navigation/main_nav"
+        app:defaultNavHost="true"
         app:layout_constraintTop_toBottomOf="@id/appBar"
-        app:layout_constraintBottom_toTopOf="@id/nav_bottom"/>
+        app:layout_constraintBottom_toTopOf="@id/nav_bottom"
+        tools:layout="@layout/fragment_tasks"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"

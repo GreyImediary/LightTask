@@ -3,6 +3,6 @@
     <string name="title_activity_main">MainActivity</string>
     <string name="appBar_scrolling_view_behavior" translatable="false">com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior</string>
     <string name="tasks">Tasks</string>
-    <string name="schedule">Schedule</string>
+    <string name="schedule">Schedules</string>
     <string name="groups">Groups</string>
 </resources>
