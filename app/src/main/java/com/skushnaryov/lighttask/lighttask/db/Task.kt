@@ -9,10 +9,9 @@ data class Task(
         @PrimaryKey(autoGenerate = true)
         val id: Int,
         val name: String,
-        val timeBegin: Calendar,
-        val timeEnd: Calendar? = null,
+        val date: Calendar,
         val currentDay: Int,
-        val listOfSubtasks: MutableList<Task> = mutableListOf(),
+        val listOfSubtasks: List<String> = listOf(),
         val groupName: String = "",
         val scheduleName: String = ""
 )
