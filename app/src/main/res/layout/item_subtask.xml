@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:padding="8dp">
+    android:padding="@dimen/eight_padding">
 
     <androidx.appcompat.widget.AppCompatCheckBox
         android:id="@+id/subtask_checkbox"
