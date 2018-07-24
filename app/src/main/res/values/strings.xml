@@ -7,4 +7,5 @@
     <string name="groups">Groups</string>
     <string name="subtasks_arrow_down"></string>
     <string name="subtasks_arrow_up">\uf0de</string>
+    <string name="percentFormat">%1$d%%</string>
 </resources>
