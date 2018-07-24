@@ -1,9 +1,11 @@
 package com.skushnaryov.lighttask.lighttask.db
 
 import androidx.lifecycle.LiveData
+import androidx.room.Dao
 import androidx.room.Query
 import java.util.*
 
+@Dao
 interface TaskDao : BaseDao<Task> {
 
     @Query("SELECT * FROM tasks")

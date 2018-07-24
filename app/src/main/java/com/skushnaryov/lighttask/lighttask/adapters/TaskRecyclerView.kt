@@ -1,8 +1,12 @@
 package com.skushnaryov.lighttask.lighttask.adapters
 
+import android.content.Context
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.skushnaryov.lighttask.lighttask.*
 import com.skushnaryov.lighttask.lighttask.db.Task
@@ -10,7 +14,12 @@ import kotlinx.android.synthetic.main.item_task.view.*
 import java.util.*
 
 class TaskRecyclerView : RecyclerView.Adapter<TaskRecyclerView.TaskHolder>() {
-    lateinit var list: List<Task>
+    var list: List<Task> = emptyList()
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskHolder =
             TaskHolder(parent.inflate(R.layout.item_task))
 
@@ -19,6 +28,7 @@ class TaskRecyclerView : RecyclerView.Adapter<TaskRecyclerView.TaskHolder>() {
     override fun onBindViewHolder(holder: TaskHolder, position: Int) = holder.bind(list[position])
 
     class TaskHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val innerAdapter = SubtaskRecyclerView()
 
         fun bind(task: Task) = with(itemView) {
             taskName_textView.text = task.name
@@ -30,25 +40,50 @@ class TaskRecyclerView : RecyclerView.Adapter<TaskRecyclerView.TaskHolder>() {
             }
 
             if (!task.listOfSubtasks.isEmpty()) {
-                task_checkbox.invisible()
+                innerAdapter.list = task.listOfSubtasks
+
                 taskPercent_textView.visible()
+                taskPercent_textView.text = "0%"
+                task_checkbox.invisible()
+
+                rv_subtasks.adapter = innerAdapter
+                rv_subtasks.layoutManager = LinearLayoutManager(context)
 
                 taskArrow_textView.visible()
-                taskArrow_textView.setOnClickListener {
-                    if (rv_subtasks.isVisible) {
+
+                setOnClickListener {
+                    if (!rv_subtasks.isVisible) {
                         rv_subtasks.visible()
-                        //TODO: animation?
+                        fadeInOutAnimation(context, rv_subtasks)
+                        taskArrow_textView.text = resources.getString(R.string.subtasks_arrow_up)
+                        fadeInOutAnimation(context, taskArrow_textView)
                     } else {
                         rv_subtasks.gone()
+                        taskArrow_textView.text = resources.getString(R.string.subtasks_arrow_down)
+                        fadeInOutAnimation(context, taskArrow_textView)
                     }
                 }
-
-                rv_subtasks.adapter = SubtaskRecyclerView(task.listOfSubtasks)
-
             }
         }
 
-        private fun getStringDate(date: Calendar) =
-                "${date.get(Calendar.DAY_OF_MONTH)}.${date.get(Calendar.MONTH)}.${date.get(Calendar.YEAR)}"
+        private fun fadeInOutAnimation(context: Context, view: View) {
+            var anim = AnimationUtils.loadAnimation(context, R.anim.fade_out)
+            anim.reset()
+            view.clearAnimation()
+            view.startAnimation(anim)
+
+            anim = AnimationUtils.loadAnimation(context, R.anim.fade_in)
+            anim.reset()
+            view.clearAnimation()
+            view.startAnimation(anim)
+        }
+
+        private fun getStringDate(time: Long): String {
+            val date = Calendar.getInstance().also { it.timeInMillis = time }
+            return "${date.get(Calendar.DAY_OF_MONTH)}." +
+                    "${date.get(Calendar.MONTH)}." +
+                    "${date.get(Calendar.YEAR)}\n" +
+                    "${date.get(Calendar.HOUR_OF_DAY)}:${date.get(Calendar.MINUTE)}"
+        }
     }
 }

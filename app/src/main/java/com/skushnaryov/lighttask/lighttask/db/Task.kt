@@ -2,14 +2,15 @@ package com.skushnaryov.lighttask.lighttask.db
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import androidx.room.TypeConverters
 import java.util.*
 
 @Entity(tableName = "tasks")
 data class Task(
         @PrimaryKey(autoGenerate = true)
-        val id: Int,
+        val id: Int = 0,
         val name: String,
-        val date: Calendar,
+        val date: Long,
         val currentDay: Int,
         val listOfSubtasks: List<String> = listOf(),
         val groupName: String = "",

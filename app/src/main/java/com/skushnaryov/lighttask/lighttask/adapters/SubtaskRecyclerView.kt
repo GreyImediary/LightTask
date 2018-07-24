@@ -9,7 +9,9 @@ import com.skushnaryov.lighttask.lighttask.inflate
 import kotlinx.android.synthetic.main.item_subtask.view.*
 import org.jetbrains.anko.sdk25.coroutines.onCheckedChange
 
-class SubtaskRecyclerView(val list: List<String>) : RecyclerView.Adapter<SubtaskRecyclerView.SubtaskHolder>() {
+class SubtaskRecyclerView : RecyclerView.Adapter<SubtaskRecyclerView.SubtaskHolder>() {
+    var list = emptyList<String>()
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SubtaskHolder =
             SubtaskHolder(parent.inflate(R.layout.item_subtask))
 
