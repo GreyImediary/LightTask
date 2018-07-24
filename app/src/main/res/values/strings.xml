@@ -5,5 +5,6 @@
     <string name="tasks">Tasks</string>
     <string name="schedule">Schedules</string>
     <string name="groups">Groups</string>
-    <string name="subtasks_arrow"></string>
+    <string name="subtasks_arrow_down"></string>
+    <string name="subtasks_arrow_up">\uf0de</string>
 </resources>
