@@ -24,6 +24,8 @@ class TaskRecyclerView : RecyclerView.Adapter<TaskRecyclerView.TaskHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskHolder =
             TaskHolder(parent.inflate(R.layout.item_task))
 
+    override fun getItemViewType(position: Int): Int = position
+
     override fun getItemCount(): Int = list.size
 
     override fun onBindViewHolder(holder: TaskHolder, position: Int) = holder.bind(list[position])
@@ -73,13 +75,13 @@ class TaskRecyclerView : RecyclerView.Adapter<TaskRecyclerView.TaskHolder>() {
                 setOnClickListener {
                     if (!rv_subtasks.isVisible) {
                         rv_subtasks.visible()
-                        fadeInOutAnimation(context, rv_subtasks)
+                        fadeOutInAnimation(context, rv_subtasks)
                         taskArrow_textView.text = context.getString(R.string.subtasks_arrow_up)
-                        fadeInOutAnimation(context, taskArrow_textView)
+                        fadeOutInAnimation(context, taskArrow_textView)
                     } else {
                         rv_subtasks.gone()
                         taskArrow_textView.text = context.getString(R.string.subtasks_arrow_down)
-                        fadeInOutAnimation(context, taskArrow_textView)
+                        fadeOutInAnimation(context, taskArrow_textView)
                     }
                 }
             }
@@ -89,7 +91,7 @@ class TaskRecyclerView : RecyclerView.Adapter<TaskRecyclerView.TaskHolder>() {
                 .trim('%')
                 .toString().toInt()
 
-        private fun fadeInOutAnimation(context: Context, view: View) {
+        private fun fadeOutInAnimation(context: Context, view: View) {
             var anim = AnimationUtils.loadAnimation(context, R.anim.fade_out)
             anim.reset()
             view.clearAnimation()
