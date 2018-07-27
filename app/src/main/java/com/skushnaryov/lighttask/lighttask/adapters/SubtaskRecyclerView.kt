@@ -8,7 +8,9 @@ import com.skushnaryov.lighttask.lighttask.R
 import com.skushnaryov.lighttask.lighttask.inflate
 import kotlinx.android.synthetic.main.item_subtask.view.*
 
-class SubtaskRecyclerView(private val onCheckedChangeListener: CompoundButton.OnCheckedChangeListener) : RecyclerView.Adapter<SubtaskRecyclerView.SubtaskHolder>() {
+class SubtaskRecyclerView(private val onCheckedChangeListener: CompoundButton.OnCheckedChangeListener)
+    : RecyclerView.Adapter<SubtaskRecyclerView.SubtaskHolder>() {
+
     var list = emptyList<String>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SubtaskHolder =

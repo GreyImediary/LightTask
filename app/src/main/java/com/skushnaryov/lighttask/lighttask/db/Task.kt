@@ -13,6 +13,7 @@ data class Task(
         val date: Long,
         val currentDay: Int,
         val listOfSubtasks: List<String> = listOf(),
+        val compoundPercent: String = "0%",
         val groupName: String = "",
         val scheduleName: String = ""
 )

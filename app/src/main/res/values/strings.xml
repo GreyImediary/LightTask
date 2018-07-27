@@ -8,4 +8,6 @@
     <string name="subtasks_arrow_down"></string>
     <string name="subtasks_arrow_up">\uf0de</string>
     <string name="percentFormat">%1$d%%</string>
+    <string name="compoundCompleted">"Compound task completed, delete it"</string>
+    <string name="yes">Yes</string>
 </resources>

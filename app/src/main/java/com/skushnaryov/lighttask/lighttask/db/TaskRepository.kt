@@ -2,22 +2,17 @@ package com.skushnaryov.lighttask.lighttask.db
 
 import com.skushnaryov.lighttask.lighttask.LightTask
 import kotlinx.coroutines.experimental.CommonPool
+import kotlinx.coroutines.experimental.delay
 import kotlinx.coroutines.experimental.launch
 
 class TaskRepository {
     private val taskDao = LightTask.database.taskDao()
 
-    fun insert(task: Task) = launch(CommonPool) {
-        taskDao.insert(task)
-    }
+    fun insert(task: Task) = launch(CommonPool) { taskDao.insert(task) }
 
-    fun update(task: Task) = launch(CommonPool) {
-        taskDao.update(task)
-    }
+    fun update(task: Task) = launch(CommonPool) { taskDao.update(task) }
 
-    fun delete(task: Task) = launch(CommonPool) {
-        taskDao.delete(task)
-    }
+    fun delete(task: Task) = launch(CommonPool) { taskDao.delete(task) }
 
     fun getAllTasks() = taskDao.getAllTasks()
 
@@ -25,5 +20,11 @@ class TaskRepository {
 
     fun getTodayTasks(day: Int) = taskDao.getTodayTasks(day)
 
-    fun getScheduleTasks(schdeule: String) = taskDao.getScheduleTasks(schdeule)
+    fun getScheduleTasks(schedule: String) = taskDao.getScheduleTasks(schedule)
+
+    fun updatePercent(taskId: Int, percent: String) = launch(CommonPool) {
+        taskDao.updatePercent(taskId, percent)
+    }
+
+    fun getCurrentPercent(taskId: Int) = taskDao.getCurrentPercent(taskId)
 }
