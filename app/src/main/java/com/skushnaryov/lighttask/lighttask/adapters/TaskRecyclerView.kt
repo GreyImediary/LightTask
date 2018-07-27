@@ -12,9 +12,10 @@ import com.skushnaryov.lighttask.lighttask.*
 import com.skushnaryov.lighttask.lighttask.db.Task
 import kotlinx.android.synthetic.main.item_task.view.*
 import java.util.*
-import kotlin.math.ceil
 
-class TaskRecyclerView : RecyclerView.Adapter<TaskRecyclerView.TaskHolder>() {
+class TaskRecyclerView(private val subtaskCheckboxListener: OnSubtaskElementListener) :
+        RecyclerView.Adapter<TaskRecyclerView.TaskHolder>() {
+
     var list: List<Task> = emptyList()
         set(value) {
             field = value
@@ -30,29 +31,14 @@ class TaskRecyclerView : RecyclerView.Adapter<TaskRecyclerView.TaskHolder>() {
 
     override fun onBindViewHolder(holder: TaskHolder, position: Int) = holder.bind(list[position])
 
-    class TaskHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class TaskHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun bind(task: Task) = with(itemView) {
             taskName_textView.text = task.name
             taskDate_textView.text = getStringDate(task.date)
 
-            val innerAdapter = SubtaskRecyclerView(CompoundButton.OnCheckedChangeListener { _, onChecked ->
-                val subtaskPercent = ceil(100F / task.listOfSubtasks.size).toInt()
-                if (onChecked) {
-                    val finalPercent = getCurrentPercent() + subtaskPercent
-                    taskPercent_textView.text = context.getString(R.string.percentFormat, finalPercent)
-                } else {
-                    val finalPercent = getCurrentPercent() - subtaskPercent
-                    taskPercent_textView.text = context.getString(R.string.percentFormat, finalPercent)
-                }
-
-                if (getCurrentPercent() > 100) {
-                    taskPercent_textView.text = context.getString(R.string.percentFormat, 100)
-                }
-
-                if (getCurrentPercent() < 0) {
-                    taskPercent_textView.text = context.getString(R.string.percentFormat, 0)
-                }
+            val innerAdapter = SubtaskRecyclerView(CompoundButton.OnCheckedChangeListener { _, isChecked ->
+                subtaskCheckboxListener.onCheckboxChange(task, isChecked)
             })
 
             if (!task.groupName.isEmpty()) {
@@ -64,7 +50,7 @@ class TaskRecyclerView : RecyclerView.Adapter<TaskRecyclerView.TaskHolder>() {
                 innerAdapter.list = task.listOfSubtasks
 
                 taskPercent_textView.visible()
-                taskPercent_textView.text = "0%"
+                taskPercent_textView.text = task.compoundPercent
                 task_checkbox.invisible()
 
                 rv_subtasks.adapter = innerAdapter
@@ -87,10 +73,6 @@ class TaskRecyclerView : RecyclerView.Adapter<TaskRecyclerView.TaskHolder>() {
             }
         }
 
-        private fun getCurrentPercent() = itemView.taskPercent_textView.text
-                .trim('%')
-                .toString().toInt()
-
         private fun fadeOutInAnimation(context: Context, view: View) {
             var anim = AnimationUtils.loadAnimation(context, R.anim.fade_out)
             anim.reset()
@@ -110,5 +92,9 @@ class TaskRecyclerView : RecyclerView.Adapter<TaskRecyclerView.TaskHolder>() {
                     "${date.get(Calendar.YEAR)}\n" +
                     "${date.get(Calendar.HOUR_OF_DAY)}:${date.get(Calendar.MINUTE)}"
         }
+    }
+
+    interface OnSubtaskElementListener {
+        fun onCheckboxChange(task: Task, isChecked: Boolean)
     }
 }

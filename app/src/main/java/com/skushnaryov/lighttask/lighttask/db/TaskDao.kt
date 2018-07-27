@@ -19,4 +19,10 @@ interface TaskDao : BaseDao<Task> {
 
     @Query("SELECT * FROM tasks WHERE scheduleName=:schedule")
     fun getScheduleTasks(schedule: String): LiveData<List<Task>>
+
+    @Query("UPDATE tasks SET compoundPercent = :percent WHERE id = :taskId")
+    fun updatePercent(taskId: Int, percent: String)
+
+    @Query("SELECT compoundPercent FROM tasks WHERE id = :taskId")
+    fun getCurrentPercent(taskId: Int): String
 }
