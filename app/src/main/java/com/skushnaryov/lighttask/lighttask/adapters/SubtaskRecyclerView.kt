@@ -2,13 +2,15 @@ package com.skushnaryov.lighttask.lighttask.adapters
 
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CompoundButton
 import androidx.recyclerview.widget.RecyclerView
 import com.skushnaryov.lighttask.lighttask.R
+import com.skushnaryov.lighttask.lighttask.db.Task
 import com.skushnaryov.lighttask.lighttask.inflate
 import kotlinx.android.synthetic.main.item_subtask.view.*
+import org.jetbrains.anko.sdk25.coroutines.onCheckedChange
 
-class SubtaskRecyclerView(private val onCheckedChangeListener: CompoundButton.OnCheckedChangeListener)
+class SubtaskRecyclerView(private val onSubtaskCheckboxListener: OnSubtaskCheckboxListener,
+                          private val rootTask: Task)
     : RecyclerView.Adapter<SubtaskRecyclerView.SubtaskHolder>() {
 
     var list = emptyList<String>()
@@ -22,8 +24,15 @@ class SubtaskRecyclerView(private val onCheckedChangeListener: CompoundButton.On
 
     inner class SubtaskHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(name: String) {
-            itemView.subtask_checkbox.setOnCheckedChangeListener(onCheckedChangeListener)
+            itemView.subtask_checkbox.onCheckedChange { _, isChecked ->
+                onSubtaskCheckboxListener.onCheckboxChange(rootTask, isChecked)
+
+            }
             itemView.subtaskName_textView.text = name
         }
+    }
+
+    interface OnSubtaskCheckboxListener {
+        fun onCheckboxChange(task: Task, isChecked: Boolean)
     }
 }

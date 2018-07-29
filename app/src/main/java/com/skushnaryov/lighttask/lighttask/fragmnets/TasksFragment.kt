@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.skushnaryov.lighttask.lighttask.R
+import com.skushnaryov.lighttask.lighttask.adapters.SubtaskRecyclerView
 import com.skushnaryov.lighttask.lighttask.adapters.TaskRecyclerView
 import com.skushnaryov.lighttask.lighttask.db.Task
 import com.skushnaryov.lighttask.lighttask.viewModels.TaskViewModel
@@ -19,7 +20,7 @@ import org.jetbrains.anko.contentView
 import java.util.*
 import kotlin.math.ceil
 
-class TasksFragment : Fragment(), TaskRecyclerView.OnSubtaskElementListener {
+class TasksFragment : Fragment(), SubtaskRecyclerView.OnSubtaskCheckboxListener {
 
     private lateinit var viewModel: TaskViewModel
 
