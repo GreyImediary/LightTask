@@ -4,7 +4,6 @@ import android.content.Context
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
-import android.widget.CompoundButton
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -13,7 +12,7 @@ import com.skushnaryov.lighttask.lighttask.db.Task
 import kotlinx.android.synthetic.main.item_task.view.*
 import java.util.*
 
-class TaskRecyclerView(private val subtaskCheckboxListener: OnSubtaskElementListener) :
+class TaskRecyclerView(private val subtaskCheckboxListener: SubtaskRecyclerView.OnSubtaskCheckboxListener) :
         RecyclerView.Adapter<TaskRecyclerView.TaskHolder>() {
 
     var list: List<Task> = emptyList()
@@ -37,9 +36,7 @@ class TaskRecyclerView(private val subtaskCheckboxListener: OnSubtaskElementList
             taskName_textView.text = task.name
             taskDate_textView.text = getStringDate(task.date)
 
-            val innerAdapter = SubtaskRecyclerView(CompoundButton.OnCheckedChangeListener { _, isChecked ->
-                subtaskCheckboxListener.onCheckboxChange(task, isChecked)
-            })
+            val innerAdapter = SubtaskRecyclerView(subtaskCheckboxListener, task)
 
             if (!task.groupName.isEmpty()) {
                 taskGroup_textView.visible()
@@ -92,9 +89,5 @@ class TaskRecyclerView(private val subtaskCheckboxListener: OnSubtaskElementList
                     "${date.get(Calendar.YEAR)}\n" +
                     "${date.get(Calendar.HOUR_OF_DAY)}:${date.get(Calendar.MINUTE)}"
         }
-    }
-
-    interface OnSubtaskElementListener {
-        fun onCheckboxChange(task: Task, isChecked: Boolean)
     }
 }

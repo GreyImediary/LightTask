@@ -10,16 +10,18 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.skushnaryov.lighttask.lighttask.R
+import com.skushnaryov.lighttask.lighttask.adapters.SubtaskRecyclerView
 import com.skushnaryov.lighttask.lighttask.adapters.TaskRecyclerView
 import com.skushnaryov.lighttask.lighttask.db.Task
 import com.skushnaryov.lighttask.lighttask.viewModels.TaskViewModel
 import kotlinx.android.synthetic.main.fragment_tasks.*
+import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.launch
 import org.jetbrains.anko.contentView
 import java.util.*
 import kotlin.math.ceil
 
-class TasksFragment : Fragment(), TaskRecyclerView.OnSubtaskElementListener {
+class TasksFragment : Fragment(), SubtaskRecyclerView.OnSubtaskCheckboxListener {
 
     private lateinit var viewModel: TaskViewModel
 
@@ -35,7 +37,7 @@ class TasksFragment : Fragment(), TaskRecyclerView.OnSubtaskElementListener {
         viewModel = ViewModelProviders.of(this).get(TaskViewModel::class.java)
         viewModel.insert(Task(name = "Task",
                 groupName = "Group",
-                listOfSubtasks = listOf("one", "two", "three", "four", "five", "six", "seven"),
+                listOfSubtasks = mutableListOf("one", "two", "three", "four", "five", "six", "seven"),
                 date = Calendar.getInstance().timeInMillis,
                 currentDay = Calendar.getInstance().get(Calendar.DAY_OF_MONTH)))
         viewModel.allTasks.observe(this, Observer {
@@ -43,16 +45,28 @@ class TasksFragment : Fragment(), TaskRecyclerView.OnSubtaskElementListener {
         })
     }
 
-    override fun onCheckboxChange(task: Task, isChecked: Boolean) {
+    override fun onCheckboxChange(task: Task, isChecked: Boolean, subtask: String) {
         val subtaskPercent = ceil(100F / task.listOfSubtasks.size).toInt()
         launch {
-            val finalPercent: Int
+            var finalPercent: Int
             if (isChecked) {
                 finalPercent = getCurrentPercent(task) + subtaskPercent
                 viewModel.updatePercent(task.id, "$finalPercent%")
+
+                val index = task.listOfSubtasks.indexOf(subtask)
+                task.listOfSubtasks.remove(subtask)
+                viewModel.update(task)
+
+                Snackbar.make(activity?.contentView ?: return@launch,
+                        getString(R.string.subtaskCompleted), Snackbar.LENGTH_LONG)
+                        .setAction(R.string.cancel) {
+                            launch { finalPercent = getCurrentPercent(task) - subtaskPercent
+                                viewModel.updatePercent(task.id, "$finalPercent%") }
+                            task.listOfSubtasks.add(index, subtask)
+                            viewModel.update(task)
+                        }.show()
             } else {
-                finalPercent = getCurrentPercent(task) - subtaskPercent
-                viewModel.updatePercent(task.id, "$finalPercent%")
+
             }
         }
 
