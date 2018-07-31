@@ -9,5 +9,7 @@
     <string name="subtasks_arrow_up">\uf0de</string>
     <string name="percentFormat">%1$d%%</string>
     <string name="compoundCompleted">"Compound task completed, delete it"</string>
+    <string name="subtaskCompleted">Subtask completed</string>
     <string name="yes">Yes</string>
+    <string name="cancel">Cancel</string>
 </resources>
