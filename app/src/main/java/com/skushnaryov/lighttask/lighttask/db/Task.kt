@@ -12,8 +12,8 @@ data class Task(
         val name: String,
         val date: Long,
         val currentDay: Int,
-        val listOfSubtasks: List<String> = listOf(),
-        val compoundPercent: String = "0%",
+        val listOfSubtasks: MutableList<String> = arrayListOf(),
+        val isCompound: Boolean = false,
         val groupName: String = "",
         val scheduleName: String = ""
 )

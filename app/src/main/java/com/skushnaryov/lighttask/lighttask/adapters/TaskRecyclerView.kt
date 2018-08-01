@@ -1,6 +1,7 @@
 package com.skushnaryov.lighttask.lighttask.adapters
 
 import android.content.Context
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
@@ -10,9 +11,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.skushnaryov.lighttask.lighttask.*
 import com.skushnaryov.lighttask.lighttask.db.Task
 import kotlinx.android.synthetic.main.item_task.view.*
+import org.jetbrains.anko.sdk25.coroutines.onCheckedChange
 import java.util.*
 
-class TaskRecyclerView(private val subtaskCheckboxListener: SubtaskRecyclerView.OnSubtaskCheckboxListener) :
+class TaskRecyclerView(private val subtaskCheckboxListener: SubtaskRecyclerView.OnSubtaskCheckboxListener,
+                       private val taskCheckboxListener: OnTaskCheckboxListener) :
         RecyclerView.Adapter<TaskRecyclerView.TaskHolder>() {
 
     var list: List<Task> = emptyList()
@@ -36,6 +39,10 @@ class TaskRecyclerView(private val subtaskCheckboxListener: SubtaskRecyclerView.
             taskName_textView.text = task.name
             taskDate_textView.text = getStringDate(task.date)
 
+            task_checkbox.onCheckedChange { _, _ ->
+                taskCheckboxListener.onTaskCheckboxChange(task)
+            }
+
             val innerAdapter = SubtaskRecyclerView(subtaskCheckboxListener, task)
 
             if (!task.groupName.isEmpty()) {
@@ -43,28 +50,28 @@ class TaskRecyclerView(private val subtaskCheckboxListener: SubtaskRecyclerView.
                 taskGroup_textView.text = task.groupName
             }
 
-            if (!task.listOfSubtasks.isEmpty()) {
+            if (task.isCompound) {
                 innerAdapter.list = task.listOfSubtasks
-
-                taskPercent_textView.visible()
-                taskPercent_textView.text = task.compoundPercent
-                task_checkbox.invisible()
 
                 rv_subtasks.adapter = innerAdapter
                 rv_subtasks.layoutManager = LinearLayoutManager(context)
 
-                taskArrow_textView.visible()
+                if (task.listOfSubtasks.isEmpty()) {
+                    taskArrow_textView.invisible()
+                } else {
+                    taskArrow_textView.visible()
 
-                setOnClickListener {
-                    if (!rv_subtasks.isVisible) {
-                        rv_subtasks.visible()
-                        fadeOutInAnimation(context, rv_subtasks)
-                        taskArrow_textView.text = context.getString(R.string.subtasks_arrow_up)
-                        fadeOutInAnimation(context, taskArrow_textView)
-                    } else {
-                        rv_subtasks.gone()
-                        taskArrow_textView.text = context.getString(R.string.subtasks_arrow_down)
-                        fadeOutInAnimation(context, taskArrow_textView)
+                    setOnClickListener {
+                        if (!rv_subtasks.isVisible) {
+                            rv_subtasks.visible()
+                            fadeOutInAnimation(context, rv_subtasks)
+                            taskArrow_textView.text = context.getString(R.string.subtasks_arrow_up)
+                            fadeOutInAnimation(context, taskArrow_textView)
+                        } else {
+                            rv_subtasks.gone()
+                            taskArrow_textView.text = context.getString(R.string.subtasks_arrow_down)
+                            fadeOutInAnimation(context, taskArrow_textView)
+                        }
                     }
                 }
             }
@@ -89,5 +96,9 @@ class TaskRecyclerView(private val subtaskCheckboxListener: SubtaskRecyclerView.
                     "${date.get(Calendar.YEAR)}\n" +
                     "${date.get(Calendar.HOUR_OF_DAY)}:${date.get(Calendar.MINUTE)}"
         }
+    }
+
+    interface OnTaskCheckboxListener {
+        fun onTaskCheckboxChange(task: Task)
     }
 }
