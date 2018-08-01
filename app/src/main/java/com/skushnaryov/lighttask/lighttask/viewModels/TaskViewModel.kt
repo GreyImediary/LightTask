@@ -19,8 +19,4 @@ class TaskViewModel : ViewModel() {
     fun getGroupTasks(group: String) = repository.getGroupTasks(group)
 
     fun getScheduleTasks(schedule: String) = repository.getScheduleTasks(schedule)
-
-    fun updatePercent(taskId: Int, percent: String) = repository.updatePercent(taskId, percent)
-
-    fun getCurrentPercent(taskId: Int) = repository.getCurrentPercent(taskId)
 }

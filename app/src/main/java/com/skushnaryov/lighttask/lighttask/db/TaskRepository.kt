@@ -21,10 +21,4 @@ class TaskRepository {
     fun getTodayTasks(day: Int) = taskDao.getTodayTasks(day)
 
     fun getScheduleTasks(schedule: String) = taskDao.getScheduleTasks(schedule)
-
-    fun updatePercent(taskId: Int, percent: String) = launch(CommonPool) {
-        taskDao.updatePercent(taskId, percent)
-    }
-
-    fun getCurrentPercent(taskId: Int) = taskDao.getCurrentPercent(taskId)
 }

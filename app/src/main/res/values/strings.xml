@@ -10,6 +10,7 @@
     <string name="percentFormat">%1$d%%</string>
     <string name="compoundCompleted">"Compound task completed, delete it"</string>
     <string name="subtaskCompleted">Subtask completed</string>
+    <string name="taskCompleted">Task completed</string>
     <string name="yes">Yes</string>
     <string name="cancel">Cancel</string>
 </resources>
