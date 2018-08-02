@@ -1,7 +1,6 @@
 package com.skushnaryov.lighttask.lighttask.adapters
 
 import android.content.Context
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
@@ -61,7 +60,7 @@ class TaskRecyclerView(private val subtaskCheckboxListener: SubtaskRecyclerView.
                 } else {
                     taskArrow_textView.visible()
 
-                    setOnClickListener {
+                    mainPart.setOnClickListener {
                         if (!rv_subtasks.isVisible) {
                             rv_subtasks.visible()
                             fadeOutInAnimation(context, rv_subtasks)
