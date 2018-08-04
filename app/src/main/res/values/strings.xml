@@ -13,4 +13,7 @@
     <string name="taskCompleted">Task completed</string>
     <string name="yes">Yes</string>
     <string name="cancel">Cancel</string>
+    <string name="no_tasks">No tasks here</string>
+    <string name="noTaskSummary">Tap + to create them</string>
+    <string name="sleep_cloud">sleep cloud</string>
 </resources>
