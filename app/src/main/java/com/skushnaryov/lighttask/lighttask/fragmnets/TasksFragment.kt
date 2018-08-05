@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -14,11 +13,10 @@ import com.skushnaryov.lighttask.lighttask.R
 import com.skushnaryov.lighttask.lighttask.adapters.SubtaskRecyclerView
 import com.skushnaryov.lighttask.lighttask.adapters.TaskRecyclerView
 import com.skushnaryov.lighttask.lighttask.db.Task
+import com.skushnaryov.lighttask.lighttask.gone
 import com.skushnaryov.lighttask.lighttask.viewModels.TaskViewModel
+import com.skushnaryov.lighttask.lighttask.visible
 import kotlinx.android.synthetic.main.fragment_tasks.*
-import kotlinx.coroutines.experimental.CommonPool
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.launch
 import org.jetbrains.anko.contentView
 import java.util.*
@@ -43,8 +41,19 @@ class TasksFragment : Fragment(),
         viewModel.allTasks.observe(this, Observer {
             rv.list = it
             rv_tasks.adapter = rv
-        })
 
+            if (it.isEmpty()) {
+                rv_tasks.gone()
+                sleep_img.visible()
+                noTask_textView.visible()
+                summary_textView.visible()
+            } else {
+                rv_tasks.visible()
+                sleep_img.gone()
+                noTask_textView.gone()
+                summary_textView.gone()
+            }
+        })
     }
 
     override fun onTaskCheckboxChange(task: Task) {
