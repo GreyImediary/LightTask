@@ -7,4 +7,13 @@
     <string name="groups">Groups</string>
     <string name="subtasks_arrow_down"></string>
     <string name="subtasks_arrow_up">\uf0de</string>
+    <string name="percentFormat">%1$d%%</string>
+    <string name="compoundCompleted">"Compound task completed, delete it"</string>
+    <string name="subtaskCompleted">Subtask completed</string>
+    <string name="taskCompleted">Task completed</string>
+    <string name="yes">Yes</string>
+    <string name="cancel">Cancel</string>
+    <string name="no_tasks">No tasks here</string>
+    <string name="noTaskSummary">Tap + to create them</string>
+    <string name="sleep_cloud">sleep cloud</string>
 </resources>

@@ -29,14 +29,17 @@ android {
 dependencies {
     def lifecycle_version = '2.0.0-beta01'
     def room_version = '2.0.0-beta01'
-    def nav_version = '1.0.0-alpha03'
-    def work_version = "1.0.0-alpha04"
+    def nav_version = '1.0.0-alpha04'
+    def work_version = '1.0.0-alpha04'
+    def ktx_version = '1.0.0-alpha1'
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     implementation "org.jetbrains.anko:anko:$anko_version"
     implementation "org.jetbrains.anko:anko-design:$anko_version"
+
+    implementation "androidx.core:core-ktx:$ktx_version"
 
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:0.23.4'
 
@@ -58,7 +61,7 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:1.1.2'
     implementation 'com.google.android.material:material:1.0.0-beta01'
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.1.0-alpha3'
+    androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha3'
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
 }
