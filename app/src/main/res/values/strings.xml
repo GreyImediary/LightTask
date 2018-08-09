@@ -2,20 +2,28 @@
     <string name="app_name">LightTask</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_activity_add">Add task</string>
+
     <string name="appBar_scrolling_view_behavior" translatable="false">com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior</string>
+
     <string name="tasks">Tasks</string>
     <string name="schedule">Schedules</string>
     <string name="groups">Groups</string>
+
     <string name="subtasks_arrow_down"></string>
     <string name="subtasks_arrow_up">\uf0de</string>
+
     <string name="compoundCompleted">"Compound task completed, delete it"</string>
     <string name="subtaskCompleted">Subtask completed</string>
     <string name="taskCompleted">Task completed</string>
+
     <string name="yes">Yes</string>
     <string name="cancel">Cancel</string>
+    <string name="create">Create</string>
+
     <string name="no_tasks">No tasks here</string>
     <string name="noTaskSummary">Tap + to create them</string>
     <string name="sleep_cloud">sleep cloud</string>
+
     <string name="taskName">Name</string>
     <string name="taskDate">Date</string>
     <string name="taskGroup">Group</string>
@@ -23,5 +31,15 @@
     <string name="taskRepeat">Repeat</string>
     <string name="taskSubtaskHint">Subtasks</string>
     <string name="subtaskHelperText">Spread subtasks by comma</string>
+
     <string name="action_add">Add</string>
+
+    <string name="emptyName">Enter the name, please</string>
+    <string name="emptyDate">Enter the date, please</string>
+
+    <string name="groupDialogButton">Add group</string>
+    <string name="groupDialogTitle">Choose the group</string>
+
+    <string name="groupAddDialogHint">Group name</string>
+    <string name="groupAddDialogTitle">Create new group</string>
 </resources>
