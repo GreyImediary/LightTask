@@ -3,6 +3,7 @@ package com.skushnaryov.lighttask.lighttask.activities
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -28,10 +29,13 @@ class AddActivity : AppCompatActivity(),
         DatePickerDialog.OnDateSetListener,
         TimePickerDialog.OnTimeSetListener, GroupDialog.OnGroupDialogItemClickListener {
 
-    private val date = Calendar.getInstance()
     private lateinit var groupViewModel: GroupViewModel
     private lateinit var groupList: List<Group>
+
+    private var name = ""
+    private val date = Calendar.getInstance()
     private var groupName = ""
+    private var subtasks = emptyList<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -97,9 +101,9 @@ class AddActivity : AppCompatActivity(),
     }
 
     override fun onGroupCreateClick(view: View) {
-        val name = view.add_group_edit_text.text.toString()
-        groupViewModel.insert(Group(name = name))
-        group_edit_text.setText(name, TextView.BufferType.EDITABLE)
+        val groupName = view.add_group_edit_text.text.toString()
+        groupViewModel.insert(Group(name = groupName))
+        group_edit_text.setText(groupName, TextView.BufferType.EDITABLE)
     }
 
     private fun taskCreated() {
@@ -107,10 +111,7 @@ class AddActivity : AppCompatActivity(),
             return
         }
 
-        val name = name_edit_text.text?.toString()
-        val date = date
-
-
+        checkSubtasks()
     }
 
     private fun checkNamAndDate(): Boolean {
@@ -119,6 +120,7 @@ class AddActivity : AppCompatActivity(),
             true
         } else {
             name_text_input.error = null
+            name = name_edit_text.text?.toString() ?: return false
             false
         }
 
@@ -131,5 +133,18 @@ class AddActivity : AppCompatActivity(),
         }
 
         return isEmptyName || isEmptyDate
+    }
+
+    private fun checkSubtasks() {
+        val rowSubtaskString = subtask_edit_text.text ?: return
+        if (rowSubtaskString.isEmpty()) {
+            return
+        }
+
+        subtasks = rowSubtaskString.split(",")
+                .map { it.trimStart() }
+                .map { it.trimEnd() }
+
+        Log.i("subt", subtasks.toString())
     }
 }
