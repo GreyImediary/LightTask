@@ -83,6 +83,12 @@ class AddActivity : AppCompatActivity(),
         val dateString = "$day.$month.$year-$hour:$minute"
 
         date_edit_text.setText(dateString, TextView.BufferType.EDITABLE)
+
+        if (date < Calendar.getInstance()) {
+            date_text_input.error = getString(R.string.wrongDateError)
+        } else {
+            date_text_input.error = null
+        }
     }
 
     override fun onGroupItemClick(position: Int) {
@@ -109,7 +115,7 @@ class AddActivity : AppCompatActivity(),
 
     private fun checkNamAndDate(): Boolean {
         val isEmptyName = if (name_edit_text.text!!.isEmpty()) {
-            name_text_input.error = getString(R.string.emptyName)
+            name_text_input.error = getString(R.string.emptyNameError)
             true
         } else {
             name_text_input.error = null
@@ -117,7 +123,7 @@ class AddActivity : AppCompatActivity(),
         }
 
         val isEmptyDate = if (name_edit_text.text!!.isEmpty()) {
-            date_text_input.error = getString(R.string.emptyDate)
+            date_text_input.error = getString(R.string.emptyDateError)
             true
         } else {
             date_text_input.error = null

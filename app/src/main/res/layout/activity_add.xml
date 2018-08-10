@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    android:padding="@dimen/sixty_padding">
+    android:padding="@dimen/eight_padding">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/container_textFields"
@@ -21,8 +21,7 @@
             app:layout_constraintBottom_toTopOf="@id/date_text_input"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_chainStyle="spread">
+            app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/name_edit_text"
@@ -82,34 +81,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/remind"
-            app:layout_constraintBottom_toTopOf="@id/repeat_text_input"
+            app:layout_constraintBottom_toTopOf="@id/subtask_text_input"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/group_text_input">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/notif_edit_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:focusableInTouchMode="false"
-                android:inputType="text"
-                android:maxLines="1"
-                android:textSize="24sp" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/repeat_text_input"
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/taskRepeat"
-            app:layout_constraintBottom_toTopOf="@id/subtask_text_input"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/notif_text_input">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/repeat_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:focusableInTouchMode="false"
@@ -129,7 +107,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/repeat_text_input">
+            app:layout_constraintTop_toBottomOf="@id/notif_text_input">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/subtask_edit_text"
