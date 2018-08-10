@@ -66,20 +66,19 @@ class TasksFragment : Fragment(),
     }
 
     override fun onSubtaskCheckboxChange(task: Task, isChecked: Boolean, subtask: String) {
-        launch {
-            if (isChecked) {
 
-                val index = task.listOfSubtasks.indexOf(subtask)
-                task.listOfSubtasks.remove(subtask)
-                viewModel.update(task)
+        if (isChecked) {
 
-                Snackbar.make(activity?.contentView ?: return@launch,
-                        getString(R.string.subtaskCompleted), Snackbar.LENGTH_LONG)
-                        .setAction(R.string.cancel) {
-                            task.listOfSubtasks.add(index, subtask)
-                            viewModel.update(task)
-                        }.show()
-            }
+            val index = task.listOfSubtasks.indexOf(subtask)
+            task.listOfSubtasks.remove(subtask)
+            viewModel.update(task)
+
+            Snackbar.make(activity?.contentView ?: return,
+                    getString(R.string.subtaskCompleted), Snackbar.LENGTH_LONG)
+                    .setAction(R.string.cancel) {
+                        task.listOfSubtasks.add(index, subtask)
+                        viewModel.update(task)
+                    }.show()
         }
 
 

@@ -10,14 +10,17 @@ import android.view.WindowManager
 import android.widget.DatePicker
 import android.widget.TextView
 import android.widget.TimePicker
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProviders
 import com.skushnaryov.lighttask.lighttask.R
+import com.skushnaryov.lighttask.lighttask.db.Group
 import com.skushnaryov.lighttask.lighttask.dialogs.DateDialog
 import com.skushnaryov.lighttask.lighttask.dialogs.GroupDialog
 import com.skushnaryov.lighttask.lighttask.dialogs.TimeDialog
 import com.skushnaryov.lighttask.lighttask.inflateMenu
+import com.skushnaryov.lighttask.lighttask.viewModels.GroupViewModel
 import kotlinx.android.synthetic.main.activity_add.*
+import androidx.lifecycle.Observer
 import kotlinx.android.synthetic.main.dialog_add_group_layout.view.*
 import java.util.*
 
@@ -26,13 +29,19 @@ class AddActivity : AppCompatActivity(),
         TimePickerDialog.OnTimeSetListener, GroupDialog.OnGroupDialogItemClickListener {
 
     private val date = Calendar.getInstance()
-    private val arr = listOf("first group", "second group") //we will change it to database list
+    private lateinit var groupViewModel: GroupViewModel
+    private lateinit var groupList: List<Group>
     private var groupName = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add)
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
+
+        groupViewModel = ViewModelProviders.of(this).get(GroupViewModel::class.java)
+        groupViewModel.allGroups.observe(this, Observer {
+            groupList = it
+        })
 
         date_edit_text.setOnClickListener {
             DateDialog().show(supportFragmentManager, "Date dialog")
@@ -41,7 +50,7 @@ class AddActivity : AppCompatActivity(),
         group_edit_text.setOnClickListener {
             val groupDialog = GroupDialog()
             groupDialog.clickListener = this
-            
+            groupDialog.groups = groupList.map { it.name }
             groupDialog.show(supportFragmentManager, "Group dialog")
         }
     }
@@ -77,17 +86,19 @@ class AddActivity : AppCompatActivity(),
     }
 
     override fun onGroupItemClick(position: Int) {
-        groupName = arr[position]
+        groupName = groupList[position].name
         group_edit_text.setText(groupName, TextView.BufferType.EDITABLE)
     }
 
     override fun onGroupCreateClick(view: View) {
-        group_edit_text.setText(view.add_group_edit_text.text.toString(), TextView.BufferType.EDITABLE)
+        val name = view.add_group_edit_text.text.toString()
+        groupViewModel.insert(Group(name = name))
+        group_edit_text.setText(name, TextView.BufferType.EDITABLE)
     }
 
     private fun taskCreated() {
         if (checkNamAndDate()) {
-           return
+            return
         }
 
         val name = name_edit_text.text?.toString()
