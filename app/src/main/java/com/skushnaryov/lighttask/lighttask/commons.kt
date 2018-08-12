@@ -1,9 +1,11 @@
 package com.skushnaryov.lighttask.lighttask
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.annotation.MenuRes
 import androidx.appcompat.app.AppCompatActivity
 
@@ -19,3 +21,5 @@ fun AppCompatActivity.inflateMenu(@MenuRes resId: Int, menu: Menu): Boolean {
     menuInflater.inflate(resId, menu)
     return true
 }
+
+fun Context.toast(text: String) = Toast.makeText(this, text, Toast.LENGTH_SHORT).show()

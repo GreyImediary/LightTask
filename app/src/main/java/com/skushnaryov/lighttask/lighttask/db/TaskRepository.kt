@@ -14,6 +14,8 @@ class TaskRepository {
 
     fun delete(task: Task) = launch(CommonPool) { taskDao.delete(task) }
 
+    fun deleteById(id: Int) = launch(CommonPool) { taskDao.deleteTaskById(id) }
+
     fun getAllTasks() = taskDao.getAllTasks()
 
     fun getGroupTasks(group: String) = taskDao.getGroupTasks(group)

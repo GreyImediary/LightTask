@@ -144,7 +144,5 @@ class AddActivity : AppCompatActivity(),
         subtasks = rowSubtaskString.split(",")
                 .map { it.trimStart() }
                 .map { it.trimEnd() }
-
-        Log.i("subt", subtasks.toString())
     }
 }

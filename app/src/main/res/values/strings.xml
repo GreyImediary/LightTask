@@ -43,4 +43,7 @@
 
     <string name="groupAddDialogHint">Group name</string>
     <string name="groupAddDialogTitle">Create new group</string>
+
+    <string name="taskRecieverTitle">Task!</string>
+    <string name="doneRecieverAction">Done</string>
 </resources>
