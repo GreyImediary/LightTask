@@ -35,8 +35,7 @@
     <string name="action_add">Add</string>
 
     <string name="emptyNameError">Enter the name, please</string>
-    <string name="emptyDateError">Enter the date, please</string>
-    <string name="wrongDateError">You\'re trying to choose past date. Please, change it</string>
+    <string name="wrongDateError">Wrong date: past time or empty field</string>
 
     <string name="groupDialogButton">Add group</string>
     <string name="groupDialogTitle">Choose the group</string>

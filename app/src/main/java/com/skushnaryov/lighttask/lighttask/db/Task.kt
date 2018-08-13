@@ -7,13 +7,12 @@ import java.util.*
 
 @Entity(tableName = "tasks")
 data class Task(
-        @PrimaryKey(autoGenerate = true)
-        val id: Int = 0,
+        @PrimaryKey
+        val id: Int,
         val name: String,
         val date: Long,
         val currentDay: Int,
         val listOfSubtasks: MutableList<String> = arrayListOf(),
         val isCompound: Boolean = false,
-        val groupName: String = "",
-        val scheduleName: String = ""
+        val groupName: String = ""
 )

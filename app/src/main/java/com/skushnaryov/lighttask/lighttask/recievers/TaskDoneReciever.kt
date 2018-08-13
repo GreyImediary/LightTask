@@ -3,6 +3,7 @@ package com.skushnaryov.lighttask.lighttask.recievers
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import androidx.core.app.NotificationManagerCompat
 import com.skushnaryov.lighttask.lighttask.Constants
 import com.skushnaryov.lighttask.lighttask.R
 import com.skushnaryov.lighttask.lighttask.db.TaskRepository
@@ -14,8 +15,10 @@ class TaskDoneReciever : BroadcastReceiver() {
 
         if (id != -1) {
             TaskRepository().deleteById(id)
+            context.toast(context.getString(R.string.taskCompleted))
         }
 
-        context.toast(context.getString(R.string.taskCompleted))
+
+        NotificationManagerCompat.from(context).cancel(id)
     }
 }

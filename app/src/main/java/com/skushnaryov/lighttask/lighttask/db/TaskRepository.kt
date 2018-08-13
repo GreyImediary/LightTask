@@ -21,6 +21,4 @@ class TaskRepository {
     fun getGroupTasks(group: String) = taskDao.getGroupTasks(group)
 
     fun getTodayTasks(day: Int) = taskDao.getTodayTasks(day)
-
-    fun getScheduleTasks(schedule: String) = taskDao.getScheduleTasks(schedule)
 }

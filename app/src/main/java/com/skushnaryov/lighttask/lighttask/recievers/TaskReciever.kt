@@ -21,7 +21,7 @@ class TaskReciever : BroadcastReceiver() {
         }
     }
 
-    private fun createNotification(context: Context ,taskName: String, id: Int) {
+    private fun createNotification(context: Context, taskName: String, id: Int) {
         val clickIntent = Intent(context, MainActivity::class.java)
         val clickPending = PendingIntent.getActivity(context, 0, clickIntent, 0)
 
@@ -29,10 +29,10 @@ class TaskReciever : BroadcastReceiver() {
         doneIntent.action = Constants.TASK_DONE_RECIEVER
         doneIntent.putExtra(Constants.EXTRAS_ID, id)
 
-        val donePending = PendingIntent.getBroadcast(context, 0, doneIntent, 0)
+        val donePending = PendingIntent.getBroadcast(context, id, doneIntent, PendingIntent.FLAG_UPDATE_CURRENT)
 
         val builder = NotificationCompat.Builder(context, Constants.TASKS_CHANNEL_ID)
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(R.drawable.ic_action_notification)
                 .setContentTitle(context.getString(R.string.taskRecieverTitle))
                 .setContentText(taskName)
                 .setAutoCancel(true)

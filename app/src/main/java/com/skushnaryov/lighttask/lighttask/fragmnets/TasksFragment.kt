@@ -90,14 +90,16 @@ class TasksFragment : Fragment(),
     }
 
     private fun stubFun(): MutableList<Task> {
-        val task = Task(name = "Simple",
+        val task = Task(id = 1,
+                name = "Simple",
                 groupName = "Group",
                 date = Calendar.getInstance().timeInMillis,
                 listOfSubtasks = mutableListOf("1", "2", "3", "4", "5", "6", "7"),
                 isCompound = false,
                 currentDay = Calendar.getInstance().get(Calendar.DAY_OF_MONTH))
 
-        val task2 = Task(name = "Compound",
+        val task2 = Task(id = 2,
+                name = "Compound",
                 groupName = "Group",
                 date = Calendar.getInstance().timeInMillis,
                 listOfSubtasks = mutableListOf("1", "2", "3", "4", "5", "6", "7"),
