@@ -10,35 +10,25 @@ import androidx.core.app.NotificationManagerCompat
 import com.skushnaryov.lighttask.lighttask.Constants
 import com.skushnaryov.lighttask.lighttask.R
 import com.skushnaryov.lighttask.lighttask.activities.MainActivity
+import org.jetbrains.anko.notificationManager
 
-class TaskReciever : BroadcastReceiver() {
+class TaskRemindReciever : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
-        val name = intent.getStringExtra(Constants.EXTRAS_NAME)
+        val text = intent.getStringExtra(Constants.EXTRAS_REMIND_TEXT)
         val id = intent.getIntExtra(Constants.EXTRAS_ID, -1)
 
-        if (name != null && !name.isEmpty() && id != -1) {
-            createNotification(context, name, id)
+        if (text == null || id == -1) {
+            return
         }
-    }
 
-    private fun createNotification(context: Context, taskName: String, id: Int) {
         val clickIntent = Intent(context, MainActivity::class.java)
-        val clickPending = PendingIntent.getActivity(context, 0, clickIntent, 0)
-
-        val doneIntent = Intent(context, TaskDoneReciever::class.java)
-        doneIntent.action = Constants.TASK_DONE_RECIEVER
-        doneIntent.putExtra(Constants.EXTRAS_ID, id)
-
-        val donePending = PendingIntent.getBroadcast(context, id, doneIntent, PendingIntent.FLAG_UPDATE_CURRENT)
-
+        val clickPendig = PendingIntent.getActivity(context, 0, clickIntent, 0)
         val builder = NotificationCompat.Builder(context, Constants.TASKS_CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_action_notification)
-                .setContentTitle(context.getString(R.string.taskRecieverTitle))
-                .setContentText(taskName)
+                .setContentTitle(context.getString(R.string.taskRemindRecieverTitle))
+                .setContentIntent(clickPendig)
+                .setContentText(text)
                 .setAutoCancel(true)
-                .addAction(R.drawable.ic_done_black_24dp,
-                        context.getString(R.string.doneRecieverAction), donePending)
-                .setContentIntent(clickPending)
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
             builder.priority = NotificationCompat.PRIORITY_HIGH

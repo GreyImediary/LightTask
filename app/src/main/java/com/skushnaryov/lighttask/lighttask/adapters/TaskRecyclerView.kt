@@ -92,16 +92,16 @@ class TaskRecyclerView(private val subtaskCheckboxListener: SubtaskRecyclerView.
             val date = Calendar.getInstance().also { it.timeInMillis = time }
 
             val rowDay = date.get(Calendar.DAY_OF_MONTH)
-            val day = if (rowDay < 10) "0$rowDay" else "$rowDay"
+            val day = rowDay.toStringTime()
 
             val rowMonth = date.get(Calendar.MONTH)
-            val month = if (rowMonth < 10) "0$rowMonth" else "$rowMonth"
+            val month = rowMonth.toStringTime()
 
             val rowHour = date.get(Calendar.HOUR_OF_DAY)
-            val hour = if (rowHour < 10) "0$rowHour" else "$rowHour"
+            val hour = rowHour.toStringTime()
 
             val rowMinute = date.get(Calendar.MINUTE)
-            val minute = if (rowMinute < 10) "0$rowMinute" else "$rowMinute"
+            val minute = rowMinute.toStringTime()
             return "$day." +
                     "$month." +
                     "${date.get(Calendar.YEAR)}\n" +

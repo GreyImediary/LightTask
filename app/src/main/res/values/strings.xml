@@ -19,6 +19,7 @@
     <string name="yes">Yes</string>
     <string name="cancel">Cancel</string>
     <string name="create">Create</string>
+    <string name="ok">OK</string>
 
     <string name="no_tasks">No tasks here</string>
     <string name="noTaskSummary">Tap + to create them</string>
@@ -43,6 +44,19 @@
     <string name="groupAddDialogHint">Group name</string>
     <string name="groupAddDialogTitle">Create new group</string>
 
+    <string name="remindDialogTitle">Remind … before</string>
+    <string name="remindError">Time isn\'t between current date and task date</string>
+    <string-array name="remindArray">
+        <item>5 minutes</item>
+        <item>10 minutes</item>
+        <item>30 minutes</item>
+        <item>1 hour</item>
+        <item>1 day</item>
+        <item>Choose other</item>
+    </string-array>
+
     <string name="taskRecieverTitle">Task!</string>
     <string name="doneRecieverAction">Done</string>
+
+    <string name="taskRemindRecieverTitle">Task reminder!</string>
 </resources>

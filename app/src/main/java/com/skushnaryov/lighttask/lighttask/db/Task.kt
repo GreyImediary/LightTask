@@ -11,6 +11,7 @@ data class Task(
         val id: Int,
         val name: String,
         val date: Long,
+        val taskRemindDate: Long = 0,
         val currentDay: Int,
         val listOfSubtasks: MutableList<String> = arrayListOf(),
         val isCompound: Boolean = false,

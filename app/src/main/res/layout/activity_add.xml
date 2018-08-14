@@ -60,7 +60,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/taskGroup"
-            app:layout_constraintBottom_toTopOf="@id/notif_text_input"
+            app:layout_constraintBottom_toTopOf="@id/remind_text_input"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/date_text_input">
@@ -76,18 +76,19 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/notif_text_input"
+            android:id="@+id/remind_text_input"
             style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/remind"
+            app:errorEnabled="true"
             app:layout_constraintBottom_toTopOf="@id/subtask_text_input"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/group_text_input">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/notif_edit_text"
+                android:id="@+id/remind_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:focusableInTouchMode="false"
@@ -107,7 +108,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/notif_text_input">
+            app:layout_constraintTop_toBottomOf="@id/remind_text_input">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/subtask_edit_text"

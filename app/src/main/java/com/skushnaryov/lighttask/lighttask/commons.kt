@@ -22,4 +22,6 @@ fun AppCompatActivity.inflateMenu(@MenuRes resId: Int, menu: Menu): Boolean {
     return true
 }
 
+fun Int.toStringTime() = if (this < 10) "0$this" else "$this"
+
 fun Context.toast(text: String) = Toast.makeText(this, text, Toast.LENGTH_SHORT).show()

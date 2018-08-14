@@ -23,9 +23,12 @@ import com.skushnaryov.lighttask.lighttask.db.Group
 import com.skushnaryov.lighttask.lighttask.db.Task
 import com.skushnaryov.lighttask.lighttask.dialogs.DateDialog
 import com.skushnaryov.lighttask.lighttask.dialogs.GroupDialog
+import com.skushnaryov.lighttask.lighttask.dialogs.RemindDialog
 import com.skushnaryov.lighttask.lighttask.dialogs.TimeDialog
 import com.skushnaryov.lighttask.lighttask.inflateMenu
 import com.skushnaryov.lighttask.lighttask.recievers.TaskReciever
+import com.skushnaryov.lighttask.lighttask.recievers.TaskRemindReciever
+import com.skushnaryov.lighttask.lighttask.toStringTime
 import com.skushnaryov.lighttask.lighttask.viewModels.GroupViewModel
 import com.skushnaryov.lighttask.lighttask.viewModels.TaskViewModel
 import kotlinx.android.synthetic.main.activity_add.*
@@ -34,7 +37,15 @@ import java.util.*
 
 class AddActivity : AppCompatActivity(),
         DatePickerDialog.OnDateSetListener,
-        TimePickerDialog.OnTimeSetListener, GroupDialog.OnGroupDialogItemClickListener {
+        TimePickerDialog.OnTimeSetListener,
+        GroupDialog.OnGroupDialogItemClickListener,
+        RemindDialog.OnItemRemindClickListener {
+
+    companion object {
+        const val REMIND_MIN = "min"
+        const val REMIND_HOUR = "hour"
+        const val REMIND_DAY = "day"
+    }
 
     private lateinit var taskViewModel: TaskViewModel
 
@@ -44,7 +55,11 @@ class AddActivity : AppCompatActivity(),
     private var name = ""
     private var groupName = ""
     private val date = Calendar.getInstance()
+    private var remindTaskDate = Calendar.getInstance()
     private var subtasks: MutableList<String> = arrayListOf()
+
+    private var remindNumber = 0
+    private var remindType = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,6 +82,12 @@ class AddActivity : AppCompatActivity(),
             groupDialog.clickListener = this
             groupDialog.groups = groupList.map { it.name }
             groupDialog.show(supportFragmentManager, "Group dialog")
+        }
+
+        remind_edit_text.setOnClickListener {
+            val remindDialog = RemindDialog()
+            remindDialog.clickListener = this
+            remindDialog.show(supportFragmentManager, "TaskRemind dialog")
         }
     }
 
@@ -94,10 +115,10 @@ class AddActivity : AppCompatActivity(),
         val rowMonth = date.get(Calendar.MONTH)
         val rowDay = date.get(Calendar.DAY_OF_MONTH)
 
-        val day = if (rowDay < 10) "0$rowDay" else "$rowDay"
-        val month = if (rowMonth < 10) "0$rowMonth" else "$rowMonth"
-        val hour = if (intHour < 10) "0$intHour" else "$intHour"
-        val minute = if (intMinute < 10) "0$intMinute" else "$intMinute"
+        val day = rowDay.toStringTime()
+        val month = rowMonth.toStringTime()
+        val hour = intHour.toStringTime()
+        val minute = intMinute.toStringTime()
 
         val dateString = "$day.$month.$year-$hour:$minute"
 
@@ -121,21 +142,50 @@ class AddActivity : AppCompatActivity(),
         group_edit_text.setText(groupName, TextView.BufferType.EDITABLE)
     }
 
+    override fun onRemindItemClick(position: Int) {
+        when(position) {
+            0 -> setRemindValues(5, REMIND_MIN)
+
+            1 -> setRemindValues(10, REMIND_MIN)
+
+            2 -> setRemindValues(30, REMIND_MIN)
+
+            3 -> setRemindValues(1, REMIND_HOUR)
+
+            4 -> setRemindValues(1, REMIND_DAY)
+
+            else -> {
+                remindNumber = 0
+                remindType = ""
+            }
+        }
+
+        createTaskRemind()
+    }
+
     private fun taskCreated() {
-        if (checkNamAndDate()) {
+        if (checkNameAndDate()) {
             return
         }
 
         val id = Random().nextInt(Int.MAX_VALUE)
+        val remindId = Random().nextInt(Int.MAX_VALUE)
 
         checkSubtasks()
         createAlarmNotification(id, name)
+
+        if (!remind_edit_text.text!!.isEmpty()) {
+
+            createTaskReminNotification(remindId, "$name at ${date[Calendar.HOUR_OF_DAY].toStringTime()}:${date[Calendar.MINUTE].toStringTime()}",
+                    remindTaskDate.timeInMillis)
+        }
 
         val isCompound = !subtasks.isEmpty()
 
         val task = Task(id,
                 name,
                 date.timeInMillis,
+                remindTaskDate.timeInMillis,
                 date.get(Calendar.DAY_OF_MONTH),
                 subtasks,
                 isCompound,
@@ -144,7 +194,7 @@ class AddActivity : AppCompatActivity(),
         finish()
     }
 
-    private fun checkNamAndDate(): Boolean {
+    private fun checkNameAndDate(): Boolean {
         val isEmptyName = if (name_edit_text.text!!.trim().isEmpty()) {
             name_text_input.error = getString(R.string.emptyNameError)
             true
@@ -170,8 +220,41 @@ class AddActivity : AppCompatActivity(),
             false
         }
 
-
         return isEmptyName || isEmptyDate || isWrongDay
+    }
+
+    private fun setRemindValues(number: Int, type: String) {
+        remindNumber = number
+        remindType = type
+    }
+
+    private fun createTaskRemind() {
+
+        if (remindNumber == 0 && remindType == "") {
+            return
+        }
+
+        remindTaskDate = date.clone() as Calendar
+
+        when (remindType) {
+            REMIND_MIN -> remindTaskDate.set(Calendar.MINUTE, date[Calendar.MINUTE] - remindNumber)
+            REMIND_HOUR -> remindTaskDate.set(Calendar.HOUR_OF_DAY, date[Calendar.HOUR_OF_DAY] - remindNumber)
+            REMIND_DAY -> remindTaskDate.set(Calendar.DAY_OF_MONTH, date[Calendar.DAY_OF_MONTH] - remindNumber)
+        }
+
+        if (remindTaskDate <= Calendar.getInstance() || remindTaskDate >= date) {
+            remind_text_input.error = getString(R.string.remindError)
+            return
+        }
+
+        val day = remindTaskDate[Calendar.DAY_OF_MONTH].toStringTime()
+        val month = remindTaskDate[Calendar.MONTH].toStringTime()
+        val year = remindTaskDate[Calendar.YEAR]
+        val hour = remindTaskDate[Calendar.HOUR_OF_DAY].toStringTime()
+        val minute = remindTaskDate[Calendar.MINUTE].toStringTime()
+
+        val stringDate = "$day.$month.$year-$hour:$minute"
+        remind_edit_text.setText(stringDate, TextView.BufferType.EDITABLE)
     }
 
     private fun checkSubtasks() {
@@ -185,6 +268,19 @@ class AddActivity : AppCompatActivity(),
                 .map { it.trimEnd() }.toMutableList()
     }
 
+    private fun createTaskReminNotification(id: Int, text: String, date: Long) {
+        val taskRemindIntent = Intent(this, TaskRemindReciever::class.java).apply {
+            action = Constants.TASK_REMINDER_RECIEVER
+            putExtra(Constants.EXTRAS_ID, id)
+            putExtra(Constants.EXTRAS_REMIND_TEXT, text)
+        }
+
+        val taskRemindPending = PendingIntent.getBroadcast(this, id, taskRemindIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        alarmManager.set(AlarmManager.RTC, date, taskRemindPending)
+    }
+
     private fun createAlarmNotification(id: Int, name: String) {
         val alarmIntent = Intent(this, TaskReciever::class.java).apply {
             action = Constants.TASK_RECIEVER
@@ -196,5 +292,6 @@ class AddActivity : AppCompatActivity(),
 
         val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
         alarmManager.set(AlarmManager.RTC, date.timeInMillis, alarmPending)
+
     }
 }

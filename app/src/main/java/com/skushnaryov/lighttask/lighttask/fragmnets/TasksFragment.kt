@@ -1,5 +1,9 @@
 package com.skushnaryov.lighttask.lighttask.fragmnets
 
+import android.app.AlarmManager
+import android.app.PendingIntent
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,15 +13,17 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
+import com.skushnaryov.lighttask.lighttask.Constants
 import com.skushnaryov.lighttask.lighttask.R
 import com.skushnaryov.lighttask.lighttask.adapters.SubtaskRecyclerView
 import com.skushnaryov.lighttask.lighttask.adapters.TaskRecyclerView
 import com.skushnaryov.lighttask.lighttask.db.Task
 import com.skushnaryov.lighttask.lighttask.gone
+import com.skushnaryov.lighttask.lighttask.recievers.TaskReciever
+import com.skushnaryov.lighttask.lighttask.recievers.TaskRemindReciever
 import com.skushnaryov.lighttask.lighttask.viewModels.TaskViewModel
 import com.skushnaryov.lighttask.lighttask.visible
 import kotlinx.android.synthetic.main.fragment_tasks.*
-import kotlinx.coroutines.experimental.launch
 import org.jetbrains.anko.contentView
 import java.util.*
 
@@ -57,7 +63,14 @@ class TasksFragment : Fragment(),
     }
 
     override fun onTaskCheckboxChange(task: Task) {
+        val date = Calendar.getInstance().apply {
+            timeInMillis = task.date
+        }
+        val text = "${task.name} at ${date[Calendar.HOUR_OF_DAY]}:${date[Calendar.MINUTE]}"
+
         viewModel.delete(task)
+        deleteAlarm(task.id, task.name)
+        deleteTaskRemind(task.id, text)
         Snackbar.make(activity?.contentView ?: return,
                 R.string.taskCompleted, Snackbar.LENGTH_LONG)
                 .setAction(R.string.cancel) {
@@ -87,6 +100,32 @@ class TasksFragment : Fragment(),
                     getString(R.string.compoundCompleted), Snackbar.LENGTH_LONG)
                     .setAction(R.string.yes) { viewModel.delete(task) }.show()
         }
+    }
+
+    private fun deleteAlarm(id: Int, name: String) {
+        val alarmIntent = Intent(context, TaskReciever::class.java).apply {
+            action = Constants.TASK_RECIEVER
+            putExtra(Constants.EXTRAS_ID, id)
+            putExtra(Constants.EXTRAS_NAME, name)
+        }
+
+        val alarmPending = PendingIntent.getBroadcast(context, id, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+        val alarmManager = context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        alarmManager.cancel(alarmPending)
+    }
+
+    private fun deleteTaskRemind(id: Int, text: String) {
+        val taskRemindIntent = Intent(context, TaskRemindReciever::class.java).apply {
+            action = Constants.TASK_REMINDER_RECIEVER
+            putExtra(Constants.EXTRAS_ID, id)
+            putExtra(Constants.EXTRAS_REMIND_TEXT, text)
+        }
+
+        val taskRemindPending = PendingIntent.getBroadcast(context, id, taskRemindIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+        val alarmManager = context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        alarmManager.cancel(taskRemindPending)
     }
 
     private fun stubFun(): MutableList<Task> {
