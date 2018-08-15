@@ -17,6 +17,4 @@ class TaskViewModel : ViewModel() {
     fun getTodayTasks(day: Int) = repository.getTodayTasks(day)
 
     fun getGroupTasks(group: String) = repository.getGroupTasks(group)
-
-    fun getScheduleTasks(schedule: String) = repository.getScheduleTasks(schedule)
 }

@@ -3,5 +3,6 @@
     <color name="colorPrimary">#81c784</color>
     <color name="colorPrimaryDark">#519657</color>
     <color name="colorAccent">#81c784</color>
+    <color name="channel_color">#388e3c</color>
     <color name="ripple_grey">#EEEEEE</color>
 </resources>
