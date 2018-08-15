@@ -12,6 +12,7 @@ import com.skushnaryov.lighttask.lighttask.db.Task
 import kotlinx.android.synthetic.main.item_task.view.*
 import org.jetbrains.anko.sdk25.coroutines.onCheckedChange
 import java.util.*
+import java.util.Calendar.*
 
 class TaskRecyclerView(private val subtaskCheckboxListener: SubtaskRecyclerView.OnSubtaskCheckboxListener,
                        private val taskCheckboxListener: OnTaskCheckboxListener) :
@@ -91,21 +92,13 @@ class TaskRecyclerView(private val subtaskCheckboxListener: SubtaskRecyclerView.
         private fun getStringDate(time: Long): String {
             val date = Calendar.getInstance().also { it.timeInMillis = time }
 
-            val rowDay = date.get(Calendar.DAY_OF_MONTH)
-            val day = rowDay.toStringTime()
+            val day = date[DAY_OF_MONTH].toStringTime()
+            val month = date[MONTH].toStringTime()
+            val year = date[YEAR].toStringTime()
+            val hour = date[HOUR_OF_DAY].toStringTime()
+            val minute = date[MINUTE].toStringTime()
 
-            val rowMonth = date.get(Calendar.MONTH)
-            val month = rowMonth.toStringTime()
-
-            val rowHour = date.get(Calendar.HOUR_OF_DAY)
-            val hour = rowHour.toStringTime()
-
-            val rowMinute = date.get(Calendar.MINUTE)
-            val minute = rowMinute.toStringTime()
-            return "$day." +
-                    "$month." +
-                    "${date.get(Calendar.YEAR)}\n" +
-                    "$hour:$minute"
+            return "$day.$month.$year\n$hour:$minute"
         }
     }
 

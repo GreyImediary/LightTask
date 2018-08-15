@@ -34,6 +34,7 @@ import com.skushnaryov.lighttask.lighttask.viewModels.TaskViewModel
 import kotlinx.android.synthetic.main.activity_add.*
 import kotlinx.android.synthetic.main.dialog_add_group_layout.view.*
 import java.util.*
+import java.util.Calendar.*
 
 class AddActivity : AppCompatActivity(),
         DatePickerDialog.OnDateSetListener,
@@ -106,21 +107,12 @@ class AddActivity : AppCompatActivity(),
         TimeDialog().show(supportFragmentManager, "Time dialog")
     }
 
-    override fun onTimeSet(dialog: TimePicker?, intHour: Int, intMinute: Int) {
-        date.set(Calendar.HOUR_OF_DAY, intHour)
-        date.set(Calendar.MINUTE, intMinute)
+    override fun onTimeSet(dialog: TimePicker?, hour: Int, minute: Int) {
+        date.set(Calendar.HOUR_OF_DAY, hour)
+        date.set(Calendar.MINUTE, minute)
         date.set(Calendar.SECOND, 0)
 
-        val year = date.get(Calendar.YEAR)
-        val rowMonth = date.get(Calendar.MONTH)
-        val rowDay = date.get(Calendar.DAY_OF_MONTH)
-
-        val day = rowDay.toStringTime()
-        val month = rowMonth.toStringTime()
-        val hour = intHour.toStringTime()
-        val minute = intMinute.toStringTime()
-
-        val dateString = "$day.$month.$year-$hour:$minute"
+        val dateString = getFullStringDate(date[DAY_OF_MONTH], date[MONTH], date[YEAR], date[HOUR_OF_DAY], date[MINUTE])
 
         date_edit_text.setText(dateString, TextView.BufferType.EDITABLE)
 
@@ -175,9 +167,8 @@ class AddActivity : AppCompatActivity(),
         createAlarmNotification(id, name)
 
         if (!remind_edit_text.text!!.isEmpty()) {
-
-            createTaskReminNotification(remindId, "$name at ${date[Calendar.HOUR_OF_DAY].toStringTime()}:${date[Calendar.MINUTE].toStringTime()}",
-                    remindTaskDate.timeInMillis)
+            val fullDate = getFullStringDate(date[DAY_OF_MONTH], date[MONTH], date[YEAR], date[HOUR_OF_DAY], date[MINUTE])
+            createTaskReminNotification(remindId, "$name at $fullDate", remindTaskDate.timeInMillis)
         }
 
         val isCompound = !subtasks.isEmpty()
@@ -247,13 +238,13 @@ class AddActivity : AppCompatActivity(),
             return
         }
 
-        val day = remindTaskDate[Calendar.DAY_OF_MONTH].toStringTime()
-        val month = remindTaskDate[Calendar.MONTH].toStringTime()
-        val year = remindTaskDate[Calendar.YEAR]
-        val hour = remindTaskDate[Calendar.HOUR_OF_DAY].toStringTime()
-        val minute = remindTaskDate[Calendar.MINUTE].toStringTime()
+        val day = remindTaskDate[DAY_OF_MONTH]
+        val month = remindTaskDate[MONTH]
+        val year = remindTaskDate[YEAR]
+        val hour = remindTaskDate[HOUR_OF_DAY]
+        val minute = remindTaskDate[MINUTE]
 
-        val stringDate = "$day.$month.$year-$hour:$minute"
+        val stringDate = getFullStringDate(day, month, year, hour, minute)
         remind_edit_text.setText(stringDate, TextView.BufferType.EDITABLE)
     }
 
@@ -294,4 +285,7 @@ class AddActivity : AppCompatActivity(),
         alarmManager.set(AlarmManager.RTC, date.timeInMillis, alarmPending)
 
     }
+
+    private fun getFullStringDate(day: Int, month: Int, year: Int, hour: Int, minute: Int) =
+            "${day.toStringTime()}.${month.toStringTime()}.${year.toStringTime()}-${hour.toStringTime()}:${minute.toStringTime()}"
 }
