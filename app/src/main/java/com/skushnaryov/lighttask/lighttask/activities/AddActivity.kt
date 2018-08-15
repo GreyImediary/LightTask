@@ -1,9 +1,6 @@
 package com.skushnaryov.lighttask.lighttask.activities
 
-import android.app.AlarmManager
-import android.app.DatePickerDialog
-import android.app.PendingIntent
-import android.app.TimePickerDialog
+import android.app.*
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -11,6 +8,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
+import android.widget.ArrayAdapter
 import android.widget.DatePicker
 import android.widget.TextView
 import android.widget.TimePicker
@@ -21,10 +19,7 @@ import com.skushnaryov.lighttask.lighttask.Constants
 import com.skushnaryov.lighttask.lighttask.R
 import com.skushnaryov.lighttask.lighttask.db.Group
 import com.skushnaryov.lighttask.lighttask.db.Task
-import com.skushnaryov.lighttask.lighttask.dialogs.DateDialog
-import com.skushnaryov.lighttask.lighttask.dialogs.GroupDialog
-import com.skushnaryov.lighttask.lighttask.dialogs.RemindDialog
-import com.skushnaryov.lighttask.lighttask.dialogs.TimeDialog
+import com.skushnaryov.lighttask.lighttask.dialogs.*
 import com.skushnaryov.lighttask.lighttask.inflateMenu
 import com.skushnaryov.lighttask.lighttask.recievers.TaskReciever
 import com.skushnaryov.lighttask.lighttask.recievers.TaskRemindReciever
@@ -33,6 +28,7 @@ import com.skushnaryov.lighttask.lighttask.viewModels.GroupViewModel
 import com.skushnaryov.lighttask.lighttask.viewModels.TaskViewModel
 import kotlinx.android.synthetic.main.activity_add.*
 import kotlinx.android.synthetic.main.dialog_add_group_layout.view.*
+import kotlinx.android.synthetic.main.dialog_own_task_remind.view.*
 import java.util.*
 import java.util.Calendar.*
 
@@ -40,7 +36,7 @@ class AddActivity : AppCompatActivity(),
         DatePickerDialog.OnDateSetListener,
         TimePickerDialog.OnTimeSetListener,
         GroupDialog.OnGroupDialogItemClickListener,
-        RemindDialog.OnItemRemindClickListener {
+        TaskRemindDialog.OnItemRemindClickListener {
 
     companion object {
         const val REMIND_MIN = "min"
@@ -86,7 +82,7 @@ class AddActivity : AppCompatActivity(),
         }
 
         remind_edit_text.setOnClickListener {
-            val remindDialog = RemindDialog()
+            val remindDialog = TaskRemindDialog()
             remindDialog.clickListener = this
             remindDialog.show(supportFragmentManager, "TaskRemind dialog")
         }
@@ -135,7 +131,7 @@ class AddActivity : AppCompatActivity(),
     }
 
     override fun onRemindItemClick(position: Int) {
-        when(position) {
+        when (position) {
             0 -> setRemindValues(5, REMIND_MIN)
 
             1 -> setRemindValues(10, REMIND_MIN)
@@ -145,6 +141,8 @@ class AddActivity : AppCompatActivity(),
             3 -> setRemindValues(1, REMIND_HOUR)
 
             4 -> setRemindValues(1, REMIND_DAY)
+
+            5 -> createOwnRemindDialog()
 
             else -> {
                 remindNumber = 0
@@ -257,6 +255,37 @@ class AddActivity : AppCompatActivity(),
         subtasks = rowSubtaskString.split(",")
                 .map { it.trimStart() }
                 .map { it.trimEnd() }.toMutableList()
+    }
+
+    private fun createOwnRemindDialog() {
+        val view = layoutInflater.inflate(R.layout.dialog_own_task_remind, null)
+        val adapter = ArrayAdapter.createFromResource(this, R.array.ownTaskRemindArr,
+                android.R.layout.simple_spinner_item).apply {
+            setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        }
+        view.own_remind_spinner.adapter = adapter
+
+        AlertDialog.Builder(this)
+                .setTitle(getString(R.string.ownTaskRemindTitle))
+                .setView(view)
+                .setPositiveButton(R.string.ok) { _, _ -> onRemindButtonClick(view)}
+                .setNegativeButton(R.string.cancel) { dialogInterface, _ -> dialogInterface.cancel() }
+                .create().show()
+    }
+
+    private fun onRemindButtonClick(view: View) {
+        val number = view.own_remind_edit_text.text.toString().toInt()
+        var type = ""
+        val itemId = view.own_remind_spinner.selectedItemId
+
+        when (itemId) {
+            0L -> type = REMIND_MIN
+            1L -> type = REMIND_HOUR
+            2L -> type = REMIND_DAY
+        }
+
+        setRemindValues(number, type)
+        createTaskRemind()
     }
 
     private fun createTaskReminNotification(id: Int, text: String, date: Long) {

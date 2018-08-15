@@ -59,4 +59,12 @@
     <string name="doneRecieverAction">Done</string>
 
     <string name="taskRemindRecieverTitle">Task reminder!</string>
+
+    <string name="ownTaskRemindTitle">Set own time</string>
+    <string name="ownTaskRemindHint">Number</string>
+    <string-array name="ownTaskRemindArr">
+        <item>Minute</item>
+        <item>Hour</item>
+        <item>Day</item>
+    </string-array>
 </resources>

@@ -6,7 +6,7 @@ import android.os.Bundle
 import androidx.fragment.app.DialogFragment
 import com.skushnaryov.lighttask.lighttask.R
 
-class RemindDialog : DialogFragment() {
+class TaskRemindDialog : DialogFragment() {
     lateinit var clickListener: OnItemRemindClickListener
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder = AlertDialog.Builder(activity)

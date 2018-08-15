@@ -25,8 +25,10 @@ class GroupDialog : DialogFragment() {
                             .setPositiveButton(R.string.create) { _, _ ->
                                 clickListener.onGroupCreateClick(view)
                             }
+                            .setNegativeButton(R.string.cancel) { dialogInterface, _ -> dialogInterface.cancel() }
                     addBuilder.create().show()
                 }
+                .setNegativeButton(R.string.cancel) { dialogInterface, _ -> dialogInterface.cancel() }
 
         return builder.create()
     }
