@@ -1,19 +1,70 @@
 <resources>
     <string name="app_name">LightTask</string>
     <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_add">Add task</string>
+
     <string name="appBar_scrolling_view_behavior" translatable="false">com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior</string>
+
     <string name="tasks">Tasks</string>
     <string name="schedule">Schedules</string>
     <string name="groups">Groups</string>
+
     <string name="subtasks_arrow_down"></string>
     <string name="subtasks_arrow_up">\uf0de</string>
-    <string name="percentFormat">%1$d%%</string>
+
     <string name="compoundCompleted">"Compound task completed, delete it"</string>
     <string name="subtaskCompleted">Subtask completed</string>
     <string name="taskCompleted">Task completed</string>
+
     <string name="yes">Yes</string>
     <string name="cancel">Cancel</string>
+    <string name="create">Create</string>
+    <string name="ok">OK</string>
+
     <string name="no_tasks">No tasks here</string>
     <string name="noTaskSummary">Tap + to create them</string>
     <string name="sleep_cloud">sleep cloud</string>
+
+    <string name="taskName">Name</string>
+    <string name="taskDate">Date</string>
+    <string name="taskGroup">Group</string>
+    <string name="remind">Remind</string>
+    <string name="taskRepeat">Repeat</string>
+    <string name="taskSubtaskHint">Subtasks</string>
+    <string name="subtaskHelperText">Spread subtasks by comma</string>
+
+    <string name="action_add">Add</string>
+
+    <string name="emptyNameError">Enter the name, please</string>
+    <string name="wrongDateError">Wrong date: past time or empty field</string>
+
+    <string name="groupDialogButton">Add group</string>
+    <string name="groupDialogTitle">Choose the group</string>
+
+    <string name="groupAddDialogHint">Group name</string>
+    <string name="groupAddDialogTitle">Create new group</string>
+
+    <string name="remindDialogTitle">Remind … before</string>
+    <string name="remindError">Time isn\'t between current date and task date</string>
+    <string-array name="remindArray">
+        <item>5 minutes</item>
+        <item>10 minutes</item>
+        <item>30 minutes</item>
+        <item>1 hour</item>
+        <item>1 day</item>
+        <item>Choose other</item>
+    </string-array>
+
+    <string name="taskRecieverTitle">Task!</string>
+    <string name="doneRecieverAction">Done</string>
+
+    <string name="taskRemindRecieverTitle">Task reminder!</string>
+
+    <string name="ownTaskRemindTitle">Set own time</string>
+    <string name="ownTaskRemindHint">Number</string>
+    <string-array name="ownTaskRemindArr">
+        <item>Minute</item>
+        <item>Hour</item>
+        <item>Day</item>
+    </string-array>
 </resources>

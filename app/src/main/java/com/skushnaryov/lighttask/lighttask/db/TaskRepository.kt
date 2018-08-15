@@ -14,11 +14,11 @@ class TaskRepository {
 
     fun delete(task: Task) = launch(CommonPool) { taskDao.delete(task) }
 
+    fun deleteById(id: Int) = launch(CommonPool) { taskDao.deleteTaskById(id) }
+
     fun getAllTasks() = taskDao.getAllTasks()
 
     fun getGroupTasks(group: String) = taskDao.getGroupTasks(group)
 
     fun getTodayTasks(day: Int) = taskDao.getTodayTasks(day)
-
-    fun getScheduleTasks(schedule: String) = taskDao.getScheduleTasks(schedule)
 }

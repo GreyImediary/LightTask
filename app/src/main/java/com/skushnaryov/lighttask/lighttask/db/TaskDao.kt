@@ -17,6 +17,6 @@ interface TaskDao : BaseDao<Task> {
     @Query("SELECT * FROM tasks WHERE currentDay=:day")
     fun getTodayTasks(day: Int): LiveData<List<Task>>
 
-    @Query("SELECT * FROM tasks WHERE scheduleName=:schedule")
-    fun getScheduleTasks(schedule: String): LiveData<List<Task>>
+    @Query("DELETE FROM tasks WHERE id=:id")
+    fun deleteTaskById(id: Int)
 }
