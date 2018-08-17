@@ -4,7 +4,9 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.skushnaryov.lighttask.lighttask.Constants
@@ -14,13 +16,14 @@ import org.jetbrains.anko.notificationManager
 import org.jetbrains.anko.startActivity
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var controller: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        val controller = findNavController(R.id.nav_host_fragment)
+        controller = findNavController(R.id.nav_host_fragment)
         NavigationUI.setupWithNavController(nav_bottom, controller)
         NavigationUI.setupActionBarWithNavController(this, controller)
 
@@ -30,10 +33,19 @@ class MainActivity : AppCompatActivity() {
             startActivity<AddActivity>()
         }
 
+        Log.i("CURRDEST", "${findNavController(R.id.nav_host_fragment).currentDestination.label}")
+    }
+
+    override fun onBackPressed() {
+        if (controller.currentDestination.label == "Tasks" && toolbar.title == "Tasks") {
+            finish()
+        } else {
+            controller.popBackStack()
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean =
-            findNavController(R.id.nav_host_fragment).navigateUp()
+            controller.navigateUp()
 
     private fun createChannels() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

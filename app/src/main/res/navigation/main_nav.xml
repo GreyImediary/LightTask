@@ -9,12 +9,25 @@
         android:id="@+id/tasks_fragment"
         android:name="com.skushnaryov.lighttask.lighttask.fragmnets.TasksFragment"
         android:label="Tasks"
-        tools:layout="@layout/fragment_tasks" />
+        tools:layout="@layout/fragment_tasks" >
+        <argument
+            android:name="groupName"
+            android:defaultValue=" " />
+    </fragment>
     <fragment
         android:id="@+id/groups_fragment"
         android:name="com.skushnaryov.lighttask.lighttask.fragmnets.GroupsFragment"
         android:label="Groups"
-        tools:layout="@layout/fragment_groups" />
+        tools:layout="@layout/fragment_groups" >
+        <action
+            android:id="@+id/group_action"
+            app:destination="@id/tasks_fragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@+id/tasks_fragment" />
+    </fragment>
     <fragment
         android:id="@+id/schedules_fragment"
         android:name="com.skushnaryov.lighttask.lighttask.fragmnets.SchedulesFragment"
