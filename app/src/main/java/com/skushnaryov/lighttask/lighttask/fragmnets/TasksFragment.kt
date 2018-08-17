@@ -2,6 +2,7 @@ package com.skushnaryov.lighttask.lighttask.fragmnets
 
 import android.app.AlarmManager
 import android.app.PendingIntent
+import android.content.AbstractThreadedSyncAdapter
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -12,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.skushnaryov.lighttask.lighttask.Constants
 import com.skushnaryov.lighttask.lighttask.R
@@ -49,54 +51,15 @@ class TasksFragment : Fragment(),
         if (groupName != " ") {
             if (groupName == getString(R.string.today)) {
                 viewModel.getTodayTasks(Calendar.getInstance()[Calendar.DAY_OF_MONTH]).observe(this, Observer {
-                    adapter.list = it
-                    rv_tasks.adapter = adapter
-                    activity?.appBar?.toolbar?.title = groupName
-                    if (it.isEmpty()) {
-                        rv_tasks.gone()
-                        sleep_img.visible()
-                        noTask_textView.visible()
-                        summary_textView.visible()
-                    } else {
-                        rv_tasks.visible()
-                        sleep_img.gone()
-                        noTask_textView.gone()
-                        summary_textView.gone()
-                    }
+                    observeList(it, adapter, groupName)
                 })
             }
             viewModel.getGroupTasks(groupName).observe(this, Observer {
-                adapter.list = it
-                rv_tasks.adapter = adapter
-                activity?.appBar?.toolbar?.title = groupName
-                if (it.isEmpty()) {
-                    rv_tasks.gone()
-                    sleep_img.visible()
-                    noTask_textView.visible()
-                    summary_textView.visible()
-                } else {
-                    rv_tasks.visible()
-                    sleep_img.gone()
-                    noTask_textView.gone()
-                    summary_textView.gone()
-                }
+                observeList(it, adapter, groupName)
             })
         } else {
             viewModel.allTasks.observe(this, Observer {
-                adapter.list = it
-                rv_tasks.adapter = adapter
-
-                if (it.isEmpty()) {
-                    rv_tasks.gone()
-                    sleep_img.visible()
-                    noTask_textView.visible()
-                    summary_textView.visible()
-                } else {
-                    rv_tasks.visible()
-                    sleep_img.gone()
-                    noTask_textView.gone()
-                    summary_textView.gone()
-                }
+                observeList(it, adapter)
             })
         }
     }
@@ -138,6 +101,27 @@ class TasksFragment : Fragment(),
             Snackbar.make(activity?.contentView ?: return,
                     getString(R.string.compoundCompleted), Snackbar.LENGTH_LONG)
                     .setAction(R.string.yes) { viewModel.delete(task) }.show()
+        }
+    }
+
+    private fun observeList(list: List<Task>, adapter: TaskRecyclerView, groupName: String = "") {
+        adapter.list = list
+        rv_tasks.adapter = adapter
+
+        if (groupName != "") {
+            activity?.appBar?.toolbar?.title = groupName
+        }
+
+        if (list.isEmpty()) {
+            rv_tasks.gone()
+            sleep_img.visible()
+            noTask_textView.visible()
+            summary_textView.visible()
+        } else {
+            rv_tasks.visible()
+            sleep_img.gone()
+            noTask_textView.gone()
+            summary_textView.gone()
         }
     }
 
