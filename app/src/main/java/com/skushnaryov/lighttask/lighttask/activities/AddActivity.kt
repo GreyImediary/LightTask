@@ -50,7 +50,7 @@ class AddActivity : AppCompatActivity(),
     private lateinit var groupList: List<Group>
 
     private var name = ""
-    private var groupName = ""
+    private var group = ""
     private val date = Calendar.getInstance()
     private var remindTaskDate = Calendar.getInstance()
     private var subtasks: MutableList<String> = arrayListOf()
@@ -67,7 +67,7 @@ class AddActivity : AppCompatActivity(),
 
         groupViewModel = ViewModelProviders.of(this).get(GroupViewModel::class.java)
         groupViewModel.allGroups.observe(this, Observer {
-            groupList = it
+            groupList = it.subList(1, it.size)
         })
 
         date_edit_text.setOnClickListener {
@@ -120,12 +120,13 @@ class AddActivity : AppCompatActivity(),
     }
 
     override fun onGroupItemClick(position: Int) {
-        groupName = groupList[position].name
-        group_edit_text.setText(groupName, TextView.BufferType.EDITABLE)
+        group = groupList[position].name
+        group_edit_text.setText(group, TextView.BufferType.EDITABLE)
     }
 
     override fun onGroupCreateClick(view: View) {
         val groupName = view.add_group_edit_text.text.toString()
+        group = groupName
         groupViewModel.insert(Group(name = groupName))
         group_edit_text.setText(groupName, TextView.BufferType.EDITABLE)
     }
@@ -178,7 +179,7 @@ class AddActivity : AppCompatActivity(),
                 date.get(Calendar.DAY_OF_MONTH),
                 subtasks,
                 isCompound,
-                groupName)
+                group)
         taskViewModel.insert(task)
         finish()
     }

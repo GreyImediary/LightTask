@@ -2,7 +2,11 @@ package com.skushnaryov.lighttask.lighttask
 
 import android.app.Application
 import androidx.room.Room
+import androidx.room.RoomDatabase
+import androidx.sqlite.db.SupportSQLiteDatabase
 import com.skushnaryov.lighttask.lighttask.db.DataBase
+import com.skushnaryov.lighttask.lighttask.db.Group
+import kotlinx.coroutines.experimental.launch
 
 class LightTask : Application() {
     companion object {
@@ -14,6 +18,14 @@ class LightTask : Application() {
     override fun onCreate() {
         super.onCreate()
         database_ = Room.databaseBuilder(applicationContext,
-                DataBase::class.java, "database_.db").build()
+                DataBase::class.java, "database_.db")
+                .addCallback(object : RoomDatabase.Callback(){
+                    override fun onCreate(db: SupportSQLiteDatabase) {
+                        super.onCreate(db)
+                        launch { database_.groupDao().insert(Group(name = getString(R.string.today))) }
+                    }
+                })
+                .build()
+
     }
 }
