@@ -86,7 +86,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/C:/Android/android-studio-ide-181.4868252-windows/android-studio/plugins/android/lib/android.jar!/images/material_design_icons/action/ic_dashboard_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/C:/Android/android-studio-ide-181.4868252-windows/android-studio/plugins/android/lib/android.jar!/images/material_design_icons/action/ic_alarm_off_black_24dp.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -96,12 +96,9 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="assetSourceType" value="FILE" />
-                            <entry key="height" value="256" />
-                            <entry key="outputName" value="ic_launcher_foreground" />
+                            <entry key="outputName" value="ic_alarm_off_black_24dp" />
                             <entry key="overrideSize" value="true" />
                             <entry key="sourceFile" value="C:\multimedia\vector\LightTaskLogo\NotificationIcon\SVG\Artboard 1.svg" />
-                            <entry key="width" value="256" />
                           </map>
                         </option>
                       </PersistentState>

@@ -18,7 +18,6 @@ class TaskDoneReciever : BroadcastReceiver() {
             context.toast(context.getString(R.string.taskCompleted))
         }
 
-
         NotificationManagerCompat.from(context).cancel(id)
     }
 }

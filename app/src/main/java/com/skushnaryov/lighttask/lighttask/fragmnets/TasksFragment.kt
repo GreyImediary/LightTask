@@ -2,7 +2,6 @@ package com.skushnaryov.lighttask.lighttask.fragmnets
 
 import android.app.AlarmManager
 import android.app.PendingIntent
-import android.content.AbstractThreadedSyncAdapter
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -13,7 +12,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.skushnaryov.lighttask.lighttask.Constants
 import com.skushnaryov.lighttask.lighttask.R
@@ -140,7 +138,7 @@ class TasksFragment : Fragment(),
 
     private fun deleteTaskRemind(id: Int, text: String) {
         val taskRemindIntent = Intent(context, TaskRemindReciever::class.java).apply {
-            action = Constants.TASK_REMINDER_RECIEVER
+            action = Constants.TASK_REMIND_RECIEVER
             putExtra(Constants.EXTRAS_ID, id)
             putExtra(Constants.EXTRAS_REMIND_TEXT, text)
         }
