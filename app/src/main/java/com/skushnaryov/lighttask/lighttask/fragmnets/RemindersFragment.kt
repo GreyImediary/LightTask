@@ -5,13 +5,12 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.skushnaryov.lighttask.lighttask.*
 import com.skushnaryov.lighttask.lighttask.adapters.ReminderRecyclerView
@@ -52,7 +51,6 @@ class RemindersFragment : Fragment(), ReminderRecyclerView.OnReminderSwitchChang
             return
         }
 
-
         val alarmIntent = Intent(context, ReminderReciever::class.java).apply {
             action = Constants.REMINDER_RECIEVER
             putExtra(Constants.EXTRAS_ID, reminder.id)
@@ -70,6 +68,27 @@ class RemindersFragment : Fragment(), ReminderRecyclerView.OnReminderSwitchChang
             alarmMananger.cancel(alarmPending)
             reminderViewModel.updateIsOnById(reminder.id, false)
         }
+    }
+
+    override fun onPopupDeleteClick(reminder: Reminder, context: Context) {
+        val reminderTime = getAlarmTime(reminder.timeType, reminder.time)
+
+        if (reminderTime == -1L) {
+            return
+        }
+
+        val alarmIntent = Intent(context, ReminderReciever::class.java).apply {
+            action = Constants.REMINDER_RECIEVER
+            putExtra(Constants.EXTRAS_ID, reminder.id)
+            putExtra(Constants.EXTRAS_NAME, reminder.name)
+            putExtra(Constants.EXTRAS_TIME_REPEAT, reminderTime)
+        }
+        val alarmPending = PendingIntent.getBroadcast(context, reminder.id, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+        val alarmMananger = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        alarmMananger.cancel(alarmPending)
+
+        reminderViewModel.delete(reminder)
     }
 
     private fun getAlarmTime(timeType: String, time: Int) = when (timeType) {

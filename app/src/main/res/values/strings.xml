@@ -23,6 +23,7 @@
     <string name="today">Today</string>
     <string name="every">Every</string>
     <string name="off">OFF</string>
+    <string name="delete">Delete</string>
 
     <string name="no_tasks">No tasks here</string>
     <string name="noTaskSummary">Tap + to create them</string>
