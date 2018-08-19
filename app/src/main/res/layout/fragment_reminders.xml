@@ -4,10 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_groups"
+        android:id="@+id/rv_reminders"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:listitem="@layout/item_group" />
+        tools:listitem="@layout/item_reminder" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

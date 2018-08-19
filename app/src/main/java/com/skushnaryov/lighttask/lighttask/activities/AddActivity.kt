@@ -16,6 +16,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.skushnaryov.lighttask.lighttask.Constants
+import com.skushnaryov.lighttask.lighttask.Constants.REMIND_DAY
+import com.skushnaryov.lighttask.lighttask.Constants.REMIND_HOUR
+import com.skushnaryov.lighttask.lighttask.Constants.REMIND_MIN
 import com.skushnaryov.lighttask.lighttask.R
 import com.skushnaryov.lighttask.lighttask.db.Group
 import com.skushnaryov.lighttask.lighttask.db.Task
@@ -38,11 +41,7 @@ class AddActivity : AppCompatActivity(),
         GroupDialog.OnGroupDialogItemClickListener,
         TaskRemindDialog.OnItemRemindClickListener {
 
-    companion object {
-        const val REMIND_MIN = "min"
-        const val REMIND_HOUR = "hour"
-        const val REMIND_DAY = "day"
-    }
+
 
     private lateinit var taskViewModel: TaskViewModel
 
@@ -50,7 +49,7 @@ class AddActivity : AppCompatActivity(),
     private lateinit var groupList: List<Group>
 
     private var name = ""
-    private var groupName = ""
+    private var group = ""
     private val date = Calendar.getInstance()
     private var remindTaskDate = Calendar.getInstance()
     private var subtasks: MutableList<String> = arrayListOf()
@@ -67,7 +66,7 @@ class AddActivity : AppCompatActivity(),
 
         groupViewModel = ViewModelProviders.of(this).get(GroupViewModel::class.java)
         groupViewModel.allGroups.observe(this, Observer {
-            groupList = it
+            groupList = it.subList(1, it.size)
         })
 
         date_edit_text.setOnClickListener {
@@ -120,12 +119,13 @@ class AddActivity : AppCompatActivity(),
     }
 
     override fun onGroupItemClick(position: Int) {
-        groupName = groupList[position].name
-        group_edit_text.setText(groupName, TextView.BufferType.EDITABLE)
+        group = groupList[position].name
+        group_edit_text.setText(group, TextView.BufferType.EDITABLE)
     }
 
     override fun onGroupCreateClick(view: View) {
         val groupName = view.add_group_edit_text.text.toString()
+        group = groupName
         groupViewModel.insert(Group(name = groupName))
         group_edit_text.setText(groupName, TextView.BufferType.EDITABLE)
     }
@@ -178,7 +178,7 @@ class AddActivity : AppCompatActivity(),
                 date.get(Calendar.DAY_OF_MONTH),
                 subtasks,
                 isCompound,
-                groupName)
+                group)
         taskViewModel.insert(task)
         finish()
     }
@@ -259,7 +259,7 @@ class AddActivity : AppCompatActivity(),
 
     private fun createOwnRemindDialog() {
         val view = layoutInflater.inflate(R.layout.dialog_own_task_remind, null)
-        val adapter = ArrayAdapter.createFromResource(this, R.array.ownTaskRemindArr,
+        val adapter = ArrayAdapter.createFromResource(this, R.array.timeArr,
                 android.R.layout.simple_spinner_item).apply {
             setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         }
@@ -290,7 +290,7 @@ class AddActivity : AppCompatActivity(),
 
     private fun createTaskReminNotification(id: Int, text: String, date: Long) {
         val taskRemindIntent = Intent(this, TaskRemindReciever::class.java).apply {
-            action = Constants.TASK_REMINDER_RECIEVER
+            action = Constants.TASK_REMIND_RECIEVER
             putExtra(Constants.EXTRAS_ID, id)
             putExtra(Constants.EXTRAS_REMIND_TEXT, text)
         }

@@ -6,7 +6,7 @@
     <string name="appBar_scrolling_view_behavior" translatable="false">com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior</string>
 
     <string name="tasks">Tasks</string>
-    <string name="schedule">Schedules</string>
+    <string name="reminders">Reminders</string>
     <string name="groups">Groups</string>
 
     <string name="subtasks_arrow_down"></string>
@@ -20,6 +20,10 @@
     <string name="cancel">Cancel</string>
     <string name="create">Create</string>
     <string name="ok">OK</string>
+    <string name="today">Today</string>
+    <string name="every">Every</string>
+    <string name="off">OFF</string>
+    <string name="delete">Delete</string>
 
     <string name="no_tasks">No tasks here</string>
     <string name="noTaskSummary">Tap + to create them</string>
@@ -55,14 +59,21 @@
         <item>Choose other</item>
     </string-array>
 
-    <string name="taskRecieverTitle">Task!</string>
-    <string name="doneRecieverAction">Done</string>
+    <string name="reminderDialogTitle">Create reminder</string>
+    <string name="reminderNameDialogHint">Reminder name</string>
+    <string name="reminderTimeDialogHint">Number</string>
+    <string name="reminderDialogError">Wrong name</string>
+    <string name="reminderDialogText">Repeat every:</string>
 
+    <string name="taskRecieverTitle">Task!</string>
+    <string name="reminderRecieveTitle">Reminder!</string>
     <string name="taskRemindRecieverTitle">Task reminder!</string>
+
+    <string name="doneRecieverAction">Done</string>
 
     <string name="ownTaskRemindTitle">Set own time</string>
     <string name="ownTaskRemindHint">Number</string>
-    <string-array name="ownTaskRemindArr">
+    <string-array name="timeArr">
         <item>Minute</item>
         <item>Hour</item>
         <item>Day</item>

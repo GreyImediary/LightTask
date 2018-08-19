@@ -25,3 +25,10 @@ fun AppCompatActivity.inflateMenu(@MenuRes resId: Int, menu: Menu): Boolean {
 fun Int.toStringTime() = if (this < 10) "0$this" else "$this"
 
 fun Context.toast(text: String) = Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
+
+val Int.minute: Long
+    get() = this * 60000L
+val Int.hour: Long
+    get() = this.minute * 60
+val Int.day: Long
+    get() = this.hour * 24

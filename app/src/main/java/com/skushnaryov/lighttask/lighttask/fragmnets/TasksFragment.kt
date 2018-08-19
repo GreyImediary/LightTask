@@ -23,6 +23,8 @@ import com.skushnaryov.lighttask.lighttask.recievers.TaskReciever
 import com.skushnaryov.lighttask.lighttask.recievers.TaskRemindReciever
 import com.skushnaryov.lighttask.lighttask.viewModels.TaskViewModel
 import com.skushnaryov.lighttask.lighttask.visible
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_main.view.*
 import kotlinx.android.synthetic.main.fragment_tasks.*
 import org.jetbrains.anko.contentView
 import java.util.*
@@ -39,27 +41,25 @@ class TasksFragment : Fragment(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val rv = TaskRecyclerView(this, this)
+        val adapter = TaskRecyclerView(this, this)
         rv_tasks.layoutManager = LinearLayoutManager(context)
         viewModel = ViewModelProviders.of(this).get(TaskViewModel::class.java)
-        viewModel.insert(stubFun()[0])
-        viewModel.insert(stubFun()[1])
-        viewModel.allTasks.observe(this, Observer {
-            rv.list = it
-            rv_tasks.adapter = rv
 
-            if (it.isEmpty()) {
-                rv_tasks.gone()
-                sleep_img.visible()
-                noTask_textView.visible()
-                summary_textView.visible()
-            } else {
-                rv_tasks.visible()
-                sleep_img.gone()
-                noTask_textView.gone()
-                summary_textView.gone()
+        val groupName = arguments?.getString("groupName") ?: " "
+        if (groupName != " ") {
+            if (groupName == getString(R.string.today)) {
+                viewModel.getTodayTasks(Calendar.getInstance()[Calendar.DAY_OF_MONTH]).observe(this, Observer {
+                    observeList(it, adapter, groupName)
+                })
             }
-        })
+            viewModel.getGroupTasks(groupName).observe(this, Observer {
+                observeList(it, adapter, groupName)
+            })
+        } else {
+            viewModel.allTasks.observe(this, Observer {
+                observeList(it, adapter)
+            })
+        }
     }
 
     override fun onTaskCheckboxChange(task: Task) {
@@ -102,6 +102,27 @@ class TasksFragment : Fragment(),
         }
     }
 
+    private fun observeList(list: List<Task>, adapter: TaskRecyclerView, groupName: String = "") {
+        adapter.list = list
+        rv_tasks.adapter = adapter
+
+        if (groupName != "") {
+            activity?.appBar?.toolbar?.title = groupName
+        }
+
+        if (list.isEmpty()) {
+            rv_tasks.gone()
+            sleep_img.visible()
+            noTask_textView.visible()
+            summary_textView.visible()
+        } else {
+            rv_tasks.visible()
+            sleep_img.gone()
+            noTask_textView.gone()
+            summary_textView.gone()
+        }
+    }
+
     private fun deleteAlarm(id: Int, name: String) {
         val alarmIntent = Intent(context, TaskReciever::class.java).apply {
             action = Constants.TASK_RECIEVER
@@ -117,7 +138,7 @@ class TasksFragment : Fragment(),
 
     private fun deleteTaskRemind(id: Int, text: String) {
         val taskRemindIntent = Intent(context, TaskRemindReciever::class.java).apply {
-            action = Constants.TASK_REMINDER_RECIEVER
+            action = Constants.TASK_REMIND_RECIEVER
             putExtra(Constants.EXTRAS_ID, id)
             putExtra(Constants.EXTRAS_REMIND_TEXT, text)
         }
@@ -126,25 +147,5 @@ class TasksFragment : Fragment(),
 
         val alarmManager = context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         alarmManager.cancel(taskRemindPending)
-    }
-
-    private fun stubFun(): MutableList<Task> {
-        val task = Task(id = 1,
-                name = "Simple",
-                groupName = "Group",
-                date = Calendar.getInstance().timeInMillis,
-                listOfSubtasks = mutableListOf("1", "2", "3", "4", "5", "6", "7"),
-                isCompound = false,
-                currentDay = Calendar.getInstance().get(Calendar.DAY_OF_MONTH))
-
-        val task2 = Task(id = 2,
-                name = "Compound",
-                groupName = "Group",
-                date = Calendar.getInstance().timeInMillis,
-                listOfSubtasks = mutableListOf("1", "2", "3", "4", "5", "6", "7"),
-                isCompound = true,
-                currentDay = Calendar.getInstance().get(Calendar.DAY_OF_MONTH))
-
-        return mutableListOf(task, task2)
     }
 }
