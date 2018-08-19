@@ -30,7 +30,7 @@
     </fragment>
     <fragment
         android:id="@+id/schedules_fragment"
-        android:name="com.skushnaryov.lighttask.lighttask.fragmnets.SchedulesFragment"
+        android:name="com.skushnaryov.lighttask.lighttask.fragmnets.RemindersFragment"
         android:label="Schedules"
-        tools:layout="@layout/fragment_schedules" />
+        tools:layout="@layout/fragment_reminders" />
 </navigation>

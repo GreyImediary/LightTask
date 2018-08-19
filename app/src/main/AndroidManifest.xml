@@ -47,6 +47,20 @@
                 <action android:name="com.skushnaryov.lighttask.TASK_REMINDER" />
             </intent-filter>
         </receiver>
+        <receiver
+            android:name=".recievers.ReminderReciever"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.skushnaryov.lighttask.REMINDER" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".recievers.ReminderOffReciever"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.skushnaryov.lighttask.REMINDER_OFF" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
