@@ -12,10 +12,20 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.skushnaryov.lighttask.lighttask.R
 import com.skushnaryov.lighttask.lighttask.adapters.GroupRecyckerView
+import com.skushnaryov.lighttask.lighttask.db.Group
+import com.skushnaryov.lighttask.lighttask.toast
 import com.skushnaryov.lighttask.lighttask.viewModels.GroupViewModel
 import kotlinx.android.synthetic.main.fragment_groups.*
 
 class GroupsFragment : Fragment(), GroupRecyckerView.OnGroupItemClickListener {
+    override fun onPopupDeleteClick(group: Group) {
+        if (group.name == getString(R.string.today)) {
+            context?.toast(getString(R.string.deleting_today))
+        } else {
+            groupViewModel.delete(group)
+        }
+    }
+
     lateinit var groupViewModel: GroupViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

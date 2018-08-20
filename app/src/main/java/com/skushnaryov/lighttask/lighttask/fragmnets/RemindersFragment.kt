@@ -37,6 +37,18 @@ class RemindersFragment : Fragment(), ReminderRecyclerView.OnReminderSwitchChang
         reminderViewModel = ViewModelProviders.of(this).get(ReminderViewModel::class.java)
         reminderViewModel.allReminders.observe(this, Observer {
             adapter.reminderList = it
+
+            if (it.isEmpty()) {
+                rv_reminders.gone()
+                sleep_img.visible()
+                noRemindes_textView.visible()
+                summary_textView.visible()
+            } else {
+                rv_reminders.visible()
+                sleep_img.gone()
+                noRemindes_textView.gone()
+                summary_textView.gone()
+            }
         })
     }
 

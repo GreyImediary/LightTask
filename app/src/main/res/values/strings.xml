@@ -26,8 +26,10 @@
     <string name="delete">Delete</string>
 
     <string name="no_tasks">No tasks here</string>
+    <string name="no_reminders">No reminders here</string>
     <string name="noTaskSummary">Tap + to create them</string>
     <string name="sleep_cloud">sleep cloud</string>
+    <string name="deleting_today">You cannot delete today group</string>
 
     <string name="taskName">Name</string>
     <string name="taskDate">Date</string>
