@@ -13,5 +13,9 @@ class GroupRepository {
 
     fun update(group: Group) = launch(CommonPool) { groupDao.update(group) }
 
+    fun deleteTaskGroupName(groupName: String) = launch(CommonPool) { groupDao.deleteTaskGroupName(groupName) }
+
+    fun updateTaskGroupName(oldName: String, newName: String) = launch(CommonPool) { groupDao.updateTaskGroupName(oldName, newName) }
+
     fun getAllGroups(): LiveData<List<Group>> = groupDao.getAllGroups()
 }

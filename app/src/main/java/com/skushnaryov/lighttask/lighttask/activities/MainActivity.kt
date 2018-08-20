@@ -19,6 +19,7 @@ import com.skushnaryov.lighttask.lighttask.viewModels.ReminderViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.dialog_reminder_create.view.*
 import org.jetbrains.anko.notificationManager
+import org.jetbrains.anko.startActivity
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
@@ -39,7 +40,8 @@ class MainActivity : AppCompatActivity() {
         createChannels()
 
         fab.setOnClickListener {
-            showReminderCreateDialog()
+            /*showReminderCreateDialog()*/
+            startActivity<AddActivity>()
         }
 
         reminderViewModel = ViewModelProviders.of(this).get(ReminderViewModel::class.java)

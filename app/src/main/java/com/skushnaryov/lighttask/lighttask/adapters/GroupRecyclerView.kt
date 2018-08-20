@@ -1,17 +1,15 @@
 package com.skushnaryov.lighttask.lighttask.adapters
 
-import android.content.Context
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.recyclerview.widget.RecyclerView
 import com.skushnaryov.lighttask.lighttask.R
 import com.skushnaryov.lighttask.lighttask.db.Group
-import com.skushnaryov.lighttask.lighttask.db.Reminder
 import com.skushnaryov.lighttask.lighttask.inflate
 import kotlinx.android.synthetic.main.item_group.view.*
 
-class GroupRecyckerView(private val listener: OnGroupItemClickListener) :  RecyclerView.Adapter<GroupRecyckerView.GroupViewHodler>(){
+class GroupRecyclerView(private val listener: OnGroupItemClickListener) :  RecyclerView.Adapter<GroupRecyclerView.GroupViewHodler>(){
     var groupList: List<Group> = emptyList()
         set(value) {
             field = value
@@ -29,19 +27,14 @@ class GroupRecyckerView(private val listener: OnGroupItemClickListener) :  Recyc
             val name = group.name
             itemView.item_group_textView.text = name
             itemView.setOnClickListener {
-                listener.onGoupClick(name)
+                listener.onGroupClick(name)
             }
 
             itemView.setOnLongClickListener {
                 val popup = PopupMenu(itemView.context, itemView)
                 popup.inflate(R.menu.popup_menu)
                 popup.setOnMenuItemClickListener {
-                    if (it.itemId == R.id.action_delete) {
-                        listener.onPopupDeleteClick(group)
-                        true
-                    } else {
-                        false
-                    }
+                    listener.onPopupItemClick(it.itemId, group)
                 }
                 popup.show()
                 true
@@ -50,7 +43,7 @@ class GroupRecyckerView(private val listener: OnGroupItemClickListener) :  Recyc
     }
 
     interface OnGroupItemClickListener {
-        fun onGoupClick(name: String)
-        fun onPopupDeleteClick(group: Group)
+        fun onGroupClick(name: String)
+        fun onPopupItemClick(itemId: Int, group: Group): Boolean
     }
 }
