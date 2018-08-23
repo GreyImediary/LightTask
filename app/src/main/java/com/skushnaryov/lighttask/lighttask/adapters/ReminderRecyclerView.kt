@@ -10,7 +10,7 @@ import com.skushnaryov.lighttask.lighttask.db.Reminder
 import com.skushnaryov.lighttask.lighttask.inflate
 import kotlinx.android.synthetic.main.item_reminder.view.*
 
-class ReminderRecyclerView(private val listener: OnReminderSwitchChange) : RecyclerView.Adapter<ReminderRecyclerView.ReminderHolder>() {
+class ReminderRecyclerView(private val listener: OnReminderListener) : RecyclerView.Adapter<ReminderRecyclerView.ReminderHolder>() {
     var reminderList = emptyList<Reminder>()
         set(value) {
             field = value
@@ -25,7 +25,7 @@ class ReminderRecyclerView(private val listener: OnReminderSwitchChange) : Recyc
     override fun onBindViewHolder(holder: ReminderHolder, position: Int) = holder.bind(reminderList[position])
 
 
-    class ReminderHolder(itemView: View, private val listener: OnReminderSwitchChange) : RecyclerView.ViewHolder(itemView) {
+    class ReminderHolder(itemView: View, private val listener: OnReminderListener) : RecyclerView.ViewHolder(itemView) {
         fun bind(reminder: Reminder) {
             val timeString = "${itemView.context.getString(R.string.every)} ${reminder.time} ${reminder.timeType}"
             itemView.reminderName_textView.text = reminder.name
@@ -39,12 +39,7 @@ class ReminderRecyclerView(private val listener: OnReminderSwitchChange) : Recyc
                 val popup = PopupMenu(itemView.context, itemView)
                 popup.inflate(R.menu.popup_menu)
                 popup.setOnMenuItemClickListener {
-                    if (it.itemId == R.id.action_delete) {
-                        listener.onPopupDeleteClick(reminder, itemView.context)
-                        true
-                    }else {
-                        false
-                    }
+                    listener.onPopupItemClick(it.itemId, reminder)
                 }
                 popup.show()
                 true
@@ -52,8 +47,8 @@ class ReminderRecyclerView(private val listener: OnReminderSwitchChange) : Recyc
         }
     }
 
-    interface OnReminderSwitchChange {
+    interface OnReminderListener {
         fun onSwitchChecked(isChecked: Boolean, reminder: Reminder)
-        fun onPopupDeleteClick(reminder: Reminder, context: Context)
+        fun onPopupItemClick(itemId: Int, reminder: Reminder): Boolean
     }
 }

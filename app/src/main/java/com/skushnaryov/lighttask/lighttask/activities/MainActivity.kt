@@ -40,8 +40,8 @@ class MainActivity : AppCompatActivity() {
         createChannels()
 
         fab.setOnClickListener {
-            /*showReminderCreateDialog()*/
-            startActivity<AddActivity>()
+            showReminderCreateDialog()
+            /*startActivity<AddActivity>()*/
         }
 
         reminderViewModel = ViewModelProviders.of(this).get(ReminderViewModel::class.java)
@@ -78,7 +78,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun onPositiveButtonClick(view: View) {
-        val remidnerName = view.remindeName_edit_text.text.toString()
+        val remidnerName = view.reminderName_edit_text.text.toString()
 
         if (remidnerName.trim().isEmpty()) {
             view.reminderName_text_input.error = getString(R.string.reminderDialogError)

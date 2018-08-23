@@ -71,6 +71,7 @@
     <string name="reminderDialogText">Repeat every:</string>
 
     <string name="changeGroupDialogTitle">Chagne group</string>
+    <string name="changeRemidnerDialogTitle">Change reminder</string>
 
 
     <string name="taskRecieverTitle">Task!</string>
