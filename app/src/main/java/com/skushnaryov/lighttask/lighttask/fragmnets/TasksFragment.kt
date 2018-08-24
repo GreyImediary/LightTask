@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.skushnaryov.lighttask.lighttask.Constants
 import com.skushnaryov.lighttask.lighttask.R
+import com.skushnaryov.lighttask.lighttask.activities.AddActivity
 import com.skushnaryov.lighttask.lighttask.adapters.SubtaskRecyclerView
 import com.skushnaryov.lighttask.lighttask.adapters.TaskRecyclerView
 import com.skushnaryov.lighttask.lighttask.db.Task
@@ -26,11 +27,20 @@ import com.skushnaryov.lighttask.lighttask.visible
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main.view.*
 import kotlinx.android.synthetic.main.fragment_tasks.*
+import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.contentView
 import java.util.*
+import com.skushnaryov.lighttask.lighttask.Constants.CHANGE_ID
+import com.skushnaryov.lighttask.lighttask.Constants.CHANGE_REMIND_ID
+import com.skushnaryov.lighttask.lighttask.Constants.CHANGE_NAME
+import com.skushnaryov.lighttask.lighttask.Constants.CHANGE_DATE
+import com.skushnaryov.lighttask.lighttask.Constants.CHANGE_REMIND_DATE
+import com.skushnaryov.lighttask.lighttask.Constants.CHANGE_CURRENT_DAY
+import com.skushnaryov.lighttask.lighttask.Constants.CHANGE_SUBTASKS
+import com.skushnaryov.lighttask.lighttask.Constants.CHANGE_GROUP
 
 class TasksFragment : Fragment(),
-        TaskRecyclerView.OnTaskCheckboxListener,
+        TaskRecyclerView.OnTaskItemClickListener,
         SubtaskRecyclerView.OnSubtaskCheckboxListener {
 
     private lateinit var viewModel: TaskViewModel
@@ -70,7 +80,7 @@ class TasksFragment : Fragment(),
 
         viewModel.delete(task)
         deleteAlarm(task.id, task.name)
-        deleteTaskRemind(task.id, text)
+        deleteTaskRemind(task.remindId, text)
         Snackbar.make(activity?.contentView ?: return,
                 R.string.taskCompleted, Snackbar.LENGTH_LONG)
                 .setAction(R.string.cancel) {
@@ -100,6 +110,43 @@ class TasksFragment : Fragment(),
                     getString(R.string.compoundCompleted), Snackbar.LENGTH_LONG)
                     .setAction(R.string.yes) { viewModel.delete(task) }.show()
         }
+    }
+
+    override fun onPopupItemClick(itemId: Int, task: Task): Boolean = when (itemId) {
+        R.id.action_delete -> {
+            val date = Calendar.getInstance().apply {
+                timeInMillis = task.date
+            }
+            val text = "${task.name} at ${date[Calendar.HOUR_OF_DAY]}:${date[Calendar.MINUTE]}"
+
+            viewModel.delete(task)
+            deleteAlarm(task.id, task.name)
+            deleteTaskRemind(task.id, text)
+            true
+        }
+        R.id.action_change -> {
+            var subtasks = ""
+            if (!task.listOfSubtasks.isEmpty()) {
+                task.listOfSubtasks.forEach { subtasks += "$it," }
+
+            }
+            val bundle = bundleOf(
+                    CHANGE_ID to task.id,
+                    CHANGE_REMIND_ID to task.remindId,
+                    CHANGE_NAME to task.name,
+                    CHANGE_DATE to task.date,
+                    CHANGE_REMIND_DATE to task.taskRemindDate,
+                    CHANGE_CURRENT_DAY to task.currentDay,
+                    CHANGE_SUBTASKS to subtasks,
+                    CHANGE_GROUP to task.groupName
+            )
+            val intent = Intent(context, AddActivity::class.java).apply {
+                putExtras(bundle)
+            }
+            startActivity(intent)
+            true
+        }
+        else -> false
     }
 
     private fun observeList(list: List<Task>, adapter: TaskRecyclerView, groupName: String = "") {

@@ -40,8 +40,8 @@ class MainActivity : AppCompatActivity() {
         createChannels()
 
         fab.setOnClickListener {
-            showReminderCreateDialog()
-            /*startActivity<AddActivity>()*/
+            /*showReminderCreateDialog()*/
+            startActivity<AddActivity>()
         }
 
         reminderViewModel = ViewModelProviders.of(this).get(ReminderViewModel::class.java)
