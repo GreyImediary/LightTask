@@ -20,6 +20,15 @@ object Constants {
     const val EXTRAS_REMIND_TEXT = "text"
     const val EXTRAS_TIME_REPEAT = "repeat"
 
+    const val CHANGE_ID = "task id"
+    const val CHANGE_REMIND_ID = "task remind id"
+    const val CHANGE_NAME = "task name"
+    const val CHANGE_DATE = "task date"
+    const val CHANGE_REMIND_DATE = "task remind date"
+    const val CHANGE_CURRENT_DAY = "task current day"
+    const val CHANGE_SUBTASKS = "task subtasks"
+    const val CHANGE_GROUP = "task group"
+
     const val REMIND_MIN = "min"
     const val REMIND_HOUR = "hour"
     const val REMIND_DAY = "day"

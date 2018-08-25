@@ -22,7 +22,10 @@ import com.skushnaryov.lighttask.lighttask.Constants.REMIND_MIN
 import com.skushnaryov.lighttask.lighttask.R
 import com.skushnaryov.lighttask.lighttask.db.Group
 import com.skushnaryov.lighttask.lighttask.db.Task
-import com.skushnaryov.lighttask.lighttask.dialogs.*
+import com.skushnaryov.lighttask.lighttask.dialogs.DateDialog
+import com.skushnaryov.lighttask.lighttask.dialogs.GroupDialog
+import com.skushnaryov.lighttask.lighttask.dialogs.TaskRemindDialog
+import com.skushnaryov.lighttask.lighttask.dialogs.TimeDialog
 import com.skushnaryov.lighttask.lighttask.inflateMenu
 import com.skushnaryov.lighttask.lighttask.recievers.TaskReciever
 import com.skushnaryov.lighttask.lighttask.recievers.TaskRemindReciever
@@ -50,8 +53,11 @@ class AddActivity : AppCompatActivity(),
 
     private var name = ""
     private var group = ""
+    private var id = 0
+    private var remindId = 0
     private val date = Calendar.getInstance()
-    private var remindTaskDate = Calendar.getInstance()
+    private var remindTaskDate = date
+    private var currentDay = date[DAY_OF_MONTH]
     private var subtasks: MutableList<String> = arrayListOf()
 
     private var remindNumber = 0
@@ -68,6 +74,36 @@ class AddActivity : AppCompatActivity(),
         groupViewModel.allGroups.observe(this, Observer {
             groupList = it.subList(1, it.size)
         })
+
+
+        if (intent.extras == null) {
+            id = Random().nextInt(Int.MAX_VALUE)
+            remindId = Random().nextInt(Int.MAX_VALUE)
+        } else {
+            val bundle = intent.extras
+            id  = bundle.getInt(Constants.CHANGE_ID)
+            remindId = bundle.getInt(Constants.CHANGE_REMIND_ID)
+
+            name = bundle.getString(Constants.CHANGE_NAME)
+            name_edit_text.setText(name, TextView.BufferType.EDITABLE)
+
+            date.timeInMillis = bundle.getLong(Constants.CHANGE_DATE)
+            val dateString = getFullStringDate(date[DAY_OF_MONTH], date[MONTH], date[YEAR], date[HOUR_OF_DAY], date[MINUTE])
+            date_edit_text.setText(dateString, TextView.BufferType.EDITABLE)
+
+            remindTaskDate.timeInMillis = bundle.getLong(Constants.CHANGE_REMIND_DATE)
+            val remindDateString = getFullStringDate(remindTaskDate[DAY_OF_MONTH], remindTaskDate[MONTH],
+                    remindTaskDate[YEAR], remindTaskDate[HOUR_OF_DAY], remindTaskDate[MINUTE])
+
+            if (remindDateString != dateString) {
+                remind_edit_text.setText(remindDateString, TextView.BufferType.EDITABLE)
+            }
+
+            currentDay = bundle.getInt(Constants.CHANGE_CURRENT_DAY)
+
+            subtask_edit_text.setText(bundle.getString(Constants.CHANGE_SUBTASKS))
+            group_edit_text.setText(bundle.getString(Constants.CHANGE_GROUP))
+        }
 
         date_edit_text.setOnClickListener {
             DateDialog().show(supportFragmentManager, "Date dialog")
@@ -158,11 +194,8 @@ class AddActivity : AppCompatActivity(),
             return
         }
 
-        val id = Random().nextInt(Int.MAX_VALUE)
-        val remindId = Random().nextInt(Int.MAX_VALUE)
 
         checkSubtasks()
-        createAlarmNotification(id, name)
 
         if (!remind_edit_text.text!!.isEmpty()) {
             val fullDate = getFullStringDate(date[DAY_OF_MONTH], date[MONTH], date[YEAR], date[HOUR_OF_DAY], date[MINUTE])
@@ -170,16 +203,21 @@ class AddActivity : AppCompatActivity(),
         }
 
         val isCompound = !subtasks.isEmpty()
+        currentDay = date[DAY_OF_MONTH]
 
         val task = Task(id,
+                remindId,
                 name,
                 date.timeInMillis,
                 remindTaskDate.timeInMillis,
-                date.get(Calendar.DAY_OF_MONTH),
+                currentDay,
                 subtasks,
                 isCompound,
                 group)
         taskViewModel.insert(task)
+
+        createAlarmNotification(id, name)
+
         finish()
     }
 

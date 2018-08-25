@@ -13,4 +13,8 @@ class GroupViewModel : ViewModel() {
     fun delete(group: Group) = repository.delete(group)
 
     fun update(group: Group) = repository.update(group)
+
+    fun updateTaskGroupName(oldName: String, newName: String) = repository.updateTaskGroupName(oldName, newName)
+
+    fun deleteTaskGroupName(groupName: String) = repository.deleteTaskGroupName(groupName)
 }
