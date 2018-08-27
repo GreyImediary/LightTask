@@ -24,10 +24,14 @@
     <string name="every">Every</string>
     <string name="off">OFF</string>
     <string name="delete">Delete</string>
+    <string name="change">Change</string>
 
     <string name="no_tasks">No tasks here</string>
+    <string name="no_reminders">No reminders here</string>
     <string name="noTaskSummary">Tap + to create them</string>
     <string name="sleep_cloud">sleep cloud</string>
+    <string name="deletingToday">You cannot delete Today group</string>
+    <string name="changingToday">You cannot change Today group</string>
 
     <string name="taskName">Name</string>
     <string name="taskDate">Date</string>
@@ -41,6 +45,7 @@
 
     <string name="emptyNameError">Enter the name, please</string>
     <string name="wrongDateError">Wrong date: past time or empty field</string>
+    <string name="wrongGroupName">Wrong group name</string>
 
     <string name="groupDialogButton">Add group</string>
     <string name="groupDialogTitle">Choose the group</string>
@@ -64,6 +69,10 @@
     <string name="reminderTimeDialogHint">Number</string>
     <string name="reminderDialogError">Wrong name</string>
     <string name="reminderDialogText">Repeat every:</string>
+
+    <string name="changeGroupDialogTitle">Chagne group</string>
+    <string name="changeRemidnerDialogTitle">Change reminder</string>
+
 
     <string name="taskRecieverTitle">Task!</string>
     <string name="reminderRecieveTitle">Reminder!</string>

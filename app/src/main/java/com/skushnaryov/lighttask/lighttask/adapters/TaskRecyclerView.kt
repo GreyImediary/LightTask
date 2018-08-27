@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import android.widget.PopupMenu
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,7 +16,7 @@ import java.util.*
 import java.util.Calendar.*
 
 class TaskRecyclerView(private val subtaskCheckboxListener: SubtaskRecyclerView.OnSubtaskCheckboxListener,
-                       private val taskCheckboxListener: OnTaskCheckboxListener) :
+                       private val taskItemClickListener: OnTaskItemClickListener) :
         RecyclerView.Adapter<TaskRecyclerView.TaskHolder>() {
 
     var list: List<Task> = emptyList()
@@ -40,7 +41,7 @@ class TaskRecyclerView(private val subtaskCheckboxListener: SubtaskRecyclerView.
             taskDate_textView.text = getStringDate(task.date)
 
             task_checkbox.onCheckedChange { _, _ ->
-                taskCheckboxListener.onTaskCheckboxChange(task)
+                taskItemClickListener.onTaskCheckboxChange(task)
             }
 
             val innerAdapter = SubtaskRecyclerView(subtaskCheckboxListener, task)
@@ -75,6 +76,16 @@ class TaskRecyclerView(private val subtaskCheckboxListener: SubtaskRecyclerView.
                     }
                 }
             }
+
+            mainPart.setOnLongClickListener {
+                val popup = PopupMenu(it.context, it)
+                popup.inflate(R.menu.popup_menu)
+                popup.setOnMenuItemClickListener {
+                    taskItemClickListener.onPopupItemClick(it.itemId, task)
+                }
+                popup.show()
+                return@setOnLongClickListener true
+            }
         }
 
         private fun fadeOutInAnimation(context: Context, view: View) {
@@ -102,7 +113,8 @@ class TaskRecyclerView(private val subtaskCheckboxListener: SubtaskRecyclerView.
         }
     }
 
-    interface OnTaskCheckboxListener {
+    interface OnTaskItemClickListener {
         fun onTaskCheckboxChange(task: Task)
+        fun onPopupItemClick(itemId: Int, task: Task): Boolean
     }
 }

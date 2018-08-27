@@ -14,7 +14,7 @@
         app:layout_constraintBottom_toTopOf="@id/reminder_textView">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/remindeName_edit_text"
+            android:id="@+id/reminderName_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="text"

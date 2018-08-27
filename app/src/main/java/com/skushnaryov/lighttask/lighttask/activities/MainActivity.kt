@@ -19,6 +19,7 @@ import com.skushnaryov.lighttask.lighttask.viewModels.ReminderViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.dialog_reminder_create.view.*
 import org.jetbrains.anko.notificationManager
+import org.jetbrains.anko.startActivity
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
@@ -39,8 +40,8 @@ class MainActivity : AppCompatActivity() {
         createChannels()
 
         fab.setOnClickListener {
-
-            showReminderCreateDialog()
+            /*showReminderCreateDialog()*/
+            startActivity<AddActivity>()
         }
 
         reminderViewModel = ViewModelProviders.of(this).get(ReminderViewModel::class.java)
@@ -77,7 +78,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun onPositiveButtonClick(view: View) {
-        val remidnerName = view.remindeName_edit_text.text.toString()
+        val remidnerName = view.reminderName_edit_text.text.toString()
 
         if (remidnerName.trim().isEmpty()) {
             view.reminderName_text_input.error = getString(R.string.reminderDialogError)
