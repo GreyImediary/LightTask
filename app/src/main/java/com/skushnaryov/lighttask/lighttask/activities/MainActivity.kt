@@ -18,6 +18,8 @@ import com.skushnaryov.lighttask.lighttask.recievers.ReminderReciever
 import com.skushnaryov.lighttask.lighttask.viewModels.ReminderViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.dialog_reminder_create.view.*
+import kotlinx.android.synthetic.main.fragment_groups.*
+import kotlinx.android.synthetic.main.fragment_tasks.*
 import org.jetbrains.anko.notificationManager
 import org.jetbrains.anko.startActivity
 import java.util.*
@@ -72,8 +74,8 @@ class MainActivity : AppCompatActivity() {
         val builder = AlertDialog.Builder(this)
                 .setTitle(R.string.reminderDialogTitle)
                 .setView(view)
-                .setPositiveButton(R.string.create) { _, _ ->  onPositiveButtonClick(view)}
-                .setNegativeButton(R.string.cancel) {dialogInterface, _ -> dialogInterface.cancel() }
+                .setPositiveButton(R.string.create) { _, _ -> onPositiveButtonClick(view) }
+                .setNegativeButton(R.string.cancel) { dialogInterface, _ -> dialogInterface.cancel() }
         return builder.create().show()
     }
 

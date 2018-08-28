@@ -12,18 +12,17 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
-import com.skushnaryov.lighttask.lighttask.Constants
-import com.skushnaryov.lighttask.lighttask.R
+import com.skushnaryov.lighttask.lighttask.*
 import com.skushnaryov.lighttask.lighttask.activities.AddActivity
 import com.skushnaryov.lighttask.lighttask.adapters.SubtaskRecyclerView
 import com.skushnaryov.lighttask.lighttask.adapters.TaskRecyclerView
 import com.skushnaryov.lighttask.lighttask.db.Task
-import com.skushnaryov.lighttask.lighttask.gone
 import com.skushnaryov.lighttask.lighttask.recievers.TaskReciever
 import com.skushnaryov.lighttask.lighttask.recievers.TaskRemindReciever
 import com.skushnaryov.lighttask.lighttask.viewModels.TaskViewModel
-import com.skushnaryov.lighttask.lighttask.visible
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main.view.*
 import kotlinx.android.synthetic.main.fragment_tasks.*
@@ -53,6 +52,9 @@ class TasksFragment : Fragment(),
 
         val adapter = TaskRecyclerView(this, this)
         rv_tasks.layoutManager = LinearLayoutManager(context)
+
+
+
         viewModel = ViewModelProviders.of(this).get(TaskViewModel::class.java)
 
         val groupName = arguments?.getString("groupName") ?: " "
@@ -69,6 +71,20 @@ class TasksFragment : Fragment(),
             viewModel.allTasks.observe(this, Observer {
                 observeList(it, adapter)
             })
+        }
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        val fab = activity?.findViewById<FloatingActionButton>(R.id.fab) ?: return
+
+        rv_tasks.onScrollListener { dy ->
+            if (dy > 0 && fab.visibility == View.VISIBLE) {
+                activity?.fab?.hide()
+            } else if (dy < 0 && fab.visibility != View.VISIBLE) {
+                activity?.fab?.show()
+            }
         }
     }
 
