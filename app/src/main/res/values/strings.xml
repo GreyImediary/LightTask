@@ -87,4 +87,10 @@
         <item>Hour</item>
         <item>Day</item>
     </string-array>
+
+    <string name="fabDialogTitle">Create</string>
+    <string-array name="fabDialogArr">
+        <item>Task</item>
+        <item>Reminder</item>
+    </string-array>
 </resources>
