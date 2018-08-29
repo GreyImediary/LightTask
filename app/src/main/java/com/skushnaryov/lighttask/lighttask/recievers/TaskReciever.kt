@@ -36,9 +36,12 @@ class TaskReciever : BroadcastReceiver() {
                 .setContentTitle(context.getString(R.string.taskRecieverTitle))
                 .setContentText(taskName)
                 .setAutoCancel(true)
-                .addAction(R.drawable.ic_done_black_24dp,
-                        context.getString(R.string.doneRecieverAction), donePending)
                 .setContentIntent(clickPending)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            builder.addAction(R.drawable.ic_done_black_24dp,
+                    context.getString(R.string.doneRecieverAction), donePending)
+        }
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
             builder.priority = NotificationCompat.PRIORITY_HIGH
