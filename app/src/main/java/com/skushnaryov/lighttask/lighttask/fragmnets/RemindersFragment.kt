@@ -15,11 +15,13 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.skushnaryov.lighttask.lighttask.*
 import com.skushnaryov.lighttask.lighttask.adapters.ReminderRecyclerView
 import com.skushnaryov.lighttask.lighttask.db.Reminder
 import com.skushnaryov.lighttask.lighttask.recievers.ReminderReciever
 import com.skushnaryov.lighttask.lighttask.viewModels.ReminderViewModel
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.dialog_reminder_create.view.*
 import kotlinx.android.synthetic.main.fragment_reminders.*
 import java.util.*
@@ -54,6 +56,20 @@ class RemindersFragment : Fragment(), ReminderRecyclerView.OnReminderListener {
                 summary_textView.gone()
             }
         })
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        val fab = activity?.findViewById<FloatingActionButton>(R.id.fab) ?: return
+
+        rv_reminders.onScrollListener { dy ->
+            if (dy > 0 && fab.visibility == View.VISIBLE) {
+                activity?.fab?.hide()
+            } else if (dy < 0 && fab.visibility != View.VISIBLE) {
+                activity?.fab?.show()
+            }
+        }
     }
 
     override fun onSwitchChecked(isChecked: Boolean, reminder: Reminder) {

@@ -14,16 +14,19 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.skushnaryov.lighttask.lighttask.*
 import com.skushnaryov.lighttask.lighttask.db.Reminder
+import com.skushnaryov.lighttask.lighttask.dialogs.FabDialog
 import com.skushnaryov.lighttask.lighttask.recievers.ReminderReciever
 import com.skushnaryov.lighttask.lighttask.viewModels.ReminderViewModel
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.dialog_reminder_create.*
 import kotlinx.android.synthetic.main.dialog_reminder_create.view.*
+import kotlinx.android.synthetic.main.fragment_groups.*
+import kotlinx.android.synthetic.main.fragment_tasks.*
 import org.jetbrains.anko.notificationManager
 import org.jetbrains.anko.startActivity
 import java.util.*
 
-class MainActivity : AppCompatActivity() {
-
+class MainActivity : AppCompatActivity(), FabDialog.OnFabDialogItemListener {
 
     private lateinit var controller: NavController
     private lateinit var reminderViewModel: ReminderViewModel
@@ -40,8 +43,9 @@ class MainActivity : AppCompatActivity() {
         createChannels()
 
         fab.setOnClickListener {
-            /*showReminderCreateDialog()*/
-            startActivity<AddActivity>()
+            val dialog = FabDialog()
+            dialog.listener = this
+            dialog.show(supportFragmentManager, "fab dialog")
         }
 
         reminderViewModel = ViewModelProviders.of(this).get(ReminderViewModel::class.java)
@@ -52,6 +56,13 @@ class MainActivity : AppCompatActivity() {
             finish()
         } else {
             controller.popBackStack()
+        }
+    }
+
+    override fun onFabDialogItemClick(position: Int) {
+        when (position) {
+            0 -> startActivity<AddActivity>()
+            1 -> showReminderCreateDialog()
         }
     }
 
@@ -72,8 +83,8 @@ class MainActivity : AppCompatActivity() {
         val builder = AlertDialog.Builder(this)
                 .setTitle(R.string.reminderDialogTitle)
                 .setView(view)
-                .setPositiveButton(R.string.create) { _, _ ->  onPositiveButtonClick(view)}
-                .setNegativeButton(R.string.cancel) {dialogInterface, _ -> dialogInterface.cancel() }
+                .setPositiveButton(R.string.create) { _, _ -> onPositiveButtonClick(view) }
+                .setNegativeButton(R.string.cancel) { dialogInterface, _ -> dialogInterface.cancel() }
         return builder.create().show()
     }
 
