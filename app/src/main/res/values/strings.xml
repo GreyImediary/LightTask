@@ -93,4 +93,11 @@
         <item>Task</item>
         <item>Reminder</item>
     </string-array>
+
+    <string name="about">About app</string>
+    <string name="aboutImg">Logo</string>
+    <string name="aboutAppName">LightTask</string>
+    <string name="aboutVersion">Version 1.0</string>
+    <string name="aboutMade">Made by Sergey Kushnaryov</string>
+
 </resources>

@@ -5,6 +5,8 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
@@ -49,6 +51,16 @@ class MainActivity : AppCompatActivity(), FabDialog.OnFabDialogItemListener {
         }
 
         reminderViewModel = ViewModelProviders.of(this).get(ReminderViewModel::class.java)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu) = inflateMenu(R.menu.about_menu, menu)
+
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        R.id.action_about -> {
+            startActivity<AboutActivity>()
+            true
+        }
+        else -> super.onOptionsItemSelected(item)
     }
 
     override fun onBackPressed() {
