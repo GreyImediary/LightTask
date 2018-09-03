@@ -35,7 +35,7 @@
         android:id="@+id/reminderTime_edit_text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="@string/reminderTimeDialogHint"
+        android:hint="@string/number"
         android:inputType="number"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"

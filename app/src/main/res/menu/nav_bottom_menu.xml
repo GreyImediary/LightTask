@@ -17,7 +17,7 @@
         app1:showAsAction="ifRoom"/>
 
     <item
-        android:id="@+id/schedules_fragment"
+        android:id="@+id/reminders_fragment"
         android:title="@string/reminders"
         android:icon="@drawable/ic_schedule_black_24dp"
         app2:showAsAction="ifRoom"/>

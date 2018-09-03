@@ -1,7 +1,7 @@
 <resources>
-    <string name="app_name">LightTask</string>
-    <string name="title_activity_main">MainActivity</string>
-    <string name="title_activity_add">Add task</string>
+    <string name="app_name" translatable="false">LightTask</string>
+    <string name="titleActivityMain" translatable="false">MainActivity</string>
+    <string name="titleActivityAdd">Add activity</string>
 
     <string name="appBar_scrolling_view_behavior" translatable="false">com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior</string>
 
@@ -9,8 +9,8 @@
     <string name="reminders">Reminders</string>
     <string name="groups">Groups</string>
 
-    <string name="subtasks_arrow_down"></string>
-    <string name="subtasks_arrow_up">\uf0de</string>
+    <string name="subtasks_arrow_down" translatable="false"></string>
+    <string name="subtasks_arrow_up" translatable="false">\uf0de</string>
 
     <string name="compoundCompleted">"Compound task completed, delete it"</string>
     <string name="subtaskCompleted">Subtask completed</string>
@@ -19,17 +19,18 @@
     <string name="yes">Yes</string>
     <string name="cancel">Cancel</string>
     <string name="create">Create</string>
-    <string name="ok">OK</string>
+    <string name="ok" translatable="false">OK</string>
     <string name="today">Today</string>
     <string name="every">Every</string>
-    <string name="off">OFF</string>
+    <string name="off" translatable="false">OFF</string>
     <string name="delete">Delete</string>
     <string name="change">Change</string>
+    <string name="number">Number</string>
 
     <string name="no_tasks">No tasks here</string>
     <string name="no_reminders">No reminders here</string>
     <string name="noTaskSummary">Tap + to create them</string>
-    <string name="sleep_cloud">sleep cloud</string>
+    <string name="sleep_cloud" translatable="false">sleep cloud</string>
     <string name="deletingToday">You cannot delete Today group</string>
     <string name="changingToday">You cannot change Today group</string>
 
@@ -54,7 +55,6 @@
     <string name="groupAddDialogTitle">Create new group</string>
 
     <string name="remindDialogTitle">Remind … before</string>
-    <string name="remindError">Time isn\'t between current date and task date</string>
     <string-array name="remindArray">
         <item>5 minutes</item>
         <item>10 minutes</item>
@@ -66,7 +66,6 @@
 
     <string name="reminderDialogTitle">Create reminder</string>
     <string name="reminderNameDialogHint">Reminder name</string>
-    <string name="reminderTimeDialogHint">Number</string>
     <string name="reminderDialogError">Wrong name</string>
     <string name="reminderDialogText">Repeat every:</string>
 
@@ -81,7 +80,6 @@
     <string name="doneRecieverAction">Done</string>
 
     <string name="ownTaskRemindTitle">Set own time</string>
-    <string name="ownTaskRemindHint">Number</string>
     <string-array name="timeArr">
         <item>Minute</item>
         <item>Hour</item>
@@ -95,9 +93,9 @@
     </string-array>
 
     <string name="about">About app</string>
-    <string name="aboutImg">Logo</string>
-    <string name="aboutAppName">LightTask</string>
+    <string name="aboutImg" translatable="false">Logo</string>
     <string name="aboutVersion">Version 1.0</string>
     <string name="aboutMade">Made by Sergey Kushnaryov</string>
+    <string name="remindError">Wrong remind time</string>
 
 </resources>
