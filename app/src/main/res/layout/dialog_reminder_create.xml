@@ -49,6 +49,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/reminderTime_edit_text"
         app:layout_constraintTop_toBottomOf="@id/reminder_textView"
-        app:layout_constraintWidth_percent="0.3" />
+        app:layout_constraintWidth_percent="0.35" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
