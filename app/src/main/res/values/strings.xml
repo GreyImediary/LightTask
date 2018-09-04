@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name" translatable="false">LightTask</string>
     <string name="titleActivityMain" translatable="false">MainActivity</string>
-    <string name="titleActivityAdd">Add activity</string>
+    <string name="titleActivityAdd">Create task</string>
+    <string name="titleChangeTask">Chagne task</string>
 
     <string name="appBar_scrolling_view_behavior" translatable="false">com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior</string>
 
@@ -47,6 +48,7 @@
     <string name="emptyNameError">Enter the name, please</string>
     <string name="wrongDateError">Wrong date: past time or empty field</string>
     <string name="wrongGroupName">Wrong group name</string>
+    <string name="wrongReminderName">Wrong reminder name</string>
 
     <string name="groupDialogButton">Add group</string>
     <string name="groupDialogTitle">Choose the group</string>
@@ -69,7 +71,7 @@
     <string name="reminderDialogError">Wrong name</string>
     <string name="reminderDialogText">Repeat every:</string>
 
-    <string name="changeGroupDialogTitle">Chagne group</string>
+    <string name="changeGroupDialogTitle">Change group</string>
     <string name="changeRemidnerDialogTitle">Change reminder</string>
 
 

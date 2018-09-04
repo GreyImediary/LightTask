@@ -15,21 +15,18 @@ import android.widget.TimePicker
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.skushnaryov.lighttask.lighttask.Constants
+import com.skushnaryov.lighttask.lighttask.*
 import com.skushnaryov.lighttask.lighttask.Constants.REMIND_DAY
 import com.skushnaryov.lighttask.lighttask.Constants.REMIND_HOUR
 import com.skushnaryov.lighttask.lighttask.Constants.REMIND_MIN
-import com.skushnaryov.lighttask.lighttask.R
 import com.skushnaryov.lighttask.lighttask.db.Group
 import com.skushnaryov.lighttask.lighttask.db.Task
 import com.skushnaryov.lighttask.lighttask.dialogs.DateDialog
 import com.skushnaryov.lighttask.lighttask.dialogs.GroupDialog
 import com.skushnaryov.lighttask.lighttask.dialogs.TaskRemindDialog
 import com.skushnaryov.lighttask.lighttask.dialogs.TimeDialog
-import com.skushnaryov.lighttask.lighttask.inflateMenu
 import com.skushnaryov.lighttask.lighttask.recievers.TaskReciever
 import com.skushnaryov.lighttask.lighttask.recievers.TaskRemindReciever
-import com.skushnaryov.lighttask.lighttask.toStringTime
 import com.skushnaryov.lighttask.lighttask.viewModels.GroupViewModel
 import com.skushnaryov.lighttask.lighttask.viewModels.TaskViewModel
 import kotlinx.android.synthetic.main.activity_add.*
@@ -66,7 +63,6 @@ class AddActivity : AppCompatActivity(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add)
-        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
 
         taskViewModel = ViewModelProviders.of(this).get(TaskViewModel::class.java)
 
@@ -80,6 +76,7 @@ class AddActivity : AppCompatActivity(),
             id = Random().nextInt(Int.MAX_VALUE)
             remindId = Random().nextInt(Int.MAX_VALUE)
         } else {
+            title = getString(R.string.titleChangeTask)
             val bundle = intent.extras
             id  = bundle.getInt(Constants.CHANGE_ID)
             remindId = bundle.getInt(Constants.CHANGE_REMIND_ID)
@@ -161,9 +158,13 @@ class AddActivity : AppCompatActivity(),
 
     override fun onGroupCreateClick(view: View) {
         val groupName = view.add_group_edit_text.text.toString()
-        group = groupName
-        groupViewModel.insert(Group(name = groupName))
-        group_edit_text.setText(groupName, TextView.BufferType.EDITABLE)
+        if (groupName.trim().isEmpty()) {
+            toast(getString(R.string.wrongGroupName))
+        } else {
+            group = groupName
+            groupViewModel.insert(Group(name = groupName))
+            group_edit_text.setText(groupName, TextView.BufferType.EDITABLE)
+        }
     }
 
     override fun onRemindItemClick(position: Int) {

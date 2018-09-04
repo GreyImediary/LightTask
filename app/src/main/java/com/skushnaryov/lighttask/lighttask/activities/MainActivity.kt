@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -64,7 +65,8 @@ class MainActivity : AppCompatActivity(), FabDialog.OnFabDialogItemListener {
     }
 
     override fun onBackPressed() {
-        if (controller.currentDestination.label == "Tasks" && toolbar.title == "Tasks") {
+        if (controller.currentDestination.label == getString(R.string.tasks)
+                && toolbar.title == getString(R.string.tasks)) {
             finish()
         } else {
             controller.popBackStack()
@@ -104,10 +106,8 @@ class MainActivity : AppCompatActivity(), FabDialog.OnFabDialogItemListener {
         val remidnerName = view.reminderName_edit_text.text.toString()
 
         if (remidnerName.trim().isEmpty()) {
-            view.reminderName_text_input.error = getString(R.string.reminderDialogError)
+            toast(getString(R.string.wrongReminderName))
             return
-        } else {
-            view.reminderName_text_input.error = null
         }
 
         val time = view.reminderTime_edit_text.text.toString().toInt()

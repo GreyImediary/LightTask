@@ -4,7 +4,7 @@
     <string name="compoundCompleted">Составная задача закончена, удалить?</string>
     <string name="subtaskCompleted">Подзадача выполнена</string>
     <string name="taskCompleted">Задача выполнена</string>
-    <string name="titleActivityAdd">Add activity</string>
+    <string name="titleActivityAdd">Создать задачу</string>
     <string name="yes">Да</string>
     <string name="cancel">Отмена</string>
     <string name="create">Создать</string>
@@ -43,6 +43,7 @@
     <string name="taskRecieverTitle">Задача!</string>
     <string name="reminderRecieveTitle">Напоминание!</string>
     <string name="taskRemindRecieverTitle">Напоминание задачи!</string>
+    <string name="titleChangeTask">Изменить задачу</string>
     <string name="doneRecieverAction">Сделано</string>
     <string name="ownTaskRemindTitle">Установить своё время время</string>
     <string name="fabDialogTitle">Создать</string>
@@ -50,6 +51,7 @@
     <string name="aboutVersion">Версия 1.0</string>
     <string name="aboutMade">"Сделано Сергеем Кушнарёвым"</string>
     <string name="remindError">Неверное время напоминания</string>
+    <string name="wrongReminderName">Неверное название напоминания</string>
     <string-array name="remindArray">
         <item>5 минут</item>
         <item>10 минут</item>
