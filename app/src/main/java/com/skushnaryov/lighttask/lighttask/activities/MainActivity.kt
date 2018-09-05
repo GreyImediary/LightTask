@@ -104,13 +104,18 @@ class MainActivity : AppCompatActivity(), FabDialog.OnFabDialogItemListener {
 
     private fun onPositiveButtonClick(view: View) {
         val remidnerName = view.reminderName_edit_text.text.toString()
+        val time = view.reminderTime_edit_text.text.toString()
 
         if (remidnerName.trim().isEmpty()) {
             toast(getString(R.string.wrongReminderName))
             return
         }
 
-        val time = view.reminderTime_edit_text.text.toString().toInt()
+        if (time.isEmpty()) {
+            toast(getString(R.string.wrongReminderTime))
+            return
+        }
+
         val timeType = when (view.reminderTimeType_spinner.selectedItemId) {
             0L -> Constants.REMIND_MIN
             1L -> Constants.REMIND_HOUR
@@ -120,7 +125,7 @@ class MainActivity : AppCompatActivity(), FabDialog.OnFabDialogItemListener {
 
         val id = Random().nextInt(Int.MAX_VALUE)
 
-        val reminder = Reminder(id, remidnerName, time, timeType)
+        val reminder = Reminder(id, remidnerName, time.toInt(), timeType)
 
         reminderViewModel.insert(reminder)
 

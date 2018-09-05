@@ -43,6 +43,7 @@
     <string name="taskRecieverTitle">Задача!</string>
     <string name="reminderRecieveTitle">Напоминание!</string>
     <string name="taskRemindRecieverTitle">Напоминание задачи!</string>
+    <string name="wrongReminderTime">Неверное время напоминания</string>
     <string name="titleChangeTask">Изменить задачу</string>
     <string name="doneRecieverAction">Сделано</string>
     <string name="ownTaskRemindTitle">Установить своё время время</string>
@@ -67,9 +68,9 @@
     </string-array>
 
     <string-array name="timeArr">
-        <item>Минут</item>
-        <item>Час</item>
-        <item>Дней</item>
+        <item>минут</item>
+        <item>часов</item>
+        <item>дней</item>
     </string-array>
     <string name="tasks">Задачи</string>
     <string name="groups">Группы</string>

@@ -49,6 +49,7 @@
     <string name="wrongDateError">Wrong date: past time or empty field</string>
     <string name="wrongGroupName">Wrong group name</string>
     <string name="wrongReminderName">Wrong reminder name</string>
+    <string name="wrongReminderTime">Wrong reminder time</string>
 
     <string name="groupDialogButton">Add group</string>
     <string name="groupDialogTitle">Choose the group</string>
@@ -83,9 +84,9 @@
 
     <string name="ownTaskRemindTitle">Set own time</string>
     <string-array name="timeArr">
-        <item>Minute</item>
-        <item>Hour</item>
-        <item>Day</item>
+        <item>minutes</item>
+        <item>hours</item>
+        <item>days</item>
     </string-array>
 
     <string name="fabDialogTitle">Create</string>

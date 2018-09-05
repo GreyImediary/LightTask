@@ -36,7 +36,7 @@ class RemindersFragment : Fragment(), ReminderRecyclerView.OnReminderListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val adapter = ReminderRecyclerView(this)
+        val adapter = ReminderRecyclerView(context!!, this)
         rv_reminders.layoutManager = LinearLayoutManager(context)
         rv_reminders.adapter = adapter
 
