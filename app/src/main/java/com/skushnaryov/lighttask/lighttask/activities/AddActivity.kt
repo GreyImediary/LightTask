@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.view.WindowManager
 import android.widget.ArrayAdapter
 import android.widget.DatePicker
 import android.widget.TextView
@@ -54,7 +53,15 @@ class AddActivity : AppCompatActivity(),
     private var remindId = 0
     private val date = Calendar.getInstance()
     private var remindTaskDate = date
-    private var currentDay = date[DAY_OF_MONTH]
+    private val currentDay by lazy {
+        val current = date.clone() as Calendar
+        current.apply {
+            set(Calendar.HOUR_OF_DAY, 0)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+        }.timeInMillis
+    }
     private var subtasks: MutableList<String> = arrayListOf()
 
     private var remindNumber = 0
@@ -95,8 +102,6 @@ class AddActivity : AppCompatActivity(),
             if (remindDateString != dateString) {
                 remind_edit_text.setText(remindDateString, TextView.BufferType.EDITABLE)
             }
-
-            currentDay = bundle.getInt(Constants.CHANGE_CURRENT_DAY)
 
             subtask_edit_text.setText(bundle.getString(Constants.CHANGE_SUBTASKS))
             group_edit_text.setText(bundle.getString(Constants.CHANGE_GROUP))
@@ -204,14 +209,13 @@ class AddActivity : AppCompatActivity(),
         }
 
         val isCompound = !subtasks.isEmpty()
-        currentDay = date[DAY_OF_MONTH]
 
         val task = Task(id,
                 remindId,
                 name,
                 date.timeInMillis,
-                remindTaskDate.timeInMillis,
                 currentDay,
+                remindTaskDate.timeInMillis,
                 subtasks,
                 isCompound,
                 group)

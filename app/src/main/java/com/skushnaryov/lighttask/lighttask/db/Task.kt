@@ -10,8 +10,8 @@ data class Task(
         val remindId: Int,
         val name: String,
         val date: Long,
+        val currentDay: Long,
         val taskRemindDate: Long = 0,
-        val currentDay: Int,
         val listOfSubtasks: MutableList<String> = arrayListOf(),
         val isCompound: Boolean = false,
         val groupName: String = ""

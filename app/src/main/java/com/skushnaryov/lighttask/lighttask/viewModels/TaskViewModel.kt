@@ -14,7 +14,7 @@ class TaskViewModel : ViewModel() {
 
     fun delete(task: Task) = repository.delete(task)
 
-    fun getTodayTasks(day: Int) = repository.getTodayTasks(day)
+    fun getTodayTasks(day: Long) = repository.getTodayTasks(day)
 
     fun getGroupTasks(group: String) = repository.getGroupTasks(group)
 }
