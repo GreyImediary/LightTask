@@ -12,13 +12,17 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.skushnaryov.lighttask.lighttask.R
 import com.skushnaryov.lighttask.lighttask.adapters.GroupRecyclerView
 import com.skushnaryov.lighttask.lighttask.db.Group
+import com.skushnaryov.lighttask.lighttask.onScrollListener
 import com.skushnaryov.lighttask.lighttask.toast
 import com.skushnaryov.lighttask.lighttask.viewModels.GroupViewModel
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.dialog_add_group_layout.view.*
 import kotlinx.android.synthetic.main.fragment_groups.*
+import kotlinx.android.synthetic.main.fragment_tasks.*
 
 class GroupsFragment : Fragment(), GroupRecyclerView.OnGroupItemClickListener {
 
@@ -39,6 +43,20 @@ class GroupsFragment : Fragment(), GroupRecyclerView.OnGroupItemClickListener {
         groupViewModel.allGroups.observe(this, Observer {
             adapter.groupList = it
         })
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        val fab = activity?.findViewById<FloatingActionButton>(R.id.fab) ?: return
+
+        rv_groups.onScrollListener { dy ->
+            if (dy > 0 && fab.visibility == View.VISIBLE) {
+                activity?.fab?.hide()
+            } else if (dy < 0 && fab.visibility != View.VISIBLE) {
+                activity?.fab?.show()
+            }
+        }
     }
 
     override fun onGroupClick(name: String) {

@@ -24,7 +24,11 @@
         </activity>
         <activity
             android:name=".activities.AddActivity"
-            android:label="@string/title_activity_add" />
+            android:label="@string/titleActivityAdd" />
+
+        <activity
+            android:name=".activities.AboutActivity"
+            android:label="@string/about" />
 
         <receiver
             android:name=".recievers.TaskReciever"

@@ -5,6 +5,9 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
@@ -14,16 +17,19 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.skushnaryov.lighttask.lighttask.*
 import com.skushnaryov.lighttask.lighttask.db.Reminder
+import com.skushnaryov.lighttask.lighttask.dialogs.FabDialog
 import com.skushnaryov.lighttask.lighttask.recievers.ReminderReciever
 import com.skushnaryov.lighttask.lighttask.viewModels.ReminderViewModel
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.dialog_reminder_create.*
 import kotlinx.android.synthetic.main.dialog_reminder_create.view.*
+import kotlinx.android.synthetic.main.fragment_groups.*
+import kotlinx.android.synthetic.main.fragment_tasks.*
 import org.jetbrains.anko.notificationManager
 import org.jetbrains.anko.startActivity
 import java.util.*
 
-class MainActivity : AppCompatActivity() {
-
+class MainActivity : AppCompatActivity(), FabDialog.OnFabDialogItemListener {
 
     private lateinit var controller: NavController
     private lateinit var reminderViewModel: ReminderViewModel
@@ -40,18 +46,37 @@ class MainActivity : AppCompatActivity() {
         createChannels()
 
         fab.setOnClickListener {
-            /*showReminderCreateDialog()*/
-            startActivity<AddActivity>()
+            val dialog = FabDialog()
+            dialog.listener = this
+            dialog.show(supportFragmentManager, "fab dialog")
         }
 
         reminderViewModel = ViewModelProviders.of(this).get(ReminderViewModel::class.java)
     }
 
+    override fun onCreateOptionsMenu(menu: Menu) = inflateMenu(R.menu.about_menu, menu)
+
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        R.id.action_about -> {
+            startActivity<AboutActivity>()
+            true
+        }
+        else -> super.onOptionsItemSelected(item)
+    }
+
     override fun onBackPressed() {
-        if (controller.currentDestination.label == "Tasks" && toolbar.title == "Tasks") {
+        if (controller.currentDestination.label == getString(R.string.tasks)
+                && toolbar.title == getString(R.string.tasks)) {
             finish()
         } else {
             controller.popBackStack()
+        }
+    }
+
+    override fun onFabDialogItemClick(position: Int) {
+        when (position) {
+            0 -> startActivity<AddActivity>()
+            1 -> showReminderCreateDialog()
         }
     }
 
@@ -72,22 +97,25 @@ class MainActivity : AppCompatActivity() {
         val builder = AlertDialog.Builder(this)
                 .setTitle(R.string.reminderDialogTitle)
                 .setView(view)
-                .setPositiveButton(R.string.create) { _, _ ->  onPositiveButtonClick(view)}
-                .setNegativeButton(R.string.cancel) {dialogInterface, _ -> dialogInterface.cancel() }
+                .setPositiveButton(R.string.create) { _, _ -> onPositiveButtonClick(view) }
+                .setNegativeButton(R.string.cancel) { dialogInterface, _ -> dialogInterface.cancel() }
         return builder.create().show()
     }
 
     private fun onPositiveButtonClick(view: View) {
         val remidnerName = view.reminderName_edit_text.text.toString()
+        val time = view.reminderTime_edit_text.text.toString()
 
         if (remidnerName.trim().isEmpty()) {
-            view.reminderName_text_input.error = getString(R.string.reminderDialogError)
+            toast(getString(R.string.wrongReminderName))
             return
-        } else {
-            view.reminderName_text_input.error = null
         }
 
-        val time = view.reminderTime_edit_text.text.toString().toInt()
+        if (time.isEmpty()) {
+            toast(getString(R.string.wrongReminderTime))
+            return
+        }
+
         val timeType = when (view.reminderTimeType_spinner.selectedItemId) {
             0L -> Constants.REMIND_MIN
             1L -> Constants.REMIND_HOUR
@@ -97,7 +125,7 @@ class MainActivity : AppCompatActivity() {
 
         val id = Random().nextInt(Int.MAX_VALUE)
 
-        val reminder = Reminder(id, remidnerName, time, timeType)
+        val reminder = Reminder(id, remidnerName, time.toInt(), timeType)
 
         reminderViewModel.insert(reminder)
 

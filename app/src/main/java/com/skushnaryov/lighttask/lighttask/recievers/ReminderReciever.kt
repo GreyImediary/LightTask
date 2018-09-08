@@ -45,8 +45,11 @@ class ReminderReciever : BroadcastReceiver() {
                 .setContentText(reminderName)
                 .setContentIntent(reminderPending)
                 .setAutoCancel(true)
-                .addAction(R.drawable.ic_alarm_off_black_24dp,
-                        context.getString(R.string.off), offPending)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            builder.addAction(R.drawable.ic_alarm_off_black_24dp,
+                    context.getString(R.string.off), offPending)
+        }
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
             builder.priority = NotificationCompat.PRIORITY_HIGH

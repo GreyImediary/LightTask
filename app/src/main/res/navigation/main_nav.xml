@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/tasks_fragment"
         android:name="com.skushnaryov.lighttask.lighttask.fragmnets.TasksFragment"
-        android:label="Tasks"
+        android:label="@string/tasks"
         tools:layout="@layout/fragment_tasks" >
         <argument
             android:name="groupName"
@@ -17,7 +17,7 @@
     <fragment
         android:id="@+id/groups_fragment"
         android:name="com.skushnaryov.lighttask.lighttask.fragmnets.GroupsFragment"
-        android:label="Groups"
+        android:label="@string/groups"
         tools:layout="@layout/fragment_groups" >
         <action
             android:id="@+id/group_action"
@@ -29,8 +29,8 @@
             app:popUpTo="@+id/tasks_fragment" />
     </fragment>
     <fragment
-        android:id="@+id/schedules_fragment"
+        android:id="@+id/reminders_fragment"
         android:name="com.skushnaryov.lighttask.lighttask.fragmnets.RemindersFragment"
-        android:label="Schedules"
+        android:label="@string/reminders"
         tools:layout="@layout/fragment_reminders" />
 </navigation>

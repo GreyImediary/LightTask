@@ -15,7 +15,7 @@ interface TaskDao : BaseDao<Task> {
     fun getGroupTasks(group: String): LiveData<List<Task>>
 
     @Query("SELECT * FROM tasks WHERE currentDay=:day")
-    fun getTodayTasks(day: Int): LiveData<List<Task>>
+    fun getTodayTasks(day: Long): LiveData<List<Task>>
 
     @Query("DELETE FROM tasks WHERE id=:id")
     fun deleteTaskById(id: Int)
