@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="reminders">Напоминания</string>
+    <string name="compoundCompleted">Составная задача закончена, удалить?</string>
+    <string name="subtaskCompleted">Подзадача выполнена</string>
+    <string name="taskCompleted">Задача выполнена</string>
+    <string name="titleActivityAdd">Создать задачу</string>
+    <string name="yes">Да</string>
+    <string name="cancel">Отмена</string>
+    <string name="create">Создать</string>
+    <string name="today">Сегодня</string>
+    <string name="every">Каждые</string>
+    <string name="delete">Удалить</string>
+    <string name="change">Изменить</string>
+    <string name="no_tasks">Задач нет</string>
+    <string name="no_reminders">Напоминаний нет</string>
+    <string name="noTaskSummary">Нажмите + для создания</string>
+    <string name="deletingToday">Вы не можете удалить группу \"Сегодня\"</string>
+    <string name="changingToday">Вы не можете изменить группу \"Сегодня\"</string>
+    <string name="taskName">Название</string>
+    <string name="taskDate">Дата</string>
+    <string name="taskGroup">Группа</string>
+    <string name="remind">Напомнить</string>
+    <string name="taskRepeat">Повторять</string>
+    <string name="taskSubtaskHint">Подзадачи</string>
+    <string name="subtaskHelperText">Разделяйте подзадачи запятой</string>
+    <string name="action_add">Добавить</string>
+    <string name="emptyNameError">Введите название</string>
+    <string name="wrongDateError">Неверное время: время прошло, либо поле пусто</string>
+    <string name="wrongGroupName">Неверная название группы</string>
+    <string name="groupDialogButton">Добавить группу</string>
+    <string name="groupDialogTitle">Выбрать группу</string>
+    <string name="groupAddDialogHint">Название группы</string>
+    <string name="groupAddDialogTitle">Создать новую группу</string>
+    <string name="remindDialogTitle">Напомнить за …</string>
+    <string name="number">Число</string>
+    <string name="reminderDialogTitle">Создать напоминание</string>
+    <string name="reminderNameDialogHint">Название напоминания</string>
+    <string name="reminderDialogError">Неправильное имя</string>
+    <string name="reminderDialogText">Повторять каждые</string>
+    <string name="changeGroupDialogTitle">Изменить группу</string>
+    <string name="changeRemidnerDialogTitle">Изменить напоминание</string>
+    <string name="taskRecieverTitle">Задача!</string>
+    <string name="reminderRecieveTitle">Напоминание!</string>
+    <string name="taskRemindRecieverTitle">Напоминание задачи!</string>
+    <string name="wrongReminderTime">Неверное время напоминания</string>
+    <string name="titleChangeTask">Изменить задачу</string>
+    <string name="doneRecieverAction">Сделано</string>
+    <string name="ownTaskRemindTitle">Установить своё время время</string>
+    <string name="fabDialogTitle">Создать</string>
+    <string name="about">О приложении</string>
+    <string name="aboutVersion">Версия 1.0</string>
+    <string name="aboutMade">"Сделано Сергеем Кушнарёвым"</string>
+    <string name="remindError">Неверное время напоминания</string>
+    <string name="wrongReminderName">Неверное название напоминания</string>
+    <string-array name="remindArray">
+        <item>5 минут</item>
+        <item>10 минут</item>
+        <item>30 минут</item>
+        <item>1 час</item>
+        <item>1 день</item>
+        <item>Выбрать другое</item>
+    </string-array>
+
+    <string-array name="fabDialogArr">
+        <item>Задачу</item>
+        <item>Напоминание</item>
+    </string-array>
+
+    <string-array name="timeArr">
+        <item>минут</item>
+        <item>часов</item>
+        <item>дней</item>
+    </string-array>
+    <string name="tasks">Задачи</string>
+    <string name="groups">Группы</string>
+</resources>
