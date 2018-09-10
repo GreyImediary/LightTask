@@ -33,9 +33,11 @@ class ReminderReciever : BroadcastReceiver() {
 
         val offIntent = Intent(context, ReminderOffReciever::class.java).apply {
             action = Constants.REMINDER_OFF_RECIEVER
-            putExtra(Constants.EXTRAS_ID, id)
-            putExtra(Constants.EXTRAS_NAME, reminderName)
-            putExtra(Constants.EXTRAS_TIME_REPEAT, reminderTime)
+            putExtras(bundleOf(
+                    Constants.EXTRAS_ID to id,
+                    Constants.EXTRAS_NAME to reminderName,
+                    Constants.EXTRAS_TIME_REPEAT to reminderTime
+            ))
         }
         val offPending = PendingIntent.getBroadcast(context, id, offIntent, PendingIntent.FLAG_UPDATE_CURRENT)
 
@@ -65,9 +67,11 @@ class ReminderReciever : BroadcastReceiver() {
 
         val repeatIntent = Intent(context, ReminderReciever::class.java).apply {
             action = Constants.REMINDER_RECIEVER
-            putExtra(Constants.EXTRAS_ID, id)
-            putExtra(Constants.EXTRAS_NAME, reminderName)
-            putExtra(Constants.EXTRAS_TIME_REPEAT, reminderTime)
+            putExtras(bundleOf(
+                    Constants.EXTRAS_ID to id,
+                    Constants.EXTRAS_NAME to reminderName,
+                    Constants.EXTRAS_TIME_REPEAT to reminderTime
+            ))
         }
         val repeatPending = PendingIntent.getBroadcast(context, id, repeatIntent, PendingIntent.FLAG_UPDATE_CURRENT)
 

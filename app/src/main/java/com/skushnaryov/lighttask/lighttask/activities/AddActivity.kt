@@ -12,6 +12,7 @@ import android.widget.DatePicker
 import android.widget.TextView
 import android.widget.TimePicker
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.skushnaryov.lighttask.lighttask.*
@@ -205,7 +206,7 @@ class AddActivity : AppCompatActivity(),
 
         if (!remind_edit_text.text!!.isEmpty()) {
             val fullDate = getFullStringDate(date[DAY_OF_MONTH], date[MONTH], date[YEAR], date[HOUR_OF_DAY], date[MINUTE])
-            createTaskReminNotification(remindId, "$name at $fullDate", remindTaskDate.timeInMillis)
+            createTaskRemindNotification(remindId, "$name at $fullDate", remindTaskDate.timeInMillis)
         }
 
         val isCompound = !subtasks.isEmpty()
@@ -331,11 +332,13 @@ class AddActivity : AppCompatActivity(),
         createTaskRemind()
     }
 
-    private fun createTaskReminNotification(id: Int, text: String, date: Long) {
+    private fun createTaskRemindNotification(id: Int, text: String, date: Long) {
         val taskRemindIntent = Intent(this, TaskRemindReciever::class.java).apply {
             action = Constants.TASK_REMIND_RECIEVER
-            putExtra(Constants.EXTRAS_ID, id)
-            putExtra(Constants.EXTRAS_REMIND_TEXT, text)
+            putExtras(bundleOf(
+                    Constants.EXTRAS_ID to id,
+                    Constants.EXTRAS_REMIND_TEXT to text
+            ))
         }
 
         val taskRemindPending = PendingIntent.getBroadcast(this, id, taskRemindIntent, PendingIntent.FLAG_UPDATE_CURRENT)
@@ -347,8 +350,10 @@ class AddActivity : AppCompatActivity(),
     private fun createAlarmNotification(id: Int, name: String) {
         val alarmIntent = Intent(this, TaskReciever::class.java).apply {
             action = Constants.TASK_RECIEVER
-            putExtra(Constants.EXTRAS_ID, id)
-            putExtra(Constants.EXTRAS_NAME, name)
+            putExtras(bundleOf(
+                    Constants.EXTRAS_ID to id,
+                    Constants.EXTRAS_NAME to name
+            ))
         }
 
         val alarmPending = PendingIntent.getBroadcast(this, id, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT)

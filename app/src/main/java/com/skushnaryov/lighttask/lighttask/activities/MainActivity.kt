@@ -25,6 +25,7 @@ import kotlinx.android.synthetic.main.dialog_reminder_create.*
 import kotlinx.android.synthetic.main.dialog_reminder_create.view.*
 import kotlinx.android.synthetic.main.fragment_groups.*
 import kotlinx.android.synthetic.main.fragment_tasks.*
+import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.notificationManager
 import org.jetbrains.anko.startActivity
 import java.util.*
@@ -146,9 +147,11 @@ class MainActivity : AppCompatActivity(), FabDialog.OnFabDialogItemListener {
 
         val alarmIntent = Intent(this, ReminderReciever::class.java).apply {
             action = Constants.REMINDER_RECIEVER
-            putExtra(Constants.EXTRAS_ID, reminder.id)
-            putExtra(Constants.EXTRAS_NAME, reminder.name)
-            putExtra(Constants.EXTRAS_TIME_REPEAT, reminderTime)
+            putExtras(bundleOf(
+                    Constants.EXTRAS_ID to reminder.id,
+                    Constants.EXTRAS_NAME to reminder.name,
+                    Constants.EXTRAS_TIME_REPEAT to reminderTime
+            ))
         }
         val alarmPending = PendingIntent.getBroadcast(this, reminder.id, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT)
 

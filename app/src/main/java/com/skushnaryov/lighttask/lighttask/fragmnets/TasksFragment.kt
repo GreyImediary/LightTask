@@ -196,8 +196,10 @@ class TasksFragment : Fragment(),
     private fun deleteAlarm(id: Int, name: String) {
         val alarmIntent = Intent(context, TaskReciever::class.java).apply {
             action = Constants.TASK_RECIEVER
-            putExtra(Constants.EXTRAS_ID, id)
-            putExtra(Constants.EXTRAS_NAME, name)
+            putExtras(bundleOf(
+                    Constants.EXTRAS_ID to id,
+                    Constants.EXTRAS_NAME to name
+            ))
         }
 
         val alarmPending = PendingIntent.getBroadcast(context, id, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT)
@@ -209,8 +211,10 @@ class TasksFragment : Fragment(),
     private fun deleteTaskRemind(id: Int, text: String) {
         val taskRemindIntent = Intent(context, TaskRemindReciever::class.java).apply {
             action = Constants.TASK_REMIND_RECIEVER
-            putExtra(Constants.EXTRAS_ID, id)
-            putExtra(Constants.EXTRAS_REMIND_TEXT, text)
+            putExtras(bundleOf(
+                    Constants.EXTRAS_ID to id,
+                    Constants.EXTRAS_REMIND_TEXT to text
+            ))
         }
 
         val taskRemindPending = PendingIntent.getBroadcast(context, id, taskRemindIntent, PendingIntent.FLAG_UPDATE_CURRENT)

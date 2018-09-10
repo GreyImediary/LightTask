@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -85,9 +86,11 @@ class RemindersFragment : Fragment(), ReminderRecyclerView.OnReminderListener {
 
         val alarmIntent = Intent(context, ReminderReciever::class.java).apply {
             action = Constants.REMINDER_RECIEVER
-            putExtra(Constants.EXTRAS_ID, reminder.id)
-            putExtra(Constants.EXTRAS_NAME, reminder.name)
-            putExtra(Constants.EXTRAS_TIME_REPEAT, reminderTime)
+            putExtras(bundleOf(
+                    Constants.EXTRAS_ID to reminder.id,
+                    Constants.EXTRAS_NAME to reminder.name,
+                    Constants.EXTRAS_TIME_REPEAT to reminderTime
+            ))
         }
         val alarmPending = PendingIntent.getBroadcast(context, reminder.id, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT)
 
@@ -104,7 +107,8 @@ class RemindersFragment : Fragment(), ReminderRecyclerView.OnReminderListener {
 
     override fun onPopupItemClick(itemId: Int, reminder: Reminder) = when (itemId) {
         R.id.action_delete -> {
-            deleteReminder(reminder)
+            deleteAram(reminder)
+            reminderViewModel.delete(reminder)
             true
         }
         R.id.action_change -> {
@@ -112,27 +116,6 @@ class RemindersFragment : Fragment(), ReminderRecyclerView.OnReminderListener {
             true
         }
         else -> false
-    }
-
-    private fun deleteReminder(reminder: Reminder) {
-        val reminderTime = getAlarmTime(reminder.timeType, reminder.time)
-
-        if (reminderTime == -1L) {
-            return
-        }
-
-        val alarmIntent = Intent(context, ReminderReciever::class.java).apply {
-            action = Constants.REMINDER_RECIEVER
-            putExtra(Constants.EXTRAS_ID, reminder.id)
-            putExtra(Constants.EXTRAS_NAME, reminder.name)
-            putExtra(Constants.EXTRAS_TIME_REPEAT, reminderTime)
-        }
-        val alarmPending = PendingIntent.getBroadcast(context, reminder.id, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT)
-
-        val alarmManager = context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        alarmManager.cancel(alarmPending)
-
-        reminderViewModel.delete(reminder)
     }
 
     private fun changeReminderDialog(reminder: Reminder) {
@@ -205,9 +188,11 @@ class RemindersFragment : Fragment(), ReminderRecyclerView.OnReminderListener {
 
         val alarmIntent = Intent(context, ReminderReciever::class.java).apply {
             action = Constants.REMINDER_RECIEVER
-            putExtra(Constants.EXTRAS_ID, reminder.id)
-            putExtra(Constants.EXTRAS_NAME, reminder.name)
-            putExtra(Constants.EXTRAS_TIME_REPEAT, reminderTime)
+            putExtras(bundleOf(
+                    Constants.EXTRAS_ID to reminder.id,
+                    Constants.EXTRAS_NAME to reminder.name,
+                    Constants.EXTRAS_TIME_REPEAT to reminderTime
+            ))
         }
         val alarmPending = PendingIntent.getBroadcast(context, reminder.id, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT)
 
@@ -224,9 +209,11 @@ class RemindersFragment : Fragment(), ReminderRecyclerView.OnReminderListener {
 
         val alarmIntent = Intent(context, ReminderReciever::class.java).apply {
             action = Constants.REMINDER_RECIEVER
-            putExtra(Constants.EXTRAS_ID, reminder.id)
-            putExtra(Constants.EXTRAS_NAME, reminder.name)
-            putExtra(Constants.EXTRAS_TIME_REPEAT, reminderTime)
+            putExtras(bundleOf(
+                    Constants.EXTRAS_ID to reminder.id,
+                    Constants.EXTRAS_NAME to reminder.name,
+                    Constants.EXTRAS_TIME_REPEAT to reminderTime
+            ))
         }
         val alarmPending = PendingIntent.getBroadcast(context, reminder.id, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT)
 

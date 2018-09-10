@@ -21,11 +21,10 @@ class ReminderOffReciever : BroadcastReceiver() {
 
         val offIntent = Intent(context, ReminderReciever::class.java).apply {
             action = Constants.REMINDER_RECIEVER
-            val bundle = bundleOf(
+            putExtras(bundleOf(
                     Constants.EXTRAS_ID to id,
                     Constants.EXTRAS_NAME to reminderName,
-                    Constants.EXTRAS_TIME_REPEAT to repeatTime)
-            putExtras(bundle)
+                    Constants.EXTRAS_TIME_REPEAT to repeatTime))
         }
         val offPending = PendingIntent.getBroadcast(context, id, offIntent, PendingIntent.FLAG_UPDATE_CURRENT)
 
