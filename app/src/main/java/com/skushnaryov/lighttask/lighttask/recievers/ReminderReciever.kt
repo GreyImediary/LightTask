@@ -1,13 +1,10 @@
 package com.skushnaryov.lighttask.lighttask.recievers
 
-import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import android.os.Bundle
-import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.os.bundleOf
@@ -60,22 +57,6 @@ class ReminderReciever : BroadcastReceiver() {
 
         NotificationManagerCompat.from(context).notify(id, builder.build())
 
-        val currentTime = Calendar.getInstance().let {
-            it.set(Calendar.SECOND, 0)
-            it.timeInMillis
-        }
-
-        val repeatIntent = Intent(context, ReminderReciever::class.java).apply {
-            action = Constants.REMINDER_RECIEVER
-            putExtras(bundleOf(
-                    Constants.EXTRAS_ID to id,
-                    Constants.EXTRAS_NAME to reminderName,
-                    Constants.EXTRAS_TIME_REPEAT to reminderTime
-            ))
-        }
-        val repeatPending = PendingIntent.getBroadcast(context, id, repeatIntent, PendingIntent.FLAG_UPDATE_CURRENT)
-
-        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        alarmManager.set(AlarmManager.RTC, currentTime + reminderTime, repeatPending)
+        Constants.crtOrrmvRemindeNotification(context, id, reminderName, reminderTime)
     }
 }

@@ -134,29 +134,13 @@ class MainActivity : AppCompatActivity(), FabDialog.OnFabDialogItemListener {
     }
 
     private fun createAlarmNotification(reminder: Reminder) {
-        val currentTime = Calendar.getInstance().let {
-            it.set(Calendar.SECOND, 0)
-            it.timeInMillis
-        }
         val reminderTime = getAlarmTime(reminder.timeType, reminder.time)
 
         if (reminderTime == -1L) {
             return
         }
 
-
-        val alarmIntent = Intent(this, ReminderReciever::class.java).apply {
-            action = Constants.REMINDER_RECIEVER
-            putExtras(bundleOf(
-                    Constants.EXTRAS_ID to reminder.id,
-                    Constants.EXTRAS_NAME to reminder.name,
-                    Constants.EXTRAS_TIME_REPEAT to reminderTime
-            ))
-        }
-        val alarmPending = PendingIntent.getBroadcast(this, reminder.id, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT)
-
-        val alarmMananger = this.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        alarmMananger.set(AlarmManager.RTC, currentTime + reminderTime, alarmPending)
+        Constants.crtOrrmvRemindeNotification(this, reminder.id, reminder.name, reminderTime)
     }
 
     private fun getAlarmTime(timeType: String, time: Int) = when (timeType) {
