@@ -6,6 +6,7 @@ import android.content.Intent
 import androidx.core.app.NotificationManagerCompat
 import com.skushnaryov.lighttask.lighttask.Constants
 import com.skushnaryov.lighttask.lighttask.db.ReminderRepository
+import com.skushnaryov.lighttask.lighttask.viewModels.NotificationUtils
 
 class ReminderOffReciever : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
@@ -16,7 +17,7 @@ class ReminderOffReciever : BroadcastReceiver() {
             return
         }
 
-        Constants.crtOrrmvRemindeNotification(context, id, reminderName, reminderTime, true)
+        NotificationUtils.crtOrRmvRemindeNotification(context, id, reminderName, reminderTime, true)
 
         ReminderRepository().updateIsOnById(id, false)
         NotificationManagerCompat.from(context).cancel(id)

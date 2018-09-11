@@ -11,7 +11,7 @@ import androidx.core.os.bundleOf
 import com.skushnaryov.lighttask.lighttask.Constants
 import com.skushnaryov.lighttask.lighttask.R
 import com.skushnaryov.lighttask.lighttask.activities.MainActivity
-import java.util.*
+import com.skushnaryov.lighttask.lighttask.viewModels.NotificationUtils
 
 class ReminderReciever : BroadcastReceiver() {
 
@@ -57,6 +57,6 @@ class ReminderReciever : BroadcastReceiver() {
 
         NotificationManagerCompat.from(context).notify(id, builder.build())
 
-        Constants.crtOrrmvRemindeNotification(context, id, reminderName, reminderTime)
+        NotificationUtils.crtOrRmvRemindeNotification(context, id, reminderName, reminderTime)
     }
 }

@@ -42,3 +42,10 @@ val Int.hour: Long
     get() = this.minute * 60
 val Int.day: Long
     get() = this.hour * 24
+
+fun Int.getAlarmTime(timeType: String) = when (timeType) {
+    Constants.REMIND_MIN -> this.minute
+    Constants.REMIND_HOUR -> this.hour
+    Constants.REMIND_DAY -> this.day
+    else -> -1L
+}

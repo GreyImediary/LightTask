@@ -15,6 +15,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.skushnaryov.lighttask.lighttask.*
 import com.skushnaryov.lighttask.lighttask.adapters.ReminderRecyclerView
 import com.skushnaryov.lighttask.lighttask.db.Reminder
+import com.skushnaryov.lighttask.lighttask.viewModels.NotificationUtils
 import com.skushnaryov.lighttask.lighttask.viewModels.ReminderViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.dialog_reminder_create.view.*
@@ -67,17 +68,17 @@ class RemindersFragment : Fragment(), ReminderRecyclerView.OnReminderListener {
     }
 
     override fun onSwitchChecked(isChecked: Boolean, reminder: Reminder) {
-        val reminderTime = getAlarmTime(reminder.timeType, reminder.time)
+        val reminderTime = reminder.time.getAlarmTime(reminder.timeType)
 
         if (reminderTime == -1L) {
             return
         }
 
         if (isChecked) {
-            Constants.crtOrrmvRemindeNotification(context!!, reminder.id, reminder.name, reminderTime)
+            NotificationUtils.crtOrRmvRemindeNotification(context!!, reminder.id, reminder.name, reminderTime)
             reminderViewModel.updateIsOnById(reminder.id, true)
         } else {
-            Constants.crtOrrmvRemindeNotification(context!!, reminder.id, reminder.name, reminderTime, true)
+            NotificationUtils.crtOrRmvRemindeNotification(context!!, reminder.id, reminder.name, reminderTime, true)
             reminderViewModel.updateIsOnById(reminder.id, false)
         }
     }
@@ -153,23 +154,17 @@ class RemindersFragment : Fragment(), ReminderRecyclerView.OnReminderListener {
     }
 
     private fun crtOrRmvAlarm(reminder: Reminder, isRemoving: Boolean = false) {
-        val reminderTime = getAlarmTime(reminder.timeType, reminder.time)
+        val reminderTime = reminder.time.getAlarmTime(reminder.timeType)
 
         if (reminderTime == -1L) {
             return
         }
 
         if (isRemoving) {
-            Constants.crtOrrmvRemindeNotification(context!!, reminder.id, reminder.name, reminderTime, true)
+            NotificationUtils.crtOrRmvRemindeNotification(context!!, reminder.id, reminder.name, reminderTime, true)
         } else {
-            Constants.crtOrrmvRemindeNotification(context!!, reminder.id, reminder.name, reminderTime)
+            NotificationUtils.crtOrRmvRemindeNotification(context!!, reminder.id, reminder.name, reminderTime)
         }
     }
 
-    private fun getAlarmTime(timeType: String, time: Int) = when (timeType) {
-        Constants.REMIND_MIN -> time.minute
-        Constants.REMIND_HOUR -> time.hour
-        Constants.REMIND_DAY -> time.day
-        else -> -1L
-    }
 }

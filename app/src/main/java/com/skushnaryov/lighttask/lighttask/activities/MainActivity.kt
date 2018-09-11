@@ -1,11 +1,10 @@
 package com.skushnaryov.lighttask.lighttask.activities
 
-import android.app.*
-import android.content.Context
-import android.content.Intent
+import android.app.AlertDialog
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -18,14 +17,10 @@ import androidx.navigation.ui.NavigationUI
 import com.skushnaryov.lighttask.lighttask.*
 import com.skushnaryov.lighttask.lighttask.db.Reminder
 import com.skushnaryov.lighttask.lighttask.dialogs.FabDialog
-import com.skushnaryov.lighttask.lighttask.recievers.ReminderReciever
+import com.skushnaryov.lighttask.lighttask.viewModels.NotificationUtils
 import com.skushnaryov.lighttask.lighttask.viewModels.ReminderViewModel
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.dialog_reminder_create.*
 import kotlinx.android.synthetic.main.dialog_reminder_create.view.*
-import kotlinx.android.synthetic.main.fragment_groups.*
-import kotlinx.android.synthetic.main.fragment_tasks.*
-import org.jetbrains.anko.bundleOf
 import org.jetbrains.anko.notificationManager
 import org.jetbrains.anko.startActivity
 import java.util.*
@@ -134,20 +129,13 @@ class MainActivity : AppCompatActivity(), FabDialog.OnFabDialogItemListener {
     }
 
     private fun createAlarmNotification(reminder: Reminder) {
-        val reminderTime = getAlarmTime(reminder.timeType, reminder.time)
+        val reminderTime = reminder.time.getAlarmTime(reminder.timeType)
 
         if (reminderTime == -1L) {
             return
         }
 
-        Constants.crtOrrmvRemindeNotification(this, reminder.id, reminder.name, reminderTime)
-    }
-
-    private fun getAlarmTime(timeType: String, time: Int) = when (timeType) {
-        Constants.REMIND_MIN -> time.minute
-        Constants.REMIND_HOUR -> time.hour
-        Constants.REMIND_DAY -> time.day
-        else -> -1L
+        NotificationUtils.crtOrRmvRemindeNotification(this, reminder.id, reminder.name, reminderTime)
     }
 
     private fun createChannels() {
