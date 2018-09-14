@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.annotation.MenuRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.skushnaryov.lighttask.lighttask.utils.Constants
 
 fun ViewGroup.inflate(resId: Int, attachToRoot: Boolean = false): View =
         LayoutInflater.from(context).inflate(resId, this, attachToRoot)
@@ -42,3 +43,10 @@ val Int.hour: Long
     get() = this.minute * 60
 val Int.day: Long
     get() = this.hour * 24
+
+fun Int.getAlarmTime(timeType: String) = when (timeType) {
+    Constants.REMIND_MIN -> this.minute
+    Constants.REMIND_HOUR -> this.hour
+    Constants.REMIND_DAY -> this.day
+    else -> -1L
+}

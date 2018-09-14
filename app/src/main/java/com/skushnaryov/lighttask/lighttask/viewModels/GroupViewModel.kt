@@ -1,8 +1,8 @@
 package com.skushnaryov.lighttask.lighttask.viewModels
 
 import androidx.lifecycle.ViewModel
-import com.skushnaryov.lighttask.lighttask.db.Group
-import com.skushnaryov.lighttask.lighttask.db.GroupRepository
+import com.skushnaryov.lighttask.lighttask.db.entities.Group
+import com.skushnaryov.lighttask.lighttask.db.repositories.GroupRepository
 
 class GroupViewModel : ViewModel() {
     private val repository = GroupRepository()

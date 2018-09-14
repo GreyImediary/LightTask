@@ -9,7 +9,7 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.skushnaryov.lighttask.lighttask.*
-import com.skushnaryov.lighttask.lighttask.db.Task
+import com.skushnaryov.lighttask.lighttask.db.entities.Task
 import kotlinx.android.synthetic.main.item_task.view.*
 import org.jetbrains.anko.sdk25.coroutines.onCheckedChange
 import java.util.*
