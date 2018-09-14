@@ -1,20 +1,17 @@
 package com.skushnaryov.lighttask.lighttask.recievers
 
-import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import android.os.Bundle
-import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.os.bundleOf
-import com.skushnaryov.lighttask.lighttask.Constants
+import com.skushnaryov.lighttask.lighttask.utils.Constants
 import com.skushnaryov.lighttask.lighttask.R
 import com.skushnaryov.lighttask.lighttask.activities.MainActivity
-import java.util.*
+import com.skushnaryov.lighttask.lighttask.utils.NotificationUtils
 
 class ReminderReciever : BroadcastReceiver() {
 
@@ -33,9 +30,11 @@ class ReminderReciever : BroadcastReceiver() {
 
         val offIntent = Intent(context, ReminderOffReciever::class.java).apply {
             action = Constants.REMINDER_OFF_RECIEVER
-            putExtra(Constants.EXTRAS_ID, id)
-            putExtra(Constants.EXTRAS_NAME, reminderName)
-            putExtra(Constants.EXTRAS_TIME_REPEAT, reminderTime)
+            putExtras(bundleOf(
+                    Constants.EXTRAS_ID to id,
+                    Constants.EXTRAS_NAME to reminderName,
+                    Constants.EXTRAS_TIME_REPEAT to reminderTime
+            ))
         }
         val offPending = PendingIntent.getBroadcast(context, id, offIntent, PendingIntent.FLAG_UPDATE_CURRENT)
 
@@ -58,20 +57,6 @@ class ReminderReciever : BroadcastReceiver() {
 
         NotificationManagerCompat.from(context).notify(id, builder.build())
 
-        val currentTime = Calendar.getInstance().let {
-            it.set(Calendar.SECOND, 0)
-            it.timeInMillis
-        }
-
-        val repeatIntent = Intent(context, ReminderReciever::class.java).apply {
-            action = Constants.REMINDER_RECIEVER
-            putExtra(Constants.EXTRAS_ID, id)
-            putExtra(Constants.EXTRAS_NAME, reminderName)
-            putExtra(Constants.EXTRAS_TIME_REPEAT, reminderTime)
-        }
-        val repeatPending = PendingIntent.getBroadcast(context, id, repeatIntent, PendingIntent.FLAG_UPDATE_CURRENT)
-
-        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        alarmManager.set(AlarmManager.RTC, currentTime + reminderTime, repeatPending)
+        NotificationUtils.crtOrRmvRemindeNotification(context, id, reminderName, reminderTime)
     }
 }

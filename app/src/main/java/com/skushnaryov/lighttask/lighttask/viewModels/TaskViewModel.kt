@@ -1,8 +1,8 @@
 package com.skushnaryov.lighttask.lighttask.viewModels
 
 import androidx.lifecycle.ViewModel
-import com.skushnaryov.lighttask.lighttask.db.Task
-import com.skushnaryov.lighttask.lighttask.db.TaskRepository
+import com.skushnaryov.lighttask.lighttask.db.entities.Task
+import com.skushnaryov.lighttask.lighttask.db.repositories.TaskRepository
 
 class TaskViewModel : ViewModel() {
     private val repository = TaskRepository()

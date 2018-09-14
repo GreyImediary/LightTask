@@ -1,4 +1,4 @@
-package com.skushnaryov.lighttask.lighttask.db
+package com.skushnaryov.lighttask.lighttask.db.daos
 
 import androidx.room.*
 

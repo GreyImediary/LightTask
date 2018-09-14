@@ -15,14 +15,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.skushnaryov.lighttask.lighttask.R
 import com.skushnaryov.lighttask.lighttask.adapters.GroupRecyclerView
-import com.skushnaryov.lighttask.lighttask.db.Group
+import com.skushnaryov.lighttask.lighttask.db.entities.Group
 import com.skushnaryov.lighttask.lighttask.onScrollListener
 import com.skushnaryov.lighttask.lighttask.toast
 import com.skushnaryov.lighttask.lighttask.viewModels.GroupViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.dialog_add_group_layout.view.*
 import kotlinx.android.synthetic.main.fragment_groups.*
-import kotlinx.android.synthetic.main.fragment_tasks.*
 
 class GroupsFragment : Fragment(), GroupRecyclerView.OnGroupItemClickListener {
 

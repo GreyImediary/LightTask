@@ -1,8 +1,8 @@
 package com.skushnaryov.lighttask.lighttask.viewModels
 
 import androidx.lifecycle.ViewModel
-import com.skushnaryov.lighttask.lighttask.db.Reminder
-import com.skushnaryov.lighttask.lighttask.db.ReminderRepository
+import com.skushnaryov.lighttask.lighttask.db.entities.Reminder
+import com.skushnaryov.lighttask.lighttask.db.repositories.ReminderRepository
 
 class ReminderViewModel : ViewModel() {
     private val repository = ReminderRepository()

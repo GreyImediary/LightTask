@@ -4,9 +4,9 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import androidx.core.app.NotificationManagerCompat
-import com.skushnaryov.lighttask.lighttask.Constants
+import com.skushnaryov.lighttask.lighttask.utils.Constants
 import com.skushnaryov.lighttask.lighttask.R
-import com.skushnaryov.lighttask.lighttask.db.TaskRepository
+import com.skushnaryov.lighttask.lighttask.db.repositories.TaskRepository
 import com.skushnaryov.lighttask.lighttask.toast
 
 class TaskDoneReciever : BroadcastReceiver() {

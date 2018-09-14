@@ -4,7 +4,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.skushnaryov.lighttask.lighttask.R
-import com.skushnaryov.lighttask.lighttask.db.Task
+import com.skushnaryov.lighttask.lighttask.db.entities.Task
 import com.skushnaryov.lighttask.lighttask.inflate
 import kotlinx.android.synthetic.main.item_subtask.view.*
 import org.jetbrains.anko.sdk25.coroutines.onCheckedChange

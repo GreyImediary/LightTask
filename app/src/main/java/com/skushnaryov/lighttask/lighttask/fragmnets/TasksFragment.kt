@@ -1,8 +1,5 @@
 package com.skushnaryov.lighttask.lighttask.fragmnets
 
-import android.app.AlarmManager
-import android.app.PendingIntent
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -14,22 +11,24 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
-import com.skushnaryov.lighttask.lighttask.*
-import com.skushnaryov.lighttask.lighttask.Constants.CHANGE_CURRENT_DAY
-import com.skushnaryov.lighttask.lighttask.Constants.CHANGE_DATE
-import com.skushnaryov.lighttask.lighttask.Constants.CHANGE_GROUP
-import com.skushnaryov.lighttask.lighttask.Constants.CHANGE_ID
-import com.skushnaryov.lighttask.lighttask.Constants.CHANGE_NAME
-import com.skushnaryov.lighttask.lighttask.Constants.CHANGE_REMIND_DATE
-import com.skushnaryov.lighttask.lighttask.Constants.CHANGE_REMIND_ID
-import com.skushnaryov.lighttask.lighttask.Constants.CHANGE_SUBTASKS
+import com.skushnaryov.lighttask.lighttask.utils.Constants.CHANGE_CURRENT_DAY
+import com.skushnaryov.lighttask.lighttask.utils.Constants.CHANGE_DATE
+import com.skushnaryov.lighttask.lighttask.utils.Constants.CHANGE_GROUP
+import com.skushnaryov.lighttask.lighttask.utils.Constants.CHANGE_ID
+import com.skushnaryov.lighttask.lighttask.utils.Constants.CHANGE_NAME
+import com.skushnaryov.lighttask.lighttask.utils.Constants.CHANGE_REMIND_DATE
+import com.skushnaryov.lighttask.lighttask.utils.Constants.CHANGE_REMIND_ID
+import com.skushnaryov.lighttask.lighttask.utils.Constants.CHANGE_SUBTASKS
+import com.skushnaryov.lighttask.lighttask.R
 import com.skushnaryov.lighttask.lighttask.activities.AddActivity
 import com.skushnaryov.lighttask.lighttask.adapters.SubtaskRecyclerView
 import com.skushnaryov.lighttask.lighttask.adapters.TaskRecyclerView
-import com.skushnaryov.lighttask.lighttask.db.Task
-import com.skushnaryov.lighttask.lighttask.recievers.TaskReciever
-import com.skushnaryov.lighttask.lighttask.recievers.TaskRemindReciever
+import com.skushnaryov.lighttask.lighttask.db.entities.Task
+import com.skushnaryov.lighttask.lighttask.gone
+import com.skushnaryov.lighttask.lighttask.onScrollListener
+import com.skushnaryov.lighttask.lighttask.utils.NotificationUtils
 import com.skushnaryov.lighttask.lighttask.viewModels.TaskViewModel
+import com.skushnaryov.lighttask.lighttask.visible
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main.view.*
 import kotlinx.android.synthetic.main.fragment_tasks.*
@@ -102,8 +101,8 @@ class TasksFragment : Fragment(),
         val text = "${task.name} at ${date[Calendar.HOUR_OF_DAY]}:${date[Calendar.MINUTE]}"
 
         viewModel.delete(task)
-        deleteAlarm(task.id, task.name)
-        deleteTaskRemind(task.remindId, text)
+        NotificationUtils.crtOrRmvTaskNotification(context!!, task.id, task.name, isRemoving = true)
+        NotificationUtils.crtOrRmvTaskRemindNotification(context!!, task.remindId, text, isRemoving = true)
         Snackbar.make(activity?.contentView ?: return,
                 R.string.taskCompleted, Snackbar.LENGTH_LONG)
                 .setAction(R.string.cancel) {
@@ -143,8 +142,8 @@ class TasksFragment : Fragment(),
             val text = "${task.name} at ${date[Calendar.HOUR_OF_DAY]}:${date[Calendar.MINUTE]}"
 
             viewModel.delete(task)
-            deleteAlarm(task.id, task.name)
-            deleteTaskRemind(task.id, text)
+            NotificationUtils.crtOrRmvTaskNotification(context!!, task.id, task.name, isRemoving = true)
+            NotificationUtils.crtOrRmvTaskRemindNotification(context!!, task.remindId, text, isRemoving = true)
             true
         }
         R.id.action_change -> {
@@ -191,31 +190,5 @@ class TasksFragment : Fragment(),
             noTask_textView.gone()
             summary_textView.gone()
         }
-    }
-
-    private fun deleteAlarm(id: Int, name: String) {
-        val alarmIntent = Intent(context, TaskReciever::class.java).apply {
-            action = Constants.TASK_RECIEVER
-            putExtra(Constants.EXTRAS_ID, id)
-            putExtra(Constants.EXTRAS_NAME, name)
-        }
-
-        val alarmPending = PendingIntent.getBroadcast(context, id, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT)
-
-        val alarmManager = context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        alarmManager.cancel(alarmPending)
-    }
-
-    private fun deleteTaskRemind(id: Int, text: String) {
-        val taskRemindIntent = Intent(context, TaskRemindReciever::class.java).apply {
-            action = Constants.TASK_REMIND_RECIEVER
-            putExtra(Constants.EXTRAS_ID, id)
-            putExtra(Constants.EXTRAS_REMIND_TEXT, text)
-        }
-
-        val taskRemindPending = PendingIntent.getBroadcast(context, id, taskRemindIntent, PendingIntent.FLAG_UPDATE_CURRENT)
-
-        val alarmManager = context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        alarmManager.cancel(taskRemindPending)
     }
 }

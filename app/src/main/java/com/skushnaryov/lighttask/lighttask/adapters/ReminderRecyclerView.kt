@@ -5,9 +5,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.recyclerview.widget.RecyclerView
-import com.skushnaryov.lighttask.lighttask.Constants
+import com.skushnaryov.lighttask.lighttask.utils.Constants
 import com.skushnaryov.lighttask.lighttask.R
-import com.skushnaryov.lighttask.lighttask.db.Reminder
+import com.skushnaryov.lighttask.lighttask.db.entities.Reminder
 import com.skushnaryov.lighttask.lighttask.inflate
 import kotlinx.android.synthetic.main.item_reminder.view.*
 

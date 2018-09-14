@@ -1,8 +1,9 @@
-package com.skushnaryov.lighttask.lighttask.db
+package com.skushnaryov.lighttask.lighttask.db.daos
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Query
+import com.skushnaryov.lighttask.lighttask.db.entities.Reminder
 
 @Dao
 interface ReminderDao : BaseDao<Reminder> {

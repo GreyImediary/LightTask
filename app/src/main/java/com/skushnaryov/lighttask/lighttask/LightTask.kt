@@ -5,7 +5,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.skushnaryov.lighttask.lighttask.db.DataBase
-import com.skushnaryov.lighttask.lighttask.db.Group
+import com.skushnaryov.lighttask.lighttask.db.entities.Group
 import kotlinx.coroutines.experimental.launch
 
 class LightTask : Application() {

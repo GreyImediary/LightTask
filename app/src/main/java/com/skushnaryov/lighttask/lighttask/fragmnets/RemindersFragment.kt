@@ -1,10 +1,6 @@
 package com.skushnaryov.lighttask.lighttask.fragmnets
 
-import android.app.AlarmManager
 import android.app.AlertDialog
-import android.app.PendingIntent
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -18,16 +14,16 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.skushnaryov.lighttask.lighttask.*
 import com.skushnaryov.lighttask.lighttask.adapters.ReminderRecyclerView
-import com.skushnaryov.lighttask.lighttask.db.Reminder
-import com.skushnaryov.lighttask.lighttask.recievers.ReminderReciever
+import com.skushnaryov.lighttask.lighttask.db.entities.Reminder
+import com.skushnaryov.lighttask.lighttask.utils.Constants
+import com.skushnaryov.lighttask.lighttask.utils.NotificationUtils
 import com.skushnaryov.lighttask.lighttask.viewModels.ReminderViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.dialog_reminder_create.view.*
 import kotlinx.android.synthetic.main.fragment_reminders.*
-import java.util.*
 
 class RemindersFragment : Fragment(), ReminderRecyclerView.OnReminderListener {
-    lateinit var reminderViewModel: ReminderViewModel
+    private lateinit var reminderViewModel: ReminderViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_reminders, container, false)
@@ -73,38 +69,25 @@ class RemindersFragment : Fragment(), ReminderRecyclerView.OnReminderListener {
     }
 
     override fun onSwitchChecked(isChecked: Boolean, reminder: Reminder) {
-        val currentTime = Calendar.getInstance().let {
-            it.set(Calendar.SECOND, 0)
-            it.timeInMillis
-        }
-        val reminderTime = getAlarmTime(reminder.timeType, reminder.time)
+        val reminderTime = reminder.time.getAlarmTime(reminder.timeType)
 
         if (reminderTime == -1L) {
             return
         }
 
-        val alarmIntent = Intent(context, ReminderReciever::class.java).apply {
-            action = Constants.REMINDER_RECIEVER
-            putExtra(Constants.EXTRAS_ID, reminder.id)
-            putExtra(Constants.EXTRAS_NAME, reminder.name)
-            putExtra(Constants.EXTRAS_TIME_REPEAT, reminderTime)
-        }
-        val alarmPending = PendingIntent.getBroadcast(context, reminder.id, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT)
-
-        val alarmMananger = context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-
         if (isChecked) {
-            alarmMananger.set(AlarmManager.RTC, currentTime + reminderTime, alarmPending)
+            NotificationUtils.crtOrRmvRemindeNotification(context!!, reminder.id, reminder.name, reminderTime)
             reminderViewModel.updateIsOnById(reminder.id, true)
         } else {
-            alarmMananger.cancel(alarmPending)
+            NotificationUtils.crtOrRmvRemindeNotification(context!!, reminder.id, reminder.name, reminderTime, true)
             reminderViewModel.updateIsOnById(reminder.id, false)
         }
     }
 
     override fun onPopupItemClick(itemId: Int, reminder: Reminder) = when (itemId) {
         R.id.action_delete -> {
-            deleteReminder(reminder)
+            crtOrRmvAlarm(reminder, true)
+            reminderViewModel.delete(reminder)
             true
         }
         R.id.action_change -> {
@@ -112,27 +95,6 @@ class RemindersFragment : Fragment(), ReminderRecyclerView.OnReminderListener {
             true
         }
         else -> false
-    }
-
-    private fun deleteReminder(reminder: Reminder) {
-        val reminderTime = getAlarmTime(reminder.timeType, reminder.time)
-
-        if (reminderTime == -1L) {
-            return
-        }
-
-        val alarmIntent = Intent(context, ReminderReciever::class.java).apply {
-            action = Constants.REMINDER_RECIEVER
-            putExtra(Constants.EXTRAS_ID, reminder.id)
-            putExtra(Constants.EXTRAS_NAME, reminder.name)
-            putExtra(Constants.EXTRAS_TIME_REPEAT, reminderTime)
-        }
-        val alarmPending = PendingIntent.getBroadcast(context, reminder.id, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT)
-
-        val alarmManager = context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        alarmManager.cancel(alarmPending)
-
-        reminderViewModel.delete(reminder)
     }
 
     private fun changeReminderDialog(reminder: Reminder) {
@@ -163,7 +125,7 @@ class RemindersFragment : Fragment(), ReminderRecyclerView.OnReminderListener {
     }
 
     private fun changeReminder(reminder: Reminder, view: View) {
-        deleteAram(reminder)
+        crtOrRmvAlarm(reminder, true)
 
         val remidnerName = view.reminderName_edit_text.text.toString()
 
@@ -184,60 +146,26 @@ class RemindersFragment : Fragment(), ReminderRecyclerView.OnReminderListener {
 
         val id = reminder.id
 
-        val changeReminder = Reminder(id, remidnerName, time, timeType)
+        val changeReminder = Reminder(id, remidnerName, time, timeType, reminder.isOn)
 
         reminderViewModel.update(changeReminder)
-        createAlarm(changeReminder)
+        if (changeReminder.isOn) {
+            crtOrRmvAlarm(changeReminder)
+        }
     }
 
-    private fun createAlarm(reminder: Reminder) {
-        val currentTime = Calendar.getInstance().let {
-            it.set(Calendar.SECOND, 0)
-            it.timeInMillis
-        }
-
-        val reminderTime = getAlarmTime(reminder.timeType, reminder.time)
+    private fun crtOrRmvAlarm(reminder: Reminder, isRemoving: Boolean = false) {
+        val reminderTime = reminder.time.getAlarmTime(reminder.timeType)
 
         if (reminderTime == -1L) {
             return
         }
 
-
-        val alarmIntent = Intent(context, ReminderReciever::class.java).apply {
-            action = Constants.REMINDER_RECIEVER
-            putExtra(Constants.EXTRAS_ID, reminder.id)
-            putExtra(Constants.EXTRAS_NAME, reminder.name)
-            putExtra(Constants.EXTRAS_TIME_REPEAT, reminderTime)
+        if (isRemoving) {
+            NotificationUtils.crtOrRmvRemindeNotification(context!!, reminder.id, reminder.name, reminderTime, true)
+        } else {
+            NotificationUtils.crtOrRmvRemindeNotification(context!!, reminder.id, reminder.name, reminderTime)
         }
-        val alarmPending = PendingIntent.getBroadcast(context, reminder.id, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT)
-
-        val alarmMananger = context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        alarmMananger.set(AlarmManager.RTC, currentTime + reminderTime, alarmPending)
     }
 
-    private fun deleteAram(reminder: Reminder) {
-        val reminderTime = getAlarmTime(reminder.timeType, reminder.time)
-
-        if (reminderTime == -1L) {
-            return
-        }
-
-        val alarmIntent = Intent(context, ReminderReciever::class.java).apply {
-            action = Constants.REMINDER_RECIEVER
-            putExtra(Constants.EXTRAS_ID, reminder.id)
-            putExtra(Constants.EXTRAS_NAME, reminder.name)
-            putExtra(Constants.EXTRAS_TIME_REPEAT, reminderTime)
-        }
-        val alarmPending = PendingIntent.getBroadcast(context, reminder.id, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT)
-
-        val alarmMananger = context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        alarmMananger.cancel(alarmPending)
-    }
-
-    private fun getAlarmTime(timeType: String, time: Int) = when (timeType) {
-        Constants.REMIND_MIN -> time.minute
-        Constants.REMIND_HOUR -> time.hour
-        Constants.REMIND_DAY -> time.day
-        else -> -1L
-    }
 }

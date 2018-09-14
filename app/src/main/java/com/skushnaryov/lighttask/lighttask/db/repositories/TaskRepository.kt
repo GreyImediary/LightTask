@@ -1,8 +1,8 @@
-package com.skushnaryov.lighttask.lighttask.db
+package com.skushnaryov.lighttask.lighttask.db.repositories
 
 import com.skushnaryov.lighttask.lighttask.LightTask
+import com.skushnaryov.lighttask.lighttask.db.entities.Task
 import kotlinx.coroutines.experimental.CommonPool
-import kotlinx.coroutines.experimental.delay
 import kotlinx.coroutines.experimental.launch
 
 class TaskRepository {
