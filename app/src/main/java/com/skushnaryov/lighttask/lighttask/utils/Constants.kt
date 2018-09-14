@@ -1,4 +1,4 @@
-package com.skushnaryov.lighttask.lighttask
+package com.skushnaryov.lighttask.lighttask.utils
 
 object Constants {
     const val TASKS_CHANNEL_ID = "1"

@@ -15,9 +15,10 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.skushnaryov.lighttask.lighttask.*
-import com.skushnaryov.lighttask.lighttask.db.Reminder
+import com.skushnaryov.lighttask.lighttask.db.entities.Reminder
 import com.skushnaryov.lighttask.lighttask.dialogs.FabDialog
-import com.skushnaryov.lighttask.lighttask.viewModels.NotificationUtils
+import com.skushnaryov.lighttask.lighttask.utils.Constants
+import com.skushnaryov.lighttask.lighttask.utils.NotificationUtils
 import com.skushnaryov.lighttask.lighttask.viewModels.ReminderViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.dialog_reminder_create.view.*

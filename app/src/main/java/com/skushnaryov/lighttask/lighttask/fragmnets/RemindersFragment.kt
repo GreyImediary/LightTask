@@ -14,8 +14,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.skushnaryov.lighttask.lighttask.*
 import com.skushnaryov.lighttask.lighttask.adapters.ReminderRecyclerView
-import com.skushnaryov.lighttask.lighttask.db.Reminder
-import com.skushnaryov.lighttask.lighttask.viewModels.NotificationUtils
+import com.skushnaryov.lighttask.lighttask.db.entities.Reminder
+import com.skushnaryov.lighttask.lighttask.utils.Constants
+import com.skushnaryov.lighttask.lighttask.utils.NotificationUtils
 import com.skushnaryov.lighttask.lighttask.viewModels.ReminderViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.dialog_reminder_create.view.*

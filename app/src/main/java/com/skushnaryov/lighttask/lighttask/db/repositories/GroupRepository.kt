@@ -1,7 +1,8 @@
-package com.skushnaryov.lighttask.lighttask.db
+package com.skushnaryov.lighttask.lighttask.db.repositories
 
 import androidx.lifecycle.LiveData
 import com.skushnaryov.lighttask.lighttask.LightTask
+import com.skushnaryov.lighttask.lighttask.db.entities.Group
 import kotlinx.coroutines.experimental.*
 
 class GroupRepository {

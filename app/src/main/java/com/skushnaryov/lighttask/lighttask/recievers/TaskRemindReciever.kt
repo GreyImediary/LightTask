@@ -7,10 +7,9 @@ import android.content.Intent
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import com.skushnaryov.lighttask.lighttask.Constants
+import com.skushnaryov.lighttask.lighttask.utils.Constants
 import com.skushnaryov.lighttask.lighttask.R
 import com.skushnaryov.lighttask.lighttask.activities.MainActivity
-import org.jetbrains.anko.notificationManager
 
 class TaskRemindReciever : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {

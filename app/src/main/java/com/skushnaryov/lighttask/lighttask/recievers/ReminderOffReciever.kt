@@ -4,9 +4,9 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import androidx.core.app.NotificationManagerCompat
-import com.skushnaryov.lighttask.lighttask.Constants
-import com.skushnaryov.lighttask.lighttask.db.ReminderRepository
-import com.skushnaryov.lighttask.lighttask.viewModels.NotificationUtils
+import com.skushnaryov.lighttask.lighttask.utils.Constants
+import com.skushnaryov.lighttask.lighttask.db.repositories.ReminderRepository
+import com.skushnaryov.lighttask.lighttask.utils.NotificationUtils
 
 class ReminderOffReciever : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {

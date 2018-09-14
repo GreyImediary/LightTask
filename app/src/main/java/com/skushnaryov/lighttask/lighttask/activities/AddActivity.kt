@@ -15,17 +15,18 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.skushnaryov.lighttask.lighttask.*
-import com.skushnaryov.lighttask.lighttask.Constants.REMIND_DAY
-import com.skushnaryov.lighttask.lighttask.Constants.REMIND_HOUR
-import com.skushnaryov.lighttask.lighttask.Constants.REMIND_MIN
-import com.skushnaryov.lighttask.lighttask.db.Group
-import com.skushnaryov.lighttask.lighttask.db.Task
+import com.skushnaryov.lighttask.lighttask.utils.Constants.REMIND_DAY
+import com.skushnaryov.lighttask.lighttask.utils.Constants.REMIND_HOUR
+import com.skushnaryov.lighttask.lighttask.utils.Constants.REMIND_MIN
+import com.skushnaryov.lighttask.lighttask.db.entities.Group
+import com.skushnaryov.lighttask.lighttask.db.entities.Task
 import com.skushnaryov.lighttask.lighttask.dialogs.DateDialog
 import com.skushnaryov.lighttask.lighttask.dialogs.GroupDialog
 import com.skushnaryov.lighttask.lighttask.dialogs.TaskRemindDialog
 import com.skushnaryov.lighttask.lighttask.dialogs.TimeDialog
+import com.skushnaryov.lighttask.lighttask.utils.Constants
 import com.skushnaryov.lighttask.lighttask.viewModels.GroupViewModel
-import com.skushnaryov.lighttask.lighttask.viewModels.NotificationUtils
+import com.skushnaryov.lighttask.lighttask.utils.NotificationUtils
 import com.skushnaryov.lighttask.lighttask.viewModels.TaskViewModel
 import kotlinx.android.synthetic.main.activity_add.*
 import kotlinx.android.synthetic.main.dialog_add_group_layout.view.*
@@ -140,9 +141,9 @@ class AddActivity : AppCompatActivity(),
     }
 
     override fun onTimeSet(dialog: TimePicker?, hour: Int, minute: Int) {
-        date.set(Calendar.HOUR_OF_DAY, hour)
-        date.set(Calendar.MINUTE, minute)
-        date.set(Calendar.SECOND, 0)
+        date[Calendar.HOUR_OF_DAY] = hour
+        date[Calendar.MINUTE] = minute
+        date[Calendar.SECOND] = 0
 
         val dateString = getFullStringDate(date[DAY_OF_MONTH], date[MONTH], date[YEAR], date[HOUR_OF_DAY], date[MINUTE])
 
@@ -269,9 +270,9 @@ class AddActivity : AppCompatActivity(),
         remindTaskDate = date.clone() as Calendar
 
         when (remindType) {
-            REMIND_MIN -> remindTaskDate.set(Calendar.MINUTE, date[Calendar.MINUTE] - remindNumber)
-            REMIND_HOUR -> remindTaskDate.set(Calendar.HOUR_OF_DAY, date[Calendar.HOUR_OF_DAY] - remindNumber)
-            REMIND_DAY -> remindTaskDate.set(Calendar.DAY_OF_MONTH, date[Calendar.DAY_OF_MONTH] - remindNumber)
+            REMIND_MIN -> remindTaskDate[Calendar.MINUTE] = date[Calendar.MINUTE] - remindNumber
+            REMIND_HOUR -> remindTaskDate[HOUR_OF_DAY] = date[Calendar.HOUR_OF_DAY] - remindNumber
+            REMIND_DAY -> remindTaskDate[Calendar.DAY_OF_MONTH] = date[Calendar.DAY_OF_MONTH] - remindNumber
         }
 
         if (remindTaskDate <= Calendar.getInstance() || remindTaskDate >= date) {

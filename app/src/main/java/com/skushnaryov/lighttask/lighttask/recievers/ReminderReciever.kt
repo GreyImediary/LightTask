@@ -8,10 +8,10 @@ import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.os.bundleOf
-import com.skushnaryov.lighttask.lighttask.Constants
+import com.skushnaryov.lighttask.lighttask.utils.Constants
 import com.skushnaryov.lighttask.lighttask.R
 import com.skushnaryov.lighttask.lighttask.activities.MainActivity
-import com.skushnaryov.lighttask.lighttask.viewModels.NotificationUtils
+import com.skushnaryov.lighttask.lighttask.utils.NotificationUtils
 
 class ReminderReciever : BroadcastReceiver() {
 
