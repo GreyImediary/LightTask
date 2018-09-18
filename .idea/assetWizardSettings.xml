@@ -34,10 +34,8 @@
                                   <option name="values">
                                     <map>
                                       <entry key="assetType" value="IMAGE" />
-                                      <entry key="imageAsset" value="C:\multimedia\vector\ic_stat_artboard_1xxhdpi\res\drawable-xxxhdpi\ic_stat_artboard_1xxhdpi.png" />
+                                      <entry key="imageAsset" value="C:\multimedia\vector\drawer\drawer.png" />
                                       <entry key="outputName" value="ic_action_notification" />
-                                      <entry key="theme" value="HOLO_DARK" />
-                                      <entry key="themeColor" value="81c784" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -50,17 +48,12 @@
                                     <map>
                                       <entry key="backgroundAssetType" value="COLOR" />
                                       <entry key="backgroundColor" value="81c784" />
-                                      <entry key="foregroundImage" value="C:\multimedia\vector\LightTaskLogo\4x\Artboard 1xxxhdpi.png" />
+                                      <entry key="foregroundImage" value="C:\multimedia\vector\LightTaskLogo\SVG\Монтажная область 1.svg" />
                                     </map>
                                   </option>
                                 </PersistentState>
                               </value>
                             </entry>
-                          </map>
-                        </option>
-                        <option name="values">
-                          <map>
-                            <entry key="outputIconType" value="ACTIONBAR" />
                           </map>
                         </option>
                       </PersistentState>
