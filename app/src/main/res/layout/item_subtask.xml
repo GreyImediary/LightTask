@@ -16,12 +16,13 @@
         app:layout_constraintEnd_toStartOf="@id/subtaskName_textView" />
     <TextView
         android:id="@+id/subtaskName_textView"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textColor="@android:color/black"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/subtask_checkbox"
+        app:layout_constraintEnd_toEndOf="parent"
         tools:text="My task" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
