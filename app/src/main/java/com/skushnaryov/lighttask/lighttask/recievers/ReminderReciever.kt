@@ -57,6 +57,6 @@ class ReminderReciever : BroadcastReceiver() {
 
         NotificationManagerCompat.from(context).notify(id, builder.build())
 
-        NotificationUtils.crtOrRmvRemindeNotification(context, id, reminderName, reminderTime)
+        NotificationUtils.crtOrRmvReminderNotification(context, id, reminderName, reminderTime)
     }
 }

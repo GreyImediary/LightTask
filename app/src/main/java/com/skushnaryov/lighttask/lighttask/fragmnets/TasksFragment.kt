@@ -2,6 +2,7 @@ package com.skushnaryov.lighttask.lighttask.fragmnets
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -107,6 +108,12 @@ class TasksFragment : Fragment(),
                 R.string.taskCompleted, Snackbar.LENGTH_LONG)
                 .setAction(R.string.cancel) {
                     viewModel.insert(task)
+                    if (task.date > Calendar.getInstance().timeInMillis) {
+                        NotificationUtils.crtOrRmvTaskNotification(context!!, task.id, task.name, task.date)
+                    }
+                    if (task.taskRemindDate != 0L && task.taskRemindDate > Calendar.getInstance().timeInMillis) {
+                        NotificationUtils.crtOrRmvTaskRemindNotification(context!!, task.remindId, text, task.taskRemindDate)
+                    }
                 }.show()
     }
 
@@ -130,7 +137,15 @@ class TasksFragment : Fragment(),
         if (task.listOfSubtasks.isEmpty()) {
             Snackbar.make(activity?.contentView ?: return,
                     getString(R.string.compoundCompleted), Snackbar.LENGTH_LONG)
-                    .setAction(R.string.yes) { viewModel.delete(task) }.show()
+                    .setAction(R.string.yes) {
+                        val date = Calendar.getInstance().apply {
+                            timeInMillis = task.date
+                        }
+                        val text = "${task.name} at ${date[Calendar.HOUR_OF_DAY]}:${date[Calendar.MINUTE]}"
+                        NotificationUtils.crtOrRmvTaskNotification(context!!, task.id, task.name, isRemoving = true)
+                        NotificationUtils.crtOrRmvTaskRemindNotification(context!!, task.remindId, text, isRemoving = true)
+                        viewModel.delete(task)
+                    }.show()
         }
     }
 

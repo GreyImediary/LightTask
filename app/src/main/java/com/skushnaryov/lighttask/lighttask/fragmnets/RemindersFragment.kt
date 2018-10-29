@@ -76,10 +76,10 @@ class RemindersFragment : Fragment(), ReminderRecyclerView.OnReminderListener {
         }
 
         if (isChecked) {
-            NotificationUtils.crtOrRmvRemindeNotification(context!!, reminder.id, reminder.name, reminderTime)
+            NotificationUtils.crtOrRmvReminderNotification(context!!, reminder.id, reminder.name, reminderTime)
             reminderViewModel.updateIsOnById(reminder.id, true)
         } else {
-            NotificationUtils.crtOrRmvRemindeNotification(context!!, reminder.id, reminder.name, reminderTime, true)
+            NotificationUtils.crtOrRmvReminderNotification(context!!, reminder.id, reminder.name, reminderTime, true)
             reminderViewModel.updateIsOnById(reminder.id, false)
         }
     }
@@ -100,7 +100,7 @@ class RemindersFragment : Fragment(), ReminderRecyclerView.OnReminderListener {
     private fun changeReminderDialog(reminder: Reminder) {
         val view = layoutInflater.inflate(R.layout.dialog_reminder_create, null)
 
-        val spinnerAdapter = ArrayAdapter.createFromResource(context, R.array.timeArr,
+        val spinnerAdapter = ArrayAdapter.createFromResource(context!!, R.array.timeArr,
                 android.R.layout.simple_spinner_item).apply {
             setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         }
@@ -162,9 +162,9 @@ class RemindersFragment : Fragment(), ReminderRecyclerView.OnReminderListener {
         }
 
         if (isRemoving) {
-            NotificationUtils.crtOrRmvRemindeNotification(context!!, reminder.id, reminder.name, reminderTime, true)
+            NotificationUtils.crtOrRmvReminderNotification(context!!, reminder.id, reminder.name, reminderTime, true)
         } else {
-            NotificationUtils.crtOrRmvRemindeNotification(context!!, reminder.id, reminder.name, reminderTime)
+            NotificationUtils.crtOrRmvReminderNotification(context!!, reminder.id, reminder.name, reminderTime)
         }
     }
 

@@ -6,7 +6,7 @@ import android.content.Context
 import android.content.Intent
 import com.skushnaryov.lighttask.lighttask.recievers.ReminderReciever
 import com.skushnaryov.lighttask.lighttask.recievers.TaskReciever
-import com.skushnaryov.lighttask.lighttask.recievers.TaskRemindReciever
+import com.skushnaryov.lighttask.lighttask.recievers.TaskRemindReceiver
 import org.jetbrains.anko.bundleOf
 import java.util.*
 
@@ -41,7 +41,7 @@ object NotificationUtils {
                                  text: String,
                                  date: Long = 0,
                                  isRemoving: Boolean = false) {
-        val intent = Intent(context, TaskRemindReciever::class.java).apply {
+        val intent = Intent(context, TaskRemindReceiver::class.java).apply {
             action = Constants.TASK_REMIND_RECIEVER
             putExtras(bundleOf(
                     Constants.EXTRAS_ID to id,
@@ -59,11 +59,11 @@ object NotificationUtils {
         }
     }
 
-    fun crtOrRmvRemindeNotification(context: Context,
-                                    id: Int,
-                                    name: String,
-                                    time: Long,
-                                    isRemoving: Boolean = false) {
+    fun crtOrRmvReminderNotification(context: Context,
+                                     id: Int,
+                                     name: String,
+                                     time: Long,
+                                     isRemoving: Boolean = false) {
         val currentTime = Calendar.getInstance().let {
             it.set(Calendar.SECOND, 0)
             it.timeInMillis

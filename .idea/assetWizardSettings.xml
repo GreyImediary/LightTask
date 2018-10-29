@@ -13,42 +13,14 @@
                       <PersistentState>
                         <option name="children">
                           <map>
-                            <entry key="actionbar">
-                              <value>
-                                <PersistentState>
-                                  <option name="children">
-                                    <map>
-                                      <entry key="image">
-                                        <value>
-                                          <PersistentState>
-                                            <option name="values">
-                                              <map>
-                                                <entry key="trimmed" value="true" />
-                                              </map>
-                                            </option>
-                                          </PersistentState>
-                                        </value>
-                                      </entry>
-                                    </map>
-                                  </option>
-                                  <option name="values">
-                                    <map>
-                                      <entry key="assetType" value="IMAGE" />
-                                      <entry key="imageAsset" value="C:\multimedia\vector\drawer\drawer.png" />
-                                      <entry key="outputName" value="ic_action_notification" />
-                                    </map>
-                                  </option>
-                                </PersistentState>
-                              </value>
-                            </entry>
                             <entry key="launcher">
                               <value>
                                 <PersistentState>
                                   <option name="values">
                                     <map>
                                       <entry key="backgroundAssetType" value="COLOR" />
-                                      <entry key="backgroundColor" value="81c784" />
-                                      <entry key="foregroundImage" value="C:\multimedia\vector\LightTaskLogo\SVG\Монтажная область 1.svg" />
+                                      <entry key="backgroundColor" value="7ec681" />
+                                      <entry key="foregroundImage" value="C:\vector\LightTaskLogo\SVG\Монтажная область 1.svg" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -66,42 +38,7 @@
         </entry>
         <entry key="vectorWizard">
           <value>
-            <PersistentState>
-              <option name="children">
-                <map>
-                  <entry key="vectorAssetStep">
-                    <value>
-                      <PersistentState>
-                        <option name="children">
-                          <map>
-                            <entry key="clipartAsset">
-                              <value>
-                                <PersistentState>
-                                  <option name="values">
-                                    <map>
-                                      <entry key="url" value="jar:file:/C:/Android/android-studio-ide-181.4868252-windows/android-studio/plugins/android/lib/android.jar!/images/material_design_icons/action/ic_alarm_add_black_24dp.xml" />
-                                    </map>
-                                  </option>
-                                </PersistentState>
-                              </value>
-                            </entry>
-                          </map>
-                        </option>
-                        <option name="values">
-                          <map>
-                            <entry key="height" value="128" />
-                            <entry key="outputName" value="ic_alarm_add_black_128dp" />
-                            <entry key="overrideSize" value="true" />
-                            <entry key="sourceFile" value="C:\multimedia\vector\LightTaskLogo\NotificationIcon\SVG\Artboard 1.svg" />
-                            <entry key="width" value="128" />
-                          </map>
-                        </option>
-                      </PersistentState>
-                    </value>
-                  </entry>
-                </map>
-              </option>
-            </PersistentState>
+            <PersistentState />
           </value>
         </entry>
       </map>

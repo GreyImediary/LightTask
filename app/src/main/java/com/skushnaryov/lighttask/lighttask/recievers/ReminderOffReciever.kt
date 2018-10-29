@@ -17,7 +17,7 @@ class ReminderOffReciever : BroadcastReceiver() {
             return
         }
 
-        NotificationUtils.crtOrRmvRemindeNotification(context, id, reminderName, reminderTime, true)
+        NotificationUtils.crtOrRmvReminderNotification(context, id, reminderName, reminderTime, true)
 
         ReminderRepository().updateIsOnById(id, false)
         NotificationManagerCompat.from(context).cancel(id)

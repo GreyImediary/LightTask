@@ -136,7 +136,7 @@ class MainActivity : AppCompatActivity(), FabDialog.OnFabDialogItemListener {
             return
         }
 
-        NotificationUtils.crtOrRmvRemindeNotification(this, reminder.id, reminder.name, reminderTime)
+        NotificationUtils.crtOrRmvReminderNotification(this, reminder.id, reminder.name, reminderTime)
     }
 
     private fun createChannels() {

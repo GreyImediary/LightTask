@@ -46,7 +46,7 @@
             </intent-filter>
         </receiver>
         <receiver
-            android:name=".recievers.TaskRemindReciever"
+            android:name=".recievers.TaskRemindReceiver"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.skushnaryov.lighttask.TASK_REMINDER" />
