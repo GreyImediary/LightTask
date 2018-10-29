@@ -46,7 +46,7 @@
     <string name="action_add">Add</string>
 
     <string name="emptyNameError">Enter the name, please</string>
-    <string name="wrongDateError">Wrong date: past time or empty field</string>
+    <string name="wrongDateError">Past time can not be set</string>
     <string name="wrongGroupName">Wrong group name</string>
     <string name="wrongReminderName">Wrong reminder name</string>
     <string name="wrongReminderTime">Wrong reminder time</string>
@@ -100,5 +100,6 @@
     <string name="aboutVersion">Version 1.0</string>
     <string name="aboutMade">Made by Sergey Kushnaryov</string>
     <string name="remindError">Wrong remind time</string>
+    <string name="remindDateError">You can not set task remind without setting date</string>
 
 </resources>

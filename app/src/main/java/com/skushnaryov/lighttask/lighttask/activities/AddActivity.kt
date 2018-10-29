@@ -5,7 +5,6 @@ import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -92,18 +91,22 @@ class AddActivity : AppCompatActivity(),
             name = extras.getString(Constants.CHANGE_NAME) ?: ""
             name_edit_text.setText(name, TextView.BufferType.EDITABLE)
 
-            date.timeInMillis = extras.getLong(Constants.CHANGE_DATE)
-            val dateString = getFullStringDate(date[DAY_OF_MONTH], date[MONTH], date[YEAR], date[HOUR_OF_DAY], date[MINUTE])
-            date_edit_text.setText(dateString, TextView.BufferType.EDITABLE)
+            if (extras.getLong(Constants.CHANGE_DATE) != 0L) {
+                date.timeInMillis = extras.getLong(Constants.CHANGE_DATE)
+                val dateString = getFullStringDate(date[DAY_OF_MONTH], date[MONTH], date[YEAR], date[HOUR_OF_DAY], date[MINUTE])
+                date_edit_text.setText(dateString, TextView.BufferType.EDITABLE)
+            }
 
             remindTaskDate = extras.getLong(Constants.CHANGE_REMIND_DATE)
-            val remindDate = Calendar.getInstance().apply { timeInMillis = remindTaskDate }
-            val remindDateString = getFullStringDate(remindDate[DAY_OF_MONTH], remindDate[MONTH],
-                    remindDate[YEAR], remindDate[HOUR_OF_DAY], remindDate[MINUTE])
-
-            if (remindDateString != dateString) {
+            if (remindTaskDate != 0L) {
+                val remindDate = Calendar.getInstance().apply { timeInMillis = remindTaskDate }
+                val remindDateString = getFullStringDate(remindDate[DAY_OF_MONTH], remindDate[MONTH],
+                        remindDate[YEAR], remindDate[HOUR_OF_DAY], remindDate[MINUTE])
                 remind_edit_text.setText(remindDateString, TextView.BufferType.EDITABLE)
             }
+            /*if (remindDateString != dateString) {
+                remind_edit_text.setText(remindDateString, TextView.BufferType.EDITABLE)
+            }*/
 
             subtask_edit_text.setText(extras.getString(Constants.CHANGE_SUBTASKS))
             group_edit_text.setText(extras.getString(Constants.CHANGE_GROUP))
@@ -198,10 +201,14 @@ class AddActivity : AppCompatActivity(),
     }
 
     private fun taskCreated() {
-        if (checkNameAndDate()) {
+        if (checkName()) {
             return
         }
 
+        if (!date_edit_text.text!!.isEmpty() && checkDate()) {
+            date_text_input.error = getString(R.string.wrongDateError)
+            return
+        }
 
         checkSubtasks()
 
@@ -213,10 +220,12 @@ class AddActivity : AppCompatActivity(),
 
         val isCompound = !subtasks.isEmpty()
 
+        val taskDate = if (checkDate()) 0L else date.timeInMillis
+
         val task = Task(id,
                 remindId,
                 name,
-                date.timeInMillis,
+                taskDate,
                 currentDay,
                 remindTaskDate,
                 subtasks,
@@ -224,39 +233,28 @@ class AddActivity : AppCompatActivity(),
                 group)
         taskViewModel.insert(task)
 
-        NotificationUtils.crtOrRmvTaskNotification(this, id, name, date.timeInMillis)
+        if (!checkDate()) {
+            NotificationUtils.crtOrRmvTaskNotification(this, id, name, taskDate)
+        }
 
         finish()
     }
 
-    private fun checkNameAndDate(): Boolean {
-        val isEmptyName = if (name_edit_text.text!!.trim().isEmpty()) {
+    private fun checkName() = if (name_edit_text.text!!.trim().isEmpty()) {
             name_text_input.error = getString(R.string.emptyNameError)
             true
         } else {
             name_text_input.error = null
-            name = name_edit_text.text?.toString() ?: return false
+            name = name_edit_text.text.toString()
             false
         }
 
-        val isEmptyDate = if (name_edit_text.text!!.isEmpty()) {
-            date_text_input.error = getString(R.string.wrongDateError)
+    private fun checkDate() = if (date < getInstance()) {
             true
         } else {
             date_text_input.error = null
             false
         }
-
-        val isWrongDay = if (date < Calendar.getInstance()) {
-            date_text_input.error = getString(R.string.wrongDateError)
-            true
-        } else {
-            date_text_input.error = null
-            false
-        }
-
-        return isEmptyName || isEmptyDate || isWrongDay
-    }
 
     private fun setRemindValues(number: Int, type: String) {
         remindNumber = number
@@ -279,6 +277,11 @@ class AddActivity : AppCompatActivity(),
 
         if (remindDate <= Calendar.getInstance() || remindDate >= date) {
             remind_text_input.error = getString(R.string.remindError)
+            return
+        }
+
+        if (checkDate()) {
+            remind_text_input.error = getString(R.string.remindDateError)
             return
         }
 

@@ -26,7 +26,7 @@
     <string name="subtaskHelperText">Разделяйте подзадачи запятой</string>
     <string name="action_add">Добавить</string>
     <string name="emptyNameError">Введите название</string>
-    <string name="wrongDateError">Неверное время: время прошло, либо поле пусто</string>
+    <string name="wrongDateError">Вы не можете установить прошедшую дату</string>
     <string name="wrongGroupName">Неверная название группы</string>
     <string name="groupDialogButton">Добавить группу</string>
     <string name="groupDialogTitle">Выбрать группу</string>
@@ -53,6 +53,7 @@
     <string name="aboutMade">"Сделано Сергеем Кушнарёвым"</string>
     <string name="remindError">Неверное время напоминания</string>
     <string name="wrongReminderName">Неверное название напоминания</string>
+    <string name="remindDateError">Вы не можете установить напоминание без даты</string>
     <string-array name="remindArray">
         <item>5 минут</item>
         <item>10 минут</item>

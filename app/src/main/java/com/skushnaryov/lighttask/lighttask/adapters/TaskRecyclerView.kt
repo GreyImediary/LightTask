@@ -38,7 +38,9 @@ class TaskRecyclerView(private val subtaskCheckboxListener: SubtaskRecyclerView.
 
         fun bind(task: Task) = with(itemView) {
             taskName_textView.text = task.name
-            taskDate_textView.text = getStringDate(task.date)
+            if (task.date != 0L) {
+                taskDate_textView.text = getStringDate(task.date)
+            }
 
             task_checkbox.onCheckedChange { _, _ ->
                 taskItemClickListener.onTaskCheckboxChange(task)
