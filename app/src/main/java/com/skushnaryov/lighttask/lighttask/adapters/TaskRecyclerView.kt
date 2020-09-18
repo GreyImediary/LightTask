@@ -42,7 +42,7 @@ class TaskRecyclerView(private val subtaskCheckboxListener: SubtaskRecyclerView.
                 taskDate_textView.text = getStringDate(task.date)
             }
 
-            task_checkbox.onCheckedChange { _, _ ->
+            task_checkbox.setOnCheckedChangeListener { _, _ ->
                 taskItemClickListener.onTaskCheckboxChange(task)
             }
 

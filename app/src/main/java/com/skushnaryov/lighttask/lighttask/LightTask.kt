@@ -6,7 +6,8 @@ import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.skushnaryov.lighttask.lighttask.db.DataBase
 import com.skushnaryov.lighttask.lighttask.db.entities.Group
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class LightTask : Application() {
     companion object {
@@ -22,7 +23,7 @@ class LightTask : Application() {
                 .addCallback(object : RoomDatabase.Callback(){
                     override fun onCreate(db: SupportSQLiteDatabase) {
                         super.onCreate(db)
-                        launch { database_.groupDao().insert(Group(name = getString(R.string.today))) }
+                        GlobalScope.launch { database_.groupDao().insert(Group(name = getString(R.string.today))) }
                     }
                 })
                 .build()

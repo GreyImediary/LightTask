@@ -62,7 +62,7 @@ class MainActivity : AppCompatActivity(), FabDialog.OnFabDialogItemListener {
     }
 
     override fun onBackPressed() {
-        if (controller.currentDestination.label == getString(R.string.tasks)
+        if (controller.currentDestination?.label == getString(R.string.tasks)
                 && toolbar.title == getString(R.string.tasks)) {
             finish()
         } else {

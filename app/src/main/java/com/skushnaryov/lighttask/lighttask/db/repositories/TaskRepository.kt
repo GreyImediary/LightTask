@@ -2,19 +2,19 @@ package com.skushnaryov.lighttask.lighttask.db.repositories
 
 import com.skushnaryov.lighttask.lighttask.LightTask
 import com.skushnaryov.lighttask.lighttask.db.entities.Task
-import kotlinx.coroutines.experimental.CommonPool
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class TaskRepository {
     private val taskDao = LightTask.database.taskDao()
 
-    fun insert(task: Task) = launch(CommonPool) { taskDao.insert(task) }
+    fun insert(task: Task) = GlobalScope.launch { taskDao.insert(task) }
 
-    fun update(task: Task) = launch(CommonPool) { taskDao.update(task) }
+    fun update(task: Task) = GlobalScope.launch { taskDao.update(task) }
 
-    fun delete(task: Task) = launch(CommonPool) { taskDao.delete(task) }
+    fun delete(task: Task) = GlobalScope.launch { taskDao.delete(task) }
 
-    fun deleteById(id: Int) = launch(CommonPool) { taskDao.deleteTaskById(id) }
+    fun deleteById(id: Int) = GlobalScope.launch { taskDao.deleteTaskById(id) }
 
     fun getAllTasks() = taskDao.getAllTasks()
 

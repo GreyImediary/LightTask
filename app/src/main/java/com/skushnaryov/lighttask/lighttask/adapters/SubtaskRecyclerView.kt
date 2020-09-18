@@ -24,7 +24,7 @@ class SubtaskRecyclerView(private val onSubtaskCheckboxListener: OnSubtaskCheckb
 
     inner class SubtaskHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(name: String) {
-            itemView.subtask_checkbox.onCheckedChange { _, isChecked ->
+            itemView.subtask_checkbox.setOnCheckedChangeListener { _, isChecked ->
                 onSubtaskCheckboxListener.onSubtaskCheckboxChange(rootTask, isChecked, name)
             }
             itemView.subtaskName_textView.text = name
