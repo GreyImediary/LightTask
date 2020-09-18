@@ -50,7 +50,6 @@
     <string name="fabDialogTitle">Создать</string>
     <string name="about">О приложении</string>
     <string name="aboutVersion">Версия 1.0</string>
-    <string name="aboutMade">"Сделано Сергеем Кушнарёвым"</string>
     <string name="remindError">Неверное время напоминания</string>
     <string name="wrongReminderName">Неверное название напоминания</string>
     <string name="remindDateError">Вы не можете установить напоминание без даты</string>

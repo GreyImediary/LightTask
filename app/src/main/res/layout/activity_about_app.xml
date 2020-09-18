@@ -34,21 +34,10 @@
         android:layout_height="wrap_content"
         android:text="@string/aboutVersion"
         android:textColor="@android:color/black"
-        app:layout_constraintBottom_toTopOf="@id/about_made"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/about_appName" />
-
-    <TextView
-        android:id="@+id/about_made"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/aboutMade"
-        android:textColor="@android:color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/about_version" />
+        app:layout_constraintTop_toBottomOf="@id/about_appName" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

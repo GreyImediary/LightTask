@@ -98,7 +98,6 @@
     <string name="about">About app</string>
     <string name="aboutImg" translatable="false">Logo</string>
     <string name="aboutVersion">Version 1.0</string>
-    <string name="aboutMade">Made by Sergey Kushnaryov</string>
     <string name="remindError">Wrong remind time</string>
     <string name="remindDateError">You can not set task remind without setting date</string>
 
